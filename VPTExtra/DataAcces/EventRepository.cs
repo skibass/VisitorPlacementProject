@@ -27,22 +27,69 @@ namespace DataAcces
 
             db.Open();
 
-            MySqlCommand eventQ = new MySqlCommand("SELECT * from event", db);
-
-            eventQ.ExecuteNonQuery();
+            MySqlCommand eventQ = new MySqlCommand("SELECT e.id AS event_id, e.location, e.startdate, e.enddate, e.visitorlimit, " +
+                                           "p.id AS part_id, p.name AS part_name, " +
+                                           "r.id AS row_id, r.name AS row_name, " +
+                                           "c.id AS chair_id, c.name AS chair_name, c.row_id AS chair_row_id " +
+                                           "FROM event e " +
+                                           "LEFT JOIN part p ON e.id = p.event_id " +
+                                           "LEFT JOIN row r ON p.id = r.part_id " +
+                                           "LEFT JOIN chair c ON r.id = c.row_id", db);
 
             MySqlDataReader readEvents = eventQ.ExecuteReader();
 
             while (readEvents.Read())
             {
-                Event _event = new Event();
-                _event.Id = (int)readEvents["id"];
-                _event.Location = (string?)readEvents["location"];
-                _event.StartDate = (DateTime?)readEvents["startdate"];
-                _event.EndDate = (DateTime?)readEvents["enddate"];
-                _event.VisitorLimit = Convert.ToInt32(readEvents["visitorlimit"]);
+                int eventId = (int)readEvents["event_id"];
+                var existingEvent = events.FirstOrDefault(e => e.Id == eventId);
+                if (existingEvent == null)
+                {
+                    existingEvent = new Event
+                    {
+                        Id = eventId,
+                        Location = (string)readEvents["location"],
+                        StartDate = (DateTime)readEvents["startdate"],
+                        EndDate = (DateTime)readEvents["enddate"],
+                        VisitorLimit = Convert.ToInt32(readEvents["visitorlimit"]),
+                        Parts = new List<Part>()
+                    };
+                    events.Add(existingEvent);
+                }
 
-                events.Add(_event);
+                if (readEvents["part_id"] != DBNull.Value)
+                {
+                    int partId = (int)readEvents["part_id"];
+                    var existingPart = existingEvent.Parts.FirstOrDefault(p => p.Id == partId);
+                    if (existingPart == null)
+                    {
+                        existingPart = new Part
+                        {
+                            Id = partId,
+                            Name = (string)readEvents["part_name"],
+                            Rows = new List<Row>()
+                        };
+                        existingEvent.Parts.Add(existingPart);
+                    }
+                    int rowId = (int)readEvents["row_id"];
+                    var existingRow = existingPart.Rows.FirstOrDefault(r => r.Id == rowId);
+                    if (existingRow == null)
+                    {
+                        existingRow = new Row
+                        {
+                            Id = rowId,
+                            Name = (string)readEvents["row_name"],
+                            Chairs = new List<Chair>()
+                        };
+                        existingPart.Rows.Add(existingRow);
+                    }
+
+                    existingRow.Chairs.Add(new Chair
+                    {
+                        Id = (int)readEvents["chair_id"],
+                        Name = (string)readEvents["chair_name"]
+                    });
+                }
+                
             }
             db.Close();
 
@@ -106,16 +153,14 @@ namespace DataAcces
 
         public void DeleteEvent(int eventId)
         {
-            //using (var connection = new SqlConnection(_connectionString))
-            //{
-            //    connection.Open();
-            //    string sql = "DELETE FROM Events WHERE EventId = @EventId";
-            //    using (var command = new SqlCommand(sql, connection))
-            //    {
-            //        command.Parameters.AddWithValue("@EventId", eventId);
-            //        command.ExecuteNonQuery();
-            //    }
-            //}
+            db.Open();
+
+            MySqlCommand eventQ = new MySqlCommand("delete FROM event WHERE id = @id", db);
+
+            eventQ.Parameters.AddWithValue("@id", eventId);
+
+            eventQ.ExecuteNonQuery();
+            db.Close();
         }
     }
 }

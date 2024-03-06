@@ -1,0 +1,2 @@
+WHen creating an event: input amount of places, parts and how many rows per part. 
+System generates event based on inputs.

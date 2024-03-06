@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VPTExtra", "VPTExtra\VPTExtra.csproj", "{2DB47544-9851-453A-839D-3BE871BB20C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VPTExtra", "VPTExtra\VPTExtra.csproj", "{2DB47544-9851-453A-839D-3BE871BB20C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAcces", "DataAcces\DataAcces.csproj", "{D08329D9-9FA5-4F05-9B47-22162AE0B268}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAcces", "DataAcces\DataAcces.csproj", "{D08329D9-9FA5-4F05-9B47-22162AE0B268}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic.csproj", "{43849B0A-BA71-4CA2-A72D-4E81F5384F50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Logic\Logic.csproj", "{43849B0A-BA71-4CA2-A72D-4E81F5384F50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{5202CD11-DB9F-409A-B29C-D77BF14A4CC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{5202CD11-DB9F-409A-B29C-D77BF14A4CC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interfaces", "Interfaces\Interfaces.csproj", "{0947E4A1-B433-40E5-9BDA-6238396126FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interfaces", "Interfaces\Interfaces.csproj", "{0947E4A1-B433-40E5-9BDA-6238396126FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
