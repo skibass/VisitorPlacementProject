@@ -5,10 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logic.Interfaces
+namespace Interfaces
 {
     public interface IEventManagement
     {
+        public List<Event> GetEvents();
+        public Event GetEventById(int id);
         public void AddEvent(Event _event);
 
         public void UpdateEvent(Event _event);

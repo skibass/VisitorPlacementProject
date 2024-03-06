@@ -3,19 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataAcces.Interfaces;
-using Logic.Interfaces;
+using Interfaces;
 using Models;
 
 namespace Logic.Services
 {
     public class EventManagementService : IEventManagement
     {
-        IEventRepository _eventRepository;
+        private readonly IEventRepository _eventRepository;
         public EventManagementService(IEventRepository eventRepository) 
         {
             _eventRepository = eventRepository;
         }
+        public List<Event> GetEvents()
+        {
+           return _eventRepository.GetAllEvents();
+        }
+        public Event GetEventById(int id)
+        {
+            return _eventRepository.GetEventById(id);
+        }
+
         public void AddEvent(Event _event)
         {
             _eventRepository.AddEvent(_event);

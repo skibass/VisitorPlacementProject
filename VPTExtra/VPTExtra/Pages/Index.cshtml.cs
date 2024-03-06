@@ -1,20 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Logic.Services;
+using Models;
+using Interfaces;
 
 namespace VPTExtra.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly IEventManagement _eventManagement;
+        public List<Event> Events { get; set; }
 
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            _logger = logger;
+        public IndexModel(IEventManagement eventManagement)        
+        { 
+            _eventManagement = eventManagement;
         }
-
         public void OnGet()
         {
-
+            Events = _eventManagement.GetEvents();
         }
     }
 }

@@ -1,0 +1,28 @@
+﻿@page
+@model VPTExtra.Pages.EventOverviewModel
+@{
+}
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">ID</th>
+            <th scope="col">Location</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">End Date</th>
+            <th scope="col">Visitor Limit</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <td></td>
+            <td>@Model.Event.Id</td>
+            <td>@Model.Event.Location</td>
+            <td>@Model.Event.StartDate</td>
+            <td>@Model.Event.EndDate</td>
+            <td>@Model.Event.VisitorLimit</td>
+        </tr>
+
+    </tbody>
+</table>
