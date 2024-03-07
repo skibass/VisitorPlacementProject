@@ -13,12 +13,24 @@
                 @foreach (var row in sector.Rows)
                 {
                     <div class="row">
-                        <p>Row @row.Name</p>
+                        <p style="font-weight:bold;">Row @row.Name</p>
                         <div class="seats">
                             @foreach (var seat in row.Chairs)
                             {
                                 <div class="seat-inner">
-                                    <span class="seat-code">@seat.Name</span>
+                                    @if (seat.User != null)
+                                    {
+                                        <label style="color: red;">@seat.Name taken by @seat.User.Name</label>
+                                    }
+                                    else
+                                    {
+                                        <form method="post">
+                                            <button type="submit" asp-page-handler="PlaceVisitor" onclick="return confirm('Are you sure?')"
+                                                    asp-route-chairId="@seat.Id" class="seat-code">
+                                                @seat.Name
+                                            </button>
+                                        </form>
+                                    }
                                 </div>
                             }
                         </div>

@@ -13,10 +13,12 @@ namespace DataAcces
     public class EventRepository : IEventRepository
     {
         private readonly MySqlConnection db;
+        private readonly IVisitorRepository _visitorRepository;
 
-        public EventRepository(string connectionString)
+        public EventRepository(string connectionString, IVisitorRepository visitorRepository)
         {
             db = new MySqlConnection(connectionString);
+            _visitorRepository = visitorRepository;
         }
 
         private void PopulateEvent(Event _event, MySqlDataReader readEvents)
@@ -83,13 +85,23 @@ namespace DataAcces
         {
             if (readEvents["chair_id"] != DBNull.Value)
             {
-                existingRow.Chairs ??= new List<Chair>();
-
-                existingRow.Chairs.Add(new Chair
+                if (readEvents["user_id"] != DBNull.Value)
                 {
-                    Id = (int)readEvents["chair_id"],
-                    Name = (string)readEvents["chair_name"],
-                });
+                    existingRow.Chairs.Add(new Chair
+                    {
+                        Id = (int)readEvents["chair_id"],
+                        Name = (string)readEvents["chair_name"],
+                        User = _visitorRepository.GetVisitorById((int)readEvents["user_id"])
+                    });
+                }
+                else
+                {
+                    existingRow.Chairs.Add(new Chair
+                    {
+                        Id = (int)readEvents["chair_id"],
+                        Name = (string)readEvents["chair_name"]
+                    });
+                }
             }
         }
 
@@ -102,7 +114,7 @@ namespace DataAcces
             MySqlCommand eventQ = new MySqlCommand("SELECT e.id AS event_id, e.location, e.startdate, e.enddate, e.visitorlimit, " +
                                            "p.id AS part_id, p.name AS part_name, " +
                                            "r.id AS row_id, r.name AS row_name, " +
-                                           "c.id AS chair_id, c.name AS chair_name, c.row_id AS chair_row_id " +
+                                           "c.id AS chair_id, c.name AS chair_name, c.row_id AS chair_row_id, c.user_id " +
                                            "FROM event e " +
                                            "LEFT JOIN part p ON e.id = p.event_id " +
                                            "LEFT JOIN row r ON p.id = r.part_id " +
@@ -144,7 +156,7 @@ namespace DataAcces
             MySqlCommand eventQ = new MySqlCommand("SELECT e.id AS event_id, e.location, e.startdate, e.enddate, e.visitorlimit, " +
                                         "p.id AS part_id, p.name AS part_name, " +
                                         "r.id AS row_id, r.name AS row_name, " +
-                                        "c.id AS chair_id, c.name AS chair_name, c.row_id AS chair_row_id " +
+                                        "c.id AS chair_id, c.name AS chair_name, c.row_id AS chair_row_id, c.user_id " +
                                         "FROM event e " +
                                         "LEFT JOIN part p ON e.id = p.event_id " +
                                         "LEFT JOIN row r ON p.id = r.part_id " +

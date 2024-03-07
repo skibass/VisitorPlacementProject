@@ -10,11 +10,22 @@ builder.Services.AddRazorPages();
 builder.Services.AddTransient<IEventManagement, EventManagementService>();
 string connectionString = "Server=127.0.0.1;Database=vpt;Uid=root;Pwd=;";
 
+IVisitorRepository visitorRepository = new VisitorRepository(connectionString);
+
 builder.Services.AddTransient<IEventRepository>(sp =>
 {
-    // Create and return an instance of EventRepository with the connection string parameter
-    return new EventRepository(connectionString);
-}); 
+    return new EventRepository(connectionString, visitorRepository);
+});
+
+builder.Services.AddTransient<IVisitorPlacement>(sp =>
+{
+    return new VisitorPlacementRepository(connectionString);
+});
+
+builder.Services.AddTransient<IVisitorRepository>(sp =>
+{
+    return new VisitorRepository(connectionString);
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
