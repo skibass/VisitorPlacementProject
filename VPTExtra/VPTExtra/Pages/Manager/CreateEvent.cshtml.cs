@@ -8,10 +8,10 @@ namespace VPTExtra.Pages.Manager
 {
     public class CreateEventModel : PageModel
     {
-        private readonly EventGenerationService _eventGenerationService = new();
-        public CreateEventModel() 
+        private readonly EventGenerationService _eventGenerationService;
+        public CreateEventModel(EventGenerationService eventGenerationService) 
         { 
-            
+            _eventGenerationService = eventGenerationService;
         }
         public void OnGet()
         {

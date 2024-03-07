@@ -11,10 +11,11 @@ namespace Logic.Services
     public class EventGenerationService
     {
         private int VisitorsLeft;
+        private readonly IEventManagement _eventManagement;
 
-        public EventGenerationService() 
-        { 
-
+        public EventGenerationService(IEventManagement eventManagement)
+        {
+            _eventManagement = eventManagement;
         }
         public Event GenerateEvent(Event _eventData, int amountParts, int amountRows)
         {
@@ -42,6 +43,8 @@ namespace Logic.Services
                     _event.Parts.Add(GeneratePart(amountRows));
                 }
             }
+
+            _eventManagement.CreateEvent(_event);
             return _event; 
         }
         private Part GeneratePart(int amountRowsPart)

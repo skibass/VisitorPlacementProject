@@ -7,10 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+builder.Services.AddTransient<EventGenerationService>();
 builder.Services.AddTransient<IEventManagement, EventManagementService>();
 string connectionString = "Server=127.0.0.1;Database=vpt;Uid=root;Pwd=;";
 
 IVisitorRepository visitorRepository = new VisitorRepository(connectionString);
+IEventRepository eventRepository = new EventRepository(connectionString, visitorRepository);
 
 builder.Services.AddTransient<IEventRepository>(sp =>
 {
