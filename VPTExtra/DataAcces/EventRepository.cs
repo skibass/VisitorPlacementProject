@@ -42,7 +42,6 @@ namespace DataAcces
             }
             if (readEvents["part_id"] != DBNull.Value)
             {
-
                 int partId = (int)readEvents["part_id"];
                 var existingPart = _event.Parts.FirstOrDefault(p => p.Id == partId);
                 if (existingPart == null)
@@ -62,9 +61,10 @@ namespace DataAcces
 
         private void PopulateRow(Part existingPart, MySqlDataReader readEvents)
         {
-            int rowId = (int)readEvents["row_id"];
             if (readEvents["row_id"] != DBNull.Value)
             {
+                int rowId = (int)readEvents["row_id"];
+
                 var existingRow = existingPart.Rows.FirstOrDefault(r => r.Id == rowId);
                 if (existingRow == null)
                 {

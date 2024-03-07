@@ -8,6 +8,13 @@ namespace VPTExtra.Pages.Manager
 {
     public class CreateEventModel : PageModel
     {
+        [BindProperty]
+        public Event _event {  get; set; }
+        [BindProperty]
+        public int AmountOfParts { get; set; }
+        [BindProperty]
+        public int AmountOfRows { get; set; }
+
         private readonly EventGenerationService _eventGenerationService;
         public CreateEventModel(EventGenerationService eventGenerationService) 
         { 
@@ -15,11 +22,13 @@ namespace VPTExtra.Pages.Manager
         }
         public void OnGet()
         {
+
         }
-        public void OnPostGenerateEvent() 
+        public IActionResult OnPostGenerateEvent() 
         {
-            Event _event = new();
-            _eventGenerationService.GenerateEvent(_event, 0, 0);
+            _eventGenerationService.GenerateEvent(_event, AmountOfParts, AmountOfRows);
+
+            return RedirectToPage();
         }
     }
 }

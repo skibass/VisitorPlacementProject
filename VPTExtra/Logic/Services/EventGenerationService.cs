@@ -19,22 +19,17 @@ namespace Logic.Services
         }
         public Event GenerateEvent(Event _eventData, int amountParts, int amountRows)
         {
-            // Test data
-
-            amountParts = 3;
-            amountRows = 6;
-
             Random rand = new();
-            DateTime now = DateTime.Now;
+
             Event _event = new();
 
             _event.Location = "Locatie " + rand.Next(0, 10000);
-            _event.StartDate = now;
-            _event.EndDate = now;
+            _event.StartDate = _eventData.StartDate;
+            _event.EndDate = _eventData.EndDate;
             _event.Parts = new List<Part>();
 
-            _event.VisitorLimit = 10;
-            VisitorsLeft = 10;
+            _event.VisitorLimit = _eventData.VisitorLimit;
+            VisitorsLeft = _eventData.VisitorLimit;
 
             for (int i = 0; i < amountParts; i++)
             {
