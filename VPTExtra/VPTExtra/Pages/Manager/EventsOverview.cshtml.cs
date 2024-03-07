@@ -19,7 +19,6 @@ namespace VPTExtra.Pages.Manager
             Events = _eventManagement.GetEvents();
         }
 
-        [HttpPost]
         public IActionResult OnPostDelete(int id)
         {
             _eventManagement.DeleteEvent(id);
