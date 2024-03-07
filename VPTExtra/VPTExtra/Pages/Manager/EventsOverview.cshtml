@@ -27,7 +27,7 @@
                     <td>@item.VisitorLimit</td>
                     <td>
                         <form method="post">
-                            <button type="submit" asp-page-handler="delete"
+                            <button type="submit" asp-page-handler="delete" onclick="return confirm('Are you sure?')"
                                     asp-route-id="@item.Id">
                                 delete
                             </button>
