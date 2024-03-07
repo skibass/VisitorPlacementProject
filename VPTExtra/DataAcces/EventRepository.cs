@@ -189,7 +189,7 @@ namespace DataAcces
             return _event;
         }
 
-        public void AddEvent(Event newEvent)
+        public void CreateEvent(Event newEvent)
         {
             //using (var connection = new SqlConnection(_connectionString))
             //{

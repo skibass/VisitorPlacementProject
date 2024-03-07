@@ -24,9 +24,9 @@ namespace Logic.Services
             return _eventRepository.GetEventById(id);
         }
 
-        public void AddEvent(Event _event)
+        public void CreateEvent(Event _event)
         {
-            _eventRepository.AddEvent(_event);
+            _eventRepository.CreateEvent(_event);
         }
 
         public void UpdateEvent(Event _event)

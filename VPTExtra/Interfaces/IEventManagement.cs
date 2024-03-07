@@ -11,7 +11,7 @@ namespace Interfaces
     {
         public List<Event> GetEvents();
         public Event GetEventById(int id);
-        public void AddEvent(Event _event);
+        public void CreateEvent(Event _event);
 
         public void UpdateEvent(Event _event);
 
