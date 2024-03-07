@@ -2,27 +2,95 @@
 @model VPTExtra.Pages.EventOverviewModel
 @{
 }
-<table class="table table-dark">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">ID</th>
-            <th scope="col">Location</th>
-            <th scope="col">Start Date</th>
-            <th scope="col">End Date</th>
-            <th scope="col">Visitor Limit</th>
-        </tr>
-    </thead>
-    <tbody>
+<h2>Event: @Model.Event.Location</h2>
 
-        <tr>
-            <td></td>
-            <td>@Model.Event.Id</td>
-            <td>@Model.Event.Location</td>
-            <td>@Model.Event.StartDate</td>
-            <td>@Model.Event.EndDate</td>
-            <td>@Model.Event.VisitorLimit</td>
-        </tr>
+<div class="sectors">
+    @foreach (var sector in Model.Event.Parts)
+    {
+        <div class="sector">
+            <h3>Sector @sector.Name</h3>
+            <div class="rows">
+                @foreach (var row in sector.Rows)
+                {
+                    <div class="row">
+                        <p>Row @row.Name</p>
+                        <div class="seats">
+                            @foreach (var seat in row.Chairs)
+                            {
+                                <div class="seat-inner">
+                                    <span class="seat-code">@seat.Name</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
 
-    </tbody>
-</table>
+<style>
+    .sectors {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    .sector {
+        width: auto;
+        margin-right: 20px;
+        margin-bottom: 20px;
+    }
+
+    .row {
+        margin-bottom: 10px;
+    }
+
+    .seats {
+        display: flex;
+    }
+
+    .seat, .split-seat {
+        position: relative;
+        width: 40px;
+        height: 40px;
+        border: 1px solid #000;
+        margin-right: 5px;
+    }
+
+    .split-seat {
+        border-color: red;
+    }
+
+    .seat-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .seat-code {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .seat-occupant {
+        position: absolute;
+        bottom: 2px;
+        right: 2px;
+        font-size: 10px;
+    }
+
+    .minor-marker {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-weight: bold;
+        font-size: 12px;
+        color: white;
+    }
+</style>
