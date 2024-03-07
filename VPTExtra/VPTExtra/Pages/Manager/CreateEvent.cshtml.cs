@@ -24,6 +24,7 @@ namespace VPTExtra.Pages.Manager
         {
 
         }
+        [HttpPost]
         public IActionResult OnPostGenerateEvent() 
         {
             _eventGenerationService.GenerateEvent(_event, AmountOfParts, AmountOfRows);

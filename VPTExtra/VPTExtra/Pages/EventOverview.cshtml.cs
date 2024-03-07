@@ -22,6 +22,7 @@ namespace VPTExtra.Pages
             TempData["eventId"] = eventId;
         }
 
+        [HttpPost]
         public IActionResult OnPostPlaceVisitor(int chairId)
         {
             int eventId = Convert.ToInt32(TempData["eventId"]);
