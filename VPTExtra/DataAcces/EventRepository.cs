@@ -191,19 +191,75 @@ namespace DataAcces
 
         public void CreateEvent(Event newEvent)
         {
-            //using (var connection = new SqlConnection(_connectionString))
-            //{
-            //    connection.Open();
-            //    string sql = "INSERT INTO Events (Name, Date) VALUES (@Name, @Date)";
-            //    using (var command = new SqlCommand(sql, connection))
-            //    {
-            //        command.Parameters.AddWithValue("@Name", newEvent.Id);
-            //        command.Parameters.AddWithValue("@Date", newEvent.Location);
-            //        command.ExecuteNonQuery();
-            //    }
-            //}
+            db.Open();
+
+            InsertEvent(newEvent);
+
+            db.Close();
         }
 
+        private void InsertEvent(Event newEvent)
+        {
+            MySqlCommand cmd = new MySqlCommand("INSERT INTO event (location, startdate, enddate, visitorlimit) VALUES (@Location, @StartDate, @EndDate, @VisitorLimit)", db);
+
+            cmd.Parameters.AddWithValue("@Location", newEvent.Location);
+            cmd.Parameters.AddWithValue("@StartDate", newEvent.StartDate);
+            cmd.Parameters.AddWithValue("@EndDate", newEvent.EndDate);
+            cmd.Parameters.AddWithValue("@VisitorLimit", newEvent.VisitorLimit);
+
+            cmd.ExecuteNonQuery();
+
+            int eventId = (int)cmd.LastInsertedId;
+
+            foreach (Part part in newEvent.Parts)
+            {
+                int partId = InsertPart(eventId, part);
+
+                foreach (Row row in part.Rows)
+                {
+                    int rowId = InsertRow(partId, row);
+
+                    foreach (Chair chair in row.Chairs)
+                    {
+                        InsertChair(rowId, chair);
+                    }
+                }
+            }
+        }
+
+        private int InsertPart(int eventId, Part part)
+        {
+            MySqlCommand cmd = new MySqlCommand("INSERT INTO part (event_id, name) VALUES (@EventId, @Name)", db);
+
+            cmd.Parameters.AddWithValue("@EventId", eventId);
+            cmd.Parameters.AddWithValue("@Name", part.Name);
+
+            cmd.ExecuteNonQuery();
+
+            return (int)cmd.LastInsertedId;
+        }
+
+        private int InsertRow(int partId, Row row)
+        {
+            MySqlCommand cmd = new MySqlCommand("INSERT INTO row (part_id, name) VALUES (@PartId, @Name)", db);
+
+            cmd.Parameters.AddWithValue("@PartId", partId);
+            cmd.Parameters.AddWithValue("@Name", row.Name);
+
+            cmd.ExecuteNonQuery();
+
+            return (int)cmd.LastInsertedId;
+        }
+
+        private void InsertChair(int rowId, Chair chair)
+        {
+            MySqlCommand cmd = new MySqlCommand("INSERT INTO chair (row_id, name) VALUES (@RowId, @Name)", db);
+
+            cmd.Parameters.AddWithValue("@RowId", rowId);
+            cmd.Parameters.AddWithValue("@Name", chair.Name);
+
+            cmd.ExecuteNonQuery();
+        }
         public void UpdateEvent(Event updatedEvent)
         {
             //using (var connection = new SqlConnection(_connectionString))
