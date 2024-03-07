@@ -125,7 +125,7 @@ namespace DataAcces
                         VisitorLimit = Convert.ToInt32(readEvents["visitorlimit"]),
                         Parts = new List<Part>()
                     };
-                    events.Add(existingEvent); // Adding the populated event to the list
+                    events.Add(existingEvent);
                 }
 
                 PopulateEvent(existingEvent, readEvents);
@@ -137,7 +137,7 @@ namespace DataAcces
 
         public Event GetEventById(int id)
         {
-            Event _event = null; // Initialize to null
+            Event _event = null;
 
             db.Open();
 
