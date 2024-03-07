@@ -10,41 +10,49 @@ namespace Logic.Services
 {
     public class EventGenerationService
     {
-        private readonly IEventManagement _eventManagement;
         private int VisitorsLeft;
 
-        public EventGenerationService(IEventManagement eventManagement) 
+        public EventGenerationService() 
         { 
-            _eventManagement = eventManagement;
+
         }
         public Event GenerateEvent(Event _eventData, int amountParts, int amountRows)
         {
-            Random rand = new();
+            // Test data
 
+            amountParts = 3;
+            amountRows = 6;
+
+            Random rand = new();
+            DateTime now = DateTime.Now;
             Event _event = new();
 
             _event.Location = "Locatie " + rand.Next(0, 10000);
-            _event.StartDate = _eventData.StartDate;
-            _event.EndDate = _eventData.EndDate;
+            _event.StartDate = now;
+            _event.EndDate = now;
+            _event.Parts = new List<Part>();
 
-            _event.VisitorLimit = _eventData.VisitorLimit;
-            VisitorsLeft = _eventData.VisitorLimit;
+            _event.VisitorLimit = 10;
+            VisitorsLeft = 10;
 
             for (int i = 0; i < amountParts; i++)
             {
-                GeneratePart(amountRows);
+                if (VisitorsLeft != 0)
+                {
+                    _event.Parts.Add(GeneratePart(amountRows));
+                }
             }
-            _eventManagement.CreateEvent(_event);
             return _event; 
         }
         private Part GeneratePart(int amountRowsPart)
         {
             Part part = new();
             part.Name = "test";
+            part.Rows = new List<Row>();
 
             for (int i = 0; i < amountRowsPart; i++)
             {
-                GenerateRow();
+                part.Rows.Add(GenerateRow());
             }
             return part;
         }
@@ -52,10 +60,11 @@ namespace Logic.Services
         {
             Row row = new();
             row.Name = "test";
+            row.Chairs = new List<Chair>();
 
             for (int i = 0; i < VisitorsLeft; i++)
             {
-                GenerateChair();
+                row.Chairs.Add(GenerateChair());
                 --VisitorsLeft;
             }
             return row;

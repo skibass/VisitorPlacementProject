@@ -4,7 +4,7 @@
 }
 everything is optional: if a manager only wants to dictate how many visitors are allowed then the systems generates the 
 rest automatically based on that. the same goes for other options.
-<form>
+<form method="post">
     <div class="form-group">
         <label>Total amount of seats</label>
         <input type="number" class="form-control">
@@ -20,5 +20,5 @@ rest automatically based on that. the same goes for other options.
         <input type="number" class="form-control">
         <small class="form-text text-muted">Optional</small>
     </div>
-    <button type="submit" class="btn btn-primary">Create event</button>
+    <button type="submit" asp-page-handler="GenerateEvent" class="btn btn-primary">Create event</button>
 </form>
