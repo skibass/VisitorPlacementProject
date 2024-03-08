@@ -10,7 +10,7 @@ namespace Logic.Services
 {
     public class EventGenerationService
     {
-        private int VisitorsLeft;
+        private int ChairsLeft;
         private readonly IEventManagement _eventManagement;
 
         public EventGenerationService(IEventManagement eventManagement)
@@ -29,18 +29,28 @@ namespace Logic.Services
             _event.Parts = new List<Part>();
 
             _event.VisitorLimit = _eventData.VisitorLimit;
-            VisitorsLeft = _eventData.VisitorLimit;
+            ChairsLeft = _eventData.VisitorLimit;
 
-            for (int i = 0; i < amountParts; i++)
+            if (amountParts == 0)
             {
-                if (VisitorsLeft != 0)
+                while (ChairsLeft > 0)
                 {
                     _event.Parts.Add(GeneratePart(amountRows));
                 }
             }
+            else
+            {
+                for (int i = 0; i < amountParts; i++)
+                {
+                    if (ChairsLeft != 0)
+                    {
+                        _event.Parts.Add(GeneratePart(amountRows));
+                    }
+                }
+            }
 
             _eventManagement.CreateEvent(_event);
-            return _event; 
+            return _event;
         }
         private Part GeneratePart(int amountRowsPart)
         {
@@ -48,23 +58,47 @@ namespace Logic.Services
             part.Name = "test";
             part.Rows = new List<Row>();
 
-            for (int i = 0; i < amountRowsPart; i++)
+            if (amountRowsPart == 0)
             {
-                part.Rows.Add(GenerateRow());
+                for (int i = 0; i < 6; i++)
+                {
+                    if (ChairsLeft > 0)
+                    {
+                        part.Rows.Add(GenerateRow());
+                    }
+                }
             }
+            else
+            {
+                for (int i = 0; i < amountRowsPart; i++)
+                {
+                    if (ChairsLeft > 0)
+                    {
+                        part.Rows.Add(GenerateRow());
+                    }
+                }
+            }
+
             return part;
         }
         private Row GenerateRow()
         {
+            int chairsThisRow = 0;
             Row row = new();
             row.Name = "test";
             row.Chairs = new List<Chair>();
 
-            for (int i = 0; i < VisitorsLeft; i++)
+            for (int i = 0; i < ChairsLeft; i++)
             {
-                row.Chairs.Add(GenerateChair());
-                --VisitorsLeft;
+                if (chairsThisRow < 10)
+                {
+                    row.Chairs.Add(GenerateChair());
+                    --ChairsLeft;
+                    chairsThisRow++;
+                }
             }
+
+
             return row;
         }
         private Chair GenerateChair()
