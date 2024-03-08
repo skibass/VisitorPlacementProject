@@ -3,7 +3,10 @@
 @{
 }
 <h1 style="color:red;">Choose your seat.</h1>
-<h2>Event: @Model.Event.Location</h2>
+<h4>Event: @Model.Event.Location</h4>
+<h4>Start date: @Model.Event.StartDate</h4>
+<h4>End date: @Model.Event.EndDate</h4>
+<br />
 <div class="sectors">
     @foreach (var sector in Model.Event.Parts)
     {
