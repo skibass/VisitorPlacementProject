@@ -9,6 +9,8 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddTransient<EventGenerationService>();
 builder.Services.AddTransient<IEventManagement, EventManagementService>();
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
 string connectionString = "Server=127.0.0.1;Database=vpt;Uid=root;Pwd=;";
 
 IVisitorRepository visitorRepository = new VisitorRepository(connectionString);
