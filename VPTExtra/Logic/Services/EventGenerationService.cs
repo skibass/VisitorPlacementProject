@@ -3,6 +3,7 @@ using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,6 +20,8 @@ namespace Logic.Services
         }
         public Event GenerateEvent(Event _eventData, int amountParts, int amountRows)
         {
+            char partName = 'A';          
+
             Random rand = new();
 
             Event _event = new();
@@ -35,7 +38,8 @@ namespace Logic.Services
             {
                 while (ChairsLeft > 0)
                 {
-                    _event.Parts.Add(GeneratePart(amountRows));
+                    _event.Parts.Add(GeneratePart(amountRows, partName.ToString()));
+                    partName++;
                 }
             }
             else
@@ -44,7 +48,8 @@ namespace Logic.Services
                 {
                     if (ChairsLeft != 0)
                     {
-                        _event.Parts.Add(GeneratePart(amountRows));
+                        _event.Parts.Add(GeneratePart(amountRows, partName.ToString()));
+                        partName++;
                     }
                 }
             }
@@ -52,10 +57,12 @@ namespace Logic.Services
             _eventManagement.CreateEvent(_event);
             return _event;
         }
-        private Part GeneratePart(int amountRowsPart)
+        private Part GeneratePart(int amountRowsPart, string partName)
         {
+            int rowNumber = 1;
+
             Part part = new();
-            part.Name = "test";
+            part.Name = partName;
             part.Rows = new List<Row>();
 
             if (amountRowsPart == 0)
@@ -64,7 +71,8 @@ namespace Logic.Services
                 {
                     if (ChairsLeft > 0)
                     {
-                        part.Rows.Add(GenerateRow());
+                        part.Rows.Add(GenerateRow(partName + rowNumber));
+                        rowNumber++;
                     }
                 }
             }
@@ -74,37 +82,38 @@ namespace Logic.Services
                 {
                     if (ChairsLeft > 0)
                     {
-                        part.Rows.Add(GenerateRow());
+                        part.Rows.Add(GenerateRow(partName + rowNumber));
+                        rowNumber++;
                     }
                 }
             }
 
             return part;
         }
-        private Row GenerateRow()
+        private Row GenerateRow(string rowName)
         {
+            int chairNumber = 1;
             int chairsThisRow = 0;
             Row row = new();
-            row.Name = "test";
+            row.Name = rowName;
             row.Chairs = new List<Chair>();
 
             for (int i = 0; i < ChairsLeft; i++)
             {
                 if (chairsThisRow < 10)
                 {
-                    row.Chairs.Add(GenerateChair());
+                    row.Chairs.Add(GenerateChair(row.Name + "-" + chairNumber));
+                    chairNumber++;
                     --ChairsLeft;
                     chairsThisRow++;
                 }
             }
-
-
             return row;
         }
-        private Chair GenerateChair()
+        private Chair GenerateChair(string chairName)
         {
             Chair chair = new();
-            chair.Name = "tets";
+            chair.Name = chairName;
 
             return chair;
         }
