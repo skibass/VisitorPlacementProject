@@ -100,7 +100,7 @@ namespace Logic.Services
 
             for (int i = 0; i < ChairsLeft; i++)
             {
-                if (chairsThisRow < 10)
+                if (chairsThisRow < 5)
                 {
                     row.Chairs.Add(GenerateChair(row.Name + "-" + chairNumber));
                     chairNumber++;
