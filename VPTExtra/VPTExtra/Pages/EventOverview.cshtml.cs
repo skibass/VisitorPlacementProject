@@ -10,16 +10,27 @@ namespace VPTExtra.Pages
         private readonly IEventManagement _eventManagement;
         private readonly IVisitorPlacement _visitorPlacement;
         public Event Event { get; set; }
+        private Event tempEvent {  get; set; }
 
         public EventOverviewModel(IEventManagement eventManagement, IVisitorPlacement visitorPlacement)
         {
             _eventManagement = eventManagement;
             _visitorPlacement = visitorPlacement;
         }
-        public void OnGet(int eventId)
+        public IActionResult OnGet(int eventId)
         {
-            Event = _eventManagement.GetEventById(eventId);
-            TempData["eventId"] = eventId;
+            tempEvent = _eventManagement.GetEventById(eventId);
+
+            if (tempEvent != null)
+            {
+                Event = tempEvent;
+                TempData["eventId"] = eventId;
+            }
+            else
+            {
+                return RedirectToPage("/Index");
+            }
+            return null;
         }
 
         public IActionResult OnPostPlaceVisitor(int chairId)
