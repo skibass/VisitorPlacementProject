@@ -1,4 +1,5 @@
 using Interfaces;
+using Logic.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models;
@@ -7,12 +8,12 @@ namespace VPTExtra.Pages.Manager
 {
     public class EventsOverviewModel : PageModel
     {
-        private readonly IEventRepository _eventRepository;
+        private readonly EventService _eventService;
         public List<Event> Events { get; set; }
 
-        public EventsOverviewModel(IEventRepository eventRepository)
+        public EventsOverviewModel(EventService eventService)
         {
-            _eventRepository = eventRepository;
+            _eventService = eventService;
         }
         public IActionResult OnGet()
         {
@@ -25,13 +26,13 @@ namespace VPTExtra.Pages.Manager
                 return RedirectToPage("/Index");
             }
 
-            Events = _eventRepository.GetAllEvents();
+            Events = _eventService.GetAllEvents();
             return null;
         }
 
         public IActionResult OnPostDelete(int id)
         {
-            _eventRepository.DeleteEvent(id);
+            _eventService.DeleteEvent(id);
            return RedirectToPage();
         }
     }

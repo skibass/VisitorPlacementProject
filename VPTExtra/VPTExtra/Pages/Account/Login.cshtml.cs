@@ -1,4 +1,5 @@
 using Interfaces;
+using Logic.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models;
@@ -7,19 +8,19 @@ namespace VPTExtra.Pages.Account
 {
     public class LoginModel : PageModel
     {
-        private readonly IUserRepository _userRepository;
+        private readonly UserService _userService;
         [BindProperty]
         public User userToLogin { get; set; }
-        public LoginModel(IUserRepository userRepository)
+        public LoginModel(UserService userService)
         {
-            _userRepository = userRepository;
+            _userService = userService;
         }
         public void OnGet()
         {
         }
         public IActionResult OnPostLogin()
         {
-            User userToBeLogged = _userRepository.LoginUser(userToLogin);
+            User userToBeLogged = _userService.LoginUser(userToLogin);
             if (userToBeLogged != null)
             {
                 HttpContext.Session.SetInt32("uId", userToBeLogged.Id);

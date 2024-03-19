@@ -1,4 +1,5 @@
 using Interfaces;
+using Logic.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -8,17 +9,17 @@ namespace VPTExtra.Pages
 {
     public class EventOverviewModel : PageModel
     {
-        private readonly IEventRepository _eventRepository;
-        private readonly IVisitorPlacement _visitorPlacement;
+        private readonly EventService _eventService;
+        private readonly VisitorPlacementService _visitorPlacementService;
         public Event Event { get; set; }
         private Event tempEvent {  get; set; }
         [BindProperty]
         public int currentUserId {  get; set; }
 
-        public EventOverviewModel(IEventRepository eventManagement, IVisitorPlacement visitorPlacement)
+        public EventOverviewModel(EventService eventService, VisitorPlacementService visitorPlacementService)
         {
-            _eventRepository = eventManagement;
-            _visitorPlacement = visitorPlacement;
+            _eventService = eventService;
+            _visitorPlacementService = visitorPlacementService;
         }
         public IActionResult OnGet(int eventId)
         {
@@ -26,7 +27,7 @@ namespace VPTExtra.Pages
 
             if (currentUserId != null)
             {
-                tempEvent = _eventRepository.GetEventById(eventId);
+                tempEvent = _eventService.GetEventById(eventId);
 
                 if (tempEvent != null)
                 {
@@ -51,7 +52,7 @@ namespace VPTExtra.Pages
 
             int eventId = Convert.ToInt32(TempData["eventId"]);
 
-            _visitorPlacement.PlaceVisitor(chairId, visitorId);
+            _visitorPlacementService.PlaceVisitor(chairId, visitorId);
 
             return RedirectToPage(new { eventId = eventId });
         }

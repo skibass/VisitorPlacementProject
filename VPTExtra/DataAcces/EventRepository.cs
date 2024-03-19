@@ -111,20 +111,13 @@ namespace DataAcces
 
             db.Open();
 
-            MySqlCommand eventQ = new MySqlCommand("SELECT e.id AS event_id, e.location, e.startdate, e.enddate, e.visitorlimit, " +
-                                           "p.id AS part_id, p.name AS part_name, " +
-                                           "r.id AS row_id, r.name AS row_name, " +
-                                           "c.id AS chair_id, c.name AS chair_name, c.row_id AS chair_row_id, c.user_id " +
-                                           "FROM event e " +
-                                           "LEFT JOIN part p ON e.id = p.event_id " +
-                                           "LEFT JOIN row r ON p.id = r.part_id " +
-                                           "LEFT JOIN chair c ON r.id = c.row_id", db);
+            MySqlCommand eventQ = new MySqlCommand("SELECT id, location, startdate, enddate, visitorlimit from event", db);
 
             MySqlDataReader readEvents = eventQ.ExecuteReader();
 
             while (readEvents.Read())
             {
-                int eventId = (int)readEvents["event_id"];
+                int eventId = (int)readEvents["id"];
                 var existingEvent = events.FirstOrDefault(e => e.Id == eventId);
                 if (existingEvent == null)
                 {
@@ -139,8 +132,6 @@ namespace DataAcces
                     };
                     events.Add(existingEvent);
                 }
-
-                PopulateEvent(existingEvent, readEvents);
             }
             db.Close();
 

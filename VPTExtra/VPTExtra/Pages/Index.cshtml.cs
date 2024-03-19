@@ -8,18 +8,18 @@ namespace VPTExtra.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly IEventRepository _eventRepository;
+        private readonly EventService _eventService;
         public List<Event> Events { get; set; }
 
-        public IndexModel(IEventRepository eventRepository)
+        public IndexModel(EventService eventService)
         {
-            _eventRepository = eventRepository;
+            _eventService = eventService;
         }
         public IActionResult OnGet()
         {
             if (HttpContext.Session.GetInt32("uId") != null)
             {
-                Events = _eventRepository.GetAllEvents();
+                Events = _eventService.GetAllEvents();
                 return Page();
             }
             else

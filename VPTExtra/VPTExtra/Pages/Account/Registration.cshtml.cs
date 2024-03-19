@@ -1,4 +1,5 @@
 using Interfaces;
+using Logic.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models;
@@ -7,12 +8,12 @@ namespace VPTExtra.Pages.Account
 {
     public class RegistrationModel : PageModel
     {
-        private readonly IUserRepository _userRepository;
+        private readonly UserService _userService;
         [BindProperty]       
         public User userToRegister { get; set; }
-        public RegistrationModel(IUserRepository userRepository)
+        public RegistrationModel(UserService userService)
         {
-            _userRepository = userRepository;
+            _userService = userService;
         }
         public void OnGet()
         {
@@ -20,7 +21,7 @@ namespace VPTExtra.Pages.Account
         }
         public IActionResult OnPostRegister() 
         {
-            if (_userRepository.RegisterUser(userToRegister) != null)
+            if (_userService.RegisterUser(userToRegister) != null)
             {
                 return RedirectToPage("/Account/Login");
             }
