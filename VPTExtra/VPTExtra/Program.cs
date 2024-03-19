@@ -30,6 +30,10 @@ builder.Services.AddTransient<IVisitorRepository>(sp =>
 {
     return new VisitorRepository(connectionString);
 });
+builder.Services.AddTransient<IUserRepository>(sp =>
+{
+    return new UserRepository(connectionString);
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

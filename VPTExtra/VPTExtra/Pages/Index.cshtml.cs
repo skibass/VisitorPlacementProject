@@ -17,7 +17,14 @@ namespace VPTExtra.Pages
         }
         public void OnGet()
         {
-            Events = _eventManagement.GetEvents();
+            if (HttpContext.Session.GetString("isLoggedIn") == "false")
+            {
+                RedirectToPage("Acount/Registration");
+            }
+            else
+            {
+                Events = _eventManagement.GetEvents();
+            }
         }
     }
 }

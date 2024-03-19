@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Interfaces
 {
-    public interface IVisitorPlacement
+    public interface IUserRepository
     {
-        public void PlaceVisitor(int chairId);
+        public User RegisterUser(User userToRegister);
     }
 }
