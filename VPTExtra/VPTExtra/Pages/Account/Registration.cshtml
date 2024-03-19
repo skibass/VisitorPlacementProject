@@ -1,20 +1,20 @@
-﻿@page
+﻿@page "/account/register"
 @model VPTExtra.Pages.Account.RegistrationModel
 @{
 }
-<form method="post">
+<form method="post" asp-page-handler="TryRegisterUser">
     <div class="form-outline mb-4">
-        <input class="form-control form-control-lg" required>
+        <input class="form-control form-control-lg" required asp-for="@Model.userToRegister.Name">
         <label class="form-label" for="form3Example1cg">Your Name</label>
     </div>
 
     <div class="form-outline mb-4">
-        <input class="form-control form-control-lg" required type="email">
+        <input class="form-control form-control-lg" required type="email" asp-for="@Model.userToRegister.Email">
         <label class="form-label" for="form3Example3cg">Your Email</label>
     </div>
 
     <div class="form-outline mb-4">
-        <input class="form-control form-control-lg" required type="password">
+        <input class="form-control form-control-lg" required type="password" asp-for="@Model.userToRegister.Password">
         <label class="form-label">Password</label>
     </div>
 

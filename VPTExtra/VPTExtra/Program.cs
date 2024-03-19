@@ -11,6 +11,13 @@ builder.Services.AddTransient<EventGenerationService>();
 builder.Services.AddTransient<IEventManagement, EventManagementService>();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = ".AdventureWorks.Session";
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.IsEssential = true;
+});
+
 string connectionString = "Server=127.0.0.1;Database=vpt;Uid=root;Pwd=;";
 
 IVisitorRepository visitorRepository = new VisitorRepository(connectionString);
@@ -46,6 +53,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseSession();
 
 app.UseRouting();
 

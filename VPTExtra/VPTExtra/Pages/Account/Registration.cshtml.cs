@@ -8,7 +8,7 @@ namespace VPTExtra.Pages.Account
     public class RegistrationModel : PageModel
     {
         private readonly IUserRepository _userRepository;
-        [BindProperty]
+        [BindProperty]       
         public User userToRegister { get; set; }
         public RegistrationModel(IUserRepository userRepository)
         {

@@ -11,20 +11,13 @@ namespace VPTExtra.Pages
         private readonly IEventManagement _eventManagement;
         public List<Event> Events { get; set; }
 
-        public IndexModel(IEventManagement eventManagement)        
-        { 
+        public IndexModel(IEventManagement eventManagement)
+        {
             _eventManagement = eventManagement;
         }
         public void OnGet()
         {
-            if (HttpContext.Session.GetString("isLoggedIn") == "false")
-            {
-                RedirectToPage("Acount/Registration");
-            }
-            else
-            {
-                Events = _eventManagement.GetEvents();
-            }
+            Events = _eventManagement.GetEvents();
         }
     }
 }
