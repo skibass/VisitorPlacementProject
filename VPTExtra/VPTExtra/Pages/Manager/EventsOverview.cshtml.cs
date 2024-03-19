@@ -7,21 +7,21 @@ namespace VPTExtra.Pages.Manager
 {
     public class EventsOverviewModel : PageModel
     {
-        private readonly IEventManagement _eventManagement;
+        private readonly IEventRepository _eventRepository;
         public List<Event> Events { get; set; }
 
-        public EventsOverviewModel(IEventManagement eventManagement)
+        public EventsOverviewModel(IEventRepository eventRepository)
         {
-            _eventManagement = eventManagement;
+            _eventRepository = eventRepository;
         }
         public void OnGet()
         {
-            Events = _eventManagement.GetEvents();
+            Events = _eventRepository.GetAllEvents();
         }
 
         public IActionResult OnPostDelete(int id)
         {
-            _eventManagement.DeleteEvent(id);
+            _eventRepository.DeleteEvent(id);
            return RedirectToPage();
         }
     }

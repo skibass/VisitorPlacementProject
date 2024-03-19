@@ -16,6 +16,7 @@ namespace VPTExtra.Pages.Account
         }
         public void OnGet()
         {
+
         }
         public IActionResult OnPostRegister() 
         {

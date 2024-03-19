@@ -8,21 +8,21 @@ namespace VPTExtra.Pages
 {
     public class EventOverviewModel : PageModel
     {
-        private readonly IEventManagement _eventManagement;
+        private readonly IEventRepository _eventRepository;
         private readonly IVisitorPlacement _visitorPlacement;
         public Event Event { get; set; }
         private Event tempEvent {  get; set; }
 
-        public EventOverviewModel(IEventManagement eventManagement, IVisitorPlacement visitorPlacement)
+        public EventOverviewModel(IEventRepository eventManagement, IVisitorPlacement visitorPlacement)
         {
-            _eventManagement = eventManagement;
+            _eventRepository = eventManagement;
             _visitorPlacement = visitorPlacement;
         }
         public IActionResult OnGet(int eventId)
         {
             if (HttpContext.Session.GetInt32("uId") != null)
             {
-                tempEvent = _eventManagement.GetEventById(eventId);
+                tempEvent = _eventRepository.GetEventById(eventId);
 
                 if (tempEvent != null)
                 {

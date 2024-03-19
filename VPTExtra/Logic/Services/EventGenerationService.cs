@@ -12,11 +12,11 @@ namespace Logic.Services
     public class EventGenerationService
     {
         private int ChairsLeft;
-        private readonly IEventManagement _eventManagement;
+        private readonly IEventRepository _eventRepository;
 
-        public EventGenerationService(IEventManagement eventManagement)
+        public EventGenerationService(IEventRepository eventManagement)
         {
-            _eventManagement = eventManagement;
+            _eventRepository = eventManagement;
         }
         public Event GenerateEvent(Event _eventData, int amountParts, int amountRows)
         {
@@ -54,7 +54,7 @@ namespace Logic.Services
                 }
             }
 
-            _eventManagement.CreateEvent(_event);
+            _eventRepository.CreateEvent(_event);
             return _event;
         }
         private Part GeneratePart(int amountRowsPerPart, string partName)

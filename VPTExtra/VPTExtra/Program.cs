@@ -8,7 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Services.AddTransient<EventGenerationService>();
-builder.Services.AddTransient<IEventManagement, EventManagementService>();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 builder.Services.AddSession(options =>
