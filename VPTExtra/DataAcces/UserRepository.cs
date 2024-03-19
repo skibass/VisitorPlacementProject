@@ -65,6 +65,8 @@ namespace DataAcces
                             Id = (int)readUsers["id"],
                             Name = readUsers["name"].ToString(),
                             Email = readUsers["email"].ToString(),
+                            Password = readUsers["password"].ToString(),
+                            RoleId = (int)readUsers["roleid"],
                         };
                     }
                 }
@@ -98,6 +100,7 @@ namespace DataAcces
                             Name = readUsers["name"].ToString(),
                             Email = readUsers["email"].ToString(),
                             Password = readUsers["password"].ToString(),
+                            RoleId = (int)readUsers["roleid"],
                         };
                     }
                 }

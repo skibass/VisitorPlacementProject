@@ -23,12 +23,24 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Events</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Manager/Eventsoverview">Manager: Events</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Manager/CreateEvent">Manager: Create event</a>
-                        </li>
+
+                        @if (@Context.Session.GetInt32("uRoleId") == 2)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Manager/Eventsoverview">Manager: Events</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Manager/CreateEvent">Manager: Create event</a>
+                            </li>
+                        }
+                        
+                        @if (@Context.Session.GetInt32("uId") != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark">Welcome @Context.Session.GetString("uName")</a>
+                            </li>
+                        }
+                       
                     </ul>
                 </div>
             </div>

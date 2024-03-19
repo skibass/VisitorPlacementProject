@@ -22,8 +22,9 @@ namespace VPTExtra.Pages.Account
             User userToBeLogged = _userRepository.LoginUser(userToLogin);
             if (userToBeLogged != null)
             {
-                HttpContext.Session.SetString("isLoggedIn", "true");
                 HttpContext.Session.SetInt32("uId", userToBeLogged.Id);
+                HttpContext.Session.SetString("uName", userToBeLogged.Name);
+                HttpContext.Session.SetInt32("uRoleId", userToBeLogged.RoleId);
 
                 return RedirectToPage("/Index");
             }
