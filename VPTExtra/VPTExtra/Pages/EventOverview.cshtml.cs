@@ -12,6 +12,8 @@ namespace VPTExtra.Pages
         private readonly IVisitorPlacement _visitorPlacement;
         public Event Event { get; set; }
         private Event tempEvent {  get; set; }
+        [BindProperty]
+        public int currentUserId {  get; set; }
 
         public EventOverviewModel(IEventRepository eventManagement, IVisitorPlacement visitorPlacement)
         {
@@ -20,7 +22,9 @@ namespace VPTExtra.Pages
         }
         public IActionResult OnGet(int eventId)
         {
-            if (HttpContext.Session.GetInt32("uId") != null)
+            currentUserId = (int)HttpContext.Session.GetInt32("uId");
+
+            if (currentUserId != null)
             {
                 tempEvent = _eventRepository.GetEventById(eventId);
 
@@ -44,6 +48,7 @@ namespace VPTExtra.Pages
         public IActionResult OnPostPlaceVisitor(int chairId)
         {
             int visitorId = (int)HttpContext.Session.GetInt32("uId");
+
             int eventId = Convert.ToInt32(TempData["eventId"]);
 
             _visitorPlacement.PlaceVisitor(chairId, visitorId);

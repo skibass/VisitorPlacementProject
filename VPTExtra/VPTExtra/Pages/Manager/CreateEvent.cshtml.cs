@@ -20,9 +20,13 @@ namespace VPTExtra.Pages.Manager
         { 
             _eventGenerationService = eventGenerationService;
         }
-        public void OnGet()
+        public IActionResult OnGet()
         {
-
+            if (HttpContext.Session.GetInt32("uRoleId") != 2)
+            {
+                return RedirectToPage("/Account/Login");
+            }
+            return null;
         }
         public IActionResult OnPostGenerateEvent() 
         {

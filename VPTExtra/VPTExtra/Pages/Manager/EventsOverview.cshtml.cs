@@ -14,9 +14,19 @@ namespace VPTExtra.Pages.Manager
         {
             _eventRepository = eventRepository;
         }
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            if (HttpContext.Session.GetInt32("uId") == null)
+            {
+                return RedirectToPage("/Account/Login");
+            }
+            else if (HttpContext.Session.GetInt32("uRoleId") != 2)
+            {
+                return RedirectToPage("/Index");
+            }
+
             Events = _eventRepository.GetAllEvents();
+            return null;
         }
 
         public IActionResult OnPostDelete(int id)

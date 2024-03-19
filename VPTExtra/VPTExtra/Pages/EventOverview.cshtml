@@ -2,6 +2,11 @@
 @model VPTExtra.Pages.EventOverviewModel
 @{
 }
+<button style="background-color:yellow;height: 20px;"></button> : your seats
+<br />
+<button style="background-color:black; height: 20px;"></button> : taken seats
+<br />
+<button style="background-color:springgreen; height: 20px;"></button> : available seats
 <h1 style="color:red;">Choose your seat.</h1>
 <h4>Event: @Model.Event.Location</h4>
 <h4>Start date: @Model.Event.StartDate</h4>
@@ -23,12 +28,27 @@
                                 <div class="seat-inner">
                                     @if (seat.User != null)
                                     {
-                                        <label style="color: red;">@seat.Name taken</label>
+                                        @if (seat.User.Id == Model.currentUserId)
+                                        {
+                                            <form method="post">
+                                                <button type="submit" style="background-color:yellow;" asp-page-handler="RevertPlacement" onclick="return confirm('Are you sure?')"
+                                                        asp-route-chairId="@seat.Id" class="seat-code">
+                                                    @seat.Name
+                                                </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit" style="background-color:black; color:white;"
+                                                    asp-route-chairId="@seat.Id" class="seat-code">
+                                                @seat.Name
+                                            </button>
+                                        }
                                     }
                                     else
                                     {
                                         <form method="post">
-                                            <button type="submit" asp-page-handler="PlaceVisitor" onclick="return confirm('Are you sure?')"
+                                            <button type="submit" style="background-color:springgreen;" asp-page-handler="PlaceVisitor" onclick="return confirm('Are you sure?')"
                                                     asp-route-chairId="@seat.Id" class="seat-code">
                                                 @seat.Name
                                             </button>
@@ -63,7 +83,7 @@
 
     .seats {
         display: flex;
-        margin-right: 130px;
+        margin-right: 170px;
         margin-top: 20px;
     }
 
