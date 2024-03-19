@@ -20,12 +20,12 @@ builder.Services.AddSession(options =>
 
 string connectionString = "Server=127.0.0.1;Database=vpt;Uid=root;Pwd=;";
 
-IVisitorRepository visitorRepository = new VisitorRepository(connectionString);
-IEventRepository eventRepository = new EventRepository(connectionString, visitorRepository);
+IUserRepository userRepository = new UserRepository(connectionString);
+IEventRepository eventRepository = new EventRepository(connectionString, userRepository);
 
 builder.Services.AddTransient<IEventRepository>(sp =>
 {
-    return new EventRepository(connectionString, visitorRepository);
+    return new EventRepository(connectionString, userRepository);
 });
 
 builder.Services.AddTransient<IVisitorPlacement>(sp =>
@@ -33,10 +33,6 @@ builder.Services.AddTransient<IVisitorPlacement>(sp =>
     return new VisitorPlacementRepository(connectionString);
 });
 
-builder.Services.AddTransient<IVisitorRepository>(sp =>
-{
-    return new VisitorRepository(connectionString);
-});
 builder.Services.AddTransient<IUserRepository>(sp =>
 {
     return new UserRepository(connectionString);

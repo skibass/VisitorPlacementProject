@@ -13,12 +13,12 @@ namespace DataAcces
     public class EventRepository : IEventRepository
     {
         private readonly MySqlConnection db;
-        private readonly IVisitorRepository _visitorRepository;
+        private readonly IUserRepository _userRepository;
 
-        public EventRepository(string connectionString, IVisitorRepository visitorRepository)
+        public EventRepository(string connectionString, IUserRepository userRepository)
         {
             db = new MySqlConnection(connectionString);
-            _visitorRepository = visitorRepository;
+            _userRepository = userRepository;
         }
 
         private void PopulateEvent(Event _event, MySqlDataReader readEvents)
@@ -91,7 +91,7 @@ namespace DataAcces
                     {
                         Id = (int)readEvents["chair_id"],
                         Name = (string)readEvents["chair_name"],
-                        User = _visitorRepository.GetVisitorById((int)readEvents["user_id"])
+                        User = _userRepository.GetVisitorById((int)readEvents["user_id"])
                     });
                 }
                 else

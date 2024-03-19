@@ -17,12 +17,13 @@ namespace VPTExtra.Pages.Account
         public void OnGet()
         {
         }
-        public void OnPostRegister() 
+        public IActionResult OnPostRegister() 
         {
             if (_userRepository.RegisterUser(userToRegister) != null)
             {
-                HttpContext.Session.SetString("isLoggedIn", "true");
+                return RedirectToPage("/Account/Login");
             }
+            return null;
         }
     }
 }

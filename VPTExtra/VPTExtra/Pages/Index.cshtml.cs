@@ -15,9 +15,17 @@ namespace VPTExtra.Pages
         {
             _eventManagement = eventManagement;
         }
-        public void OnGet()
+        public IActionResult OnGet()
         {
-            Events = _eventManagement.GetEvents();
+            if (HttpContext.Session.GetInt32("uId") != null)
+            {
+                Events = _eventManagement.GetEvents();
+                return Page();
+            }
+            else
+            {
+                return RedirectToPage("/Account/Login");
+            }
         }
     }
 }

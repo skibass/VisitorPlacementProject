@@ -10,5 +10,7 @@ namespace Interfaces
     public interface IUserRepository
     {
         public User RegisterUser(User userToRegister);
+        public User LoginUser(User userToRegister);
+        public User GetVisitorById(int id);
     }
 }

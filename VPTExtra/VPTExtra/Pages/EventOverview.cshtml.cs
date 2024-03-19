@@ -1,6 +1,7 @@
 using Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 using Models;
 
 namespace VPTExtra.Pages
@@ -19,18 +20,25 @@ namespace VPTExtra.Pages
         }
         public IActionResult OnGet(int eventId)
         {
-            tempEvent = _eventManagement.GetEventById(eventId);
-
-            if (tempEvent != null)
+            if (HttpContext.Session.GetInt32("uId") != null)
             {
-                Event = tempEvent;
-                TempData["eventId"] = eventId;
+                tempEvent = _eventManagement.GetEventById(eventId);
+
+                if (tempEvent != null)
+                {
+                    Event = tempEvent;
+                    TempData["eventId"] = eventId;
+                }
+                else
+                {
+                    return RedirectToPage("/Index");
+                }
+                return Page();
             }
             else
             {
-                return RedirectToPage("/Index");
+                return RedirectToPage("/Account/Login");
             }
-            return null;
         }
 
         public IActionResult OnPostPlaceVisitor(int chairId)
