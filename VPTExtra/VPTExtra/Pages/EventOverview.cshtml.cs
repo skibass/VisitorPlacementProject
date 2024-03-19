@@ -43,9 +43,10 @@ namespace VPTExtra.Pages
 
         public IActionResult OnPostPlaceVisitor(int chairId)
         {
+            int visitorId = (int)HttpContext.Session.GetInt32("uId");
             int eventId = Convert.ToInt32(TempData["eventId"]);
 
-            _visitorPlacement.PlaceVisitor(chairId);
+            _visitorPlacement.PlaceVisitor(chairId, visitorId);
 
             return RedirectToPage(new { eventId = eventId });
         }

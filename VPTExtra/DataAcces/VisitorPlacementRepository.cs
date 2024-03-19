@@ -19,7 +19,7 @@ namespace DataAcces
             db = new MySqlConnection(connectionString);
         }
 
-        public void PlaceVisitor(int chairId)
+        public void PlaceVisitor(int chairId, int visitorId)
         {
             db.Open();
 
@@ -28,7 +28,7 @@ namespace DataAcces
             cmd.Parameters.Add(new MySqlParameter("@VisitorId", MySqlDbType.VarChar));
 
             cmd.Parameters["@ChairId"].Value = chairId;
-            cmd.Parameters["@VisitorId"].Value = 1;
+            cmd.Parameters["@VisitorId"].Value = visitorId;
 
             cmd.ExecuteNonQuery();
 

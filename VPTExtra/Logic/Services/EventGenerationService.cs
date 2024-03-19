@@ -57,17 +57,18 @@ namespace Logic.Services
             _eventManagement.CreateEvent(_event);
             return _event;
         }
-        private Part GeneratePart(int amountRowsPart, string partName)
+        private Part GeneratePart(int amountRowsPerPart, string partName)
         {
             int rowNumber = 1;
+            int defaultAmountOfRows = 6;
 
             Part part = new();
             part.Name = partName;
             part.Rows = new List<Row>();
 
-            if (amountRowsPart == 0)
+            if (amountRowsPerPart == 0)
             {
-                for (int i = 0; i < 6; i++)
+                for (int i = 0; i < defaultAmountOfRows; i++)
                 {
                     if (ChairsLeft > 0)
                     {
@@ -78,7 +79,7 @@ namespace Logic.Services
             }
             else
             {
-                for (int i = 0; i < amountRowsPart; i++)
+                for (int i = 0; i < amountRowsPerPart; i++)
                 {
                     if (ChairsLeft > 0)
                     {
@@ -94,6 +95,7 @@ namespace Logic.Services
         {
             int chairNumber = 1;
             int chairsThisRow = 0;
+
             Row row = new();
             row.Name = rowName;
             row.Chairs = new List<Chair>();

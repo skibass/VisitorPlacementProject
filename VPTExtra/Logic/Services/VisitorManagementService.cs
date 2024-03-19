@@ -15,9 +15,9 @@ namespace Logic.Services
             _visitorPlacementRepo = visitorPlacement;
         }
 
-        public void PlaceVisitor(int chairId)
+        public void PlaceVisitor(int chairId, int visitorId)
         {
-            _visitorPlacementRepo.PlaceVisitor(chairId);
+            _visitorPlacementRepo.PlaceVisitor(chairId, visitorId);
         }
     }
 }

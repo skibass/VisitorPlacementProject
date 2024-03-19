@@ -8,6 +8,6 @@ namespace Interfaces
 {
     public interface IVisitorPlacement
     {
-        public void PlaceVisitor(int chairId);
+        public void PlaceVisitor(int chairId, int visitorId);
     }
 }
