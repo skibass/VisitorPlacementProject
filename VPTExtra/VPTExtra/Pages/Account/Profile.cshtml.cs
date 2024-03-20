@@ -18,12 +18,19 @@ namespace VPTExtra.Pages.Account
             _userService = userService;
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            if (HttpContext.Session.GetInt32("uId") == null)
+            {
+                return RedirectToPage("/Account/Login");
+            }
+ 
             int visitorId = (int)HttpContext.Session.GetInt32("uId");
 
             user = _userService.GetVisitorById(visitorId);
             _visitorEvents = _userProfileDataService.RetrieveUserEvents(visitorId);
+
+            return null;
         }
     }
 }
