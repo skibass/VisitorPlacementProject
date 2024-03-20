@@ -13,7 +13,7 @@ namespace DataAcces
     {
         private readonly MySqlConnection db;
 
-        public UserProfileDataRepository(string connectionString) 
+        public UserProfileDataRepository(string connectionString)
         {
             db = new MySqlConnection(connectionString);
         }
@@ -24,32 +24,49 @@ namespace DataAcces
 
             db.Open();
 
-            MySqlCommand eventQ = new MySqlCommand("SELECT e.id, e.location, e.startdate, e.enddate, e.visitorlimit " +
-                                       "FROM event e " +
-                                       "INNER JOIN (SELECT MIN(ue.id) AS user_event_id, ue.event_id " +
-                                                   "FROM user_event ue " +
-                                                   "WHERE ue.user_id = @UserId " +
-                                                   "GROUP BY ue.event_id) AS t ON e.id = t.event_id " +
-                                       "INNER JOIN user_event ue ON t.user_event_id = ue.id", db);
-            eventQ.Parameters.AddWithValue("@UserId", userId); // Assuming userId is the specified user's ID
+            MySqlCommand eventQ = new MySqlCommand(
+            #region Chatgpt help
+                // Chat gpt: i want to combine these 2 queries
 
-            // Execute the query and obtain a data reader
+                // MySqlCommand eventQ = new MySqlCommand("SELECT COUNT(*) " +
+                //                  "FROM user_event " +
+                //                  "WHERE user_id = @UserId AND event_id = @EventId", db);
+
+                // MySqlCommand eventQ = new MySqlCommand("SELECT e.id, e.location, e.startdate, e.enddate, e.visitorlimit " +
+                //                           "FROM event e " +
+                //                           "INNER JOIN (SELECT MIN(ue.id) AS user_event_id, ue.event_id " +
+                //                                       "FROM user_event ue " +
+                //                                       "WHERE ue.user_id = @UserId " +
+                //                                       "GROUP BY ue.event_id) AS t ON e.id = t.event_id " +
+                //                           "INNER JOIN user_event ue ON t.user_event_id = ue.id", db);
+
+                // Result:
+            #endregion
+                "SELECT e.id, e.location, e.startdate, e.enddate, e.visitorlimit, " +
+                "(SELECT COUNT(*) FROM user_event WHERE user_id = @UserId AND event_id = e.id) AS chairs_reserved " +
+                "FROM event e " +
+                "INNER JOIN (SELECT MIN(ue.id) AS user_event_id, ue.event_id " +
+                            "FROM user_event ue " +
+                            "WHERE ue.user_id = @UserId " +
+                            "GROUP BY ue.event_id) AS t ON e.id = t.event_id " +
+                "INNER JOIN user_event ue ON t.user_event_id = ue.id", db);
+
+            eventQ.Parameters.AddWithValue("@UserId", userId);
+
             using (MySqlDataReader reader = eventQ.ExecuteReader())
             {
-                // Check if the reader has any rows
                 while (reader.Read())
                 {
-                    // Create a new Event object and populate its properties
                     Event newEvent = new Event
                     {
                         Id = reader.GetInt32("id"),
                         Location = reader.GetString("location"),
                         StartDate = reader.GetDateTime("startdate"),
                         EndDate = reader.GetDateTime("enddate"),
-                        VisitorLimit = reader.GetInt32("visitorlimit")
+                        VisitorLimit = reader.GetInt32("visitorlimit"),
+                        ChairsReserved = reader.GetInt32("chairs_reserved")
                     };
 
-                    // Add the Event object to the list
                     events.Add(newEvent);
                 }
             }
@@ -57,6 +74,6 @@ namespace DataAcces
             db.Close();
 
             return events;
-        }
+        }       
     }
 }
