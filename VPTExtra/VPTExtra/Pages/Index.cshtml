@@ -3,32 +3,26 @@
 @{
     ViewData["Title"] = "Home page";
 }
+<head>
+    <link href="@Url.Content("~/css/EventsOverview.css")" rel="stylesheet" type="text/css" />
+</head>
 
+<section class="cards-wrapper">
+    @foreach (var item in Model.Events)
+    {
+        <div class="card-grid-space">
+            <div class="num">@item.Id</div>
+            <a class="card" asp-page="/EventOverview" asp-route-eventId="@item.Id" style="--bg-img: url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&resize_w=1500&url=https://codetheweb.blog/assets/img/posts/html-syntax/cover.jpg)">
+                <div>
+                    <h1>@item.Location</h1>
+                    <p>Description to be added..</p>
+                    <div class="date">@item.StartDate</div>
+                    <div class="tags">
+                        <div class="tag">Seats: @item.VisitorLimit</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    } 
+</section>
 
-<body>
-    <table class="table table-dark">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">ID</th>
-                <th scope="col">Location</th>
-                <th scope="col">Start Date</th>
-                <th scope="col">End Date</th>
-                <th scope="col">Visitor Limit</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Events)
-            {
-                <tr>
-                    <td></td>
-                    <td><a asp-page="EventOverview" asp-route-eventId="@item.Id">@item.Id</a></td>
-                    <td>@item.Location</td>
-                    <td>@item.StartDate</td>
-                    <td>@item.EndDate</td>
-                    <td>@item.VisitorLimit</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</body>
