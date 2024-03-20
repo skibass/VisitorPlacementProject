@@ -4,9 +4,9 @@
 }
 <button style="background-color:yellow;height: 20px;"></button> : your seats
 <br />
-<button style="background-color:black; height: 20px;"></button> : taken seats
+<button style="background: linear-gradient(109.6deg, rgb(36, 45, 57) 11.2%, rgb(16, 37, 60) 51.2%, rgb(0, 0, 0) 98.6%); height: 20px;"></button> : taken seats
 <br />
-<button style="background-color:springgreen; height: 20px;"></button> : available seats
+<button style="background: linear-gradient(to top, #2193b0 0%, #6dd5ed 100%); height: 20px;"></button> : available seats
 <h1 style="color:red;">Choose your seat.</h1>
 <h4>Event: @Model.Event.Location</h4>
 <h4>Start date: @Model.Event.StartDate</h4>
@@ -31,7 +31,7 @@
                                         @if (seat.User.Id == Model.currentUserId)
                                         {
                                             <form method="post">
-                                                <button type="submit" style="background-color:yellow;" asp-page-handler="RevertPlacement" onclick="return confirm('Are you sure?')"
+                                                <button type="submit" style="background: yellow;" asp-page-handler="RevertPlacement" onclick="return confirm('Are you sure?')"
                                                         asp-route-chairId="@seat.Id" class="seat-code">
                                                     @seat.Name
                                                 </button>
@@ -39,7 +39,7 @@
                                         }
                                         else
                                         {
-                                            <button type="submit" style="background-color:black; color:white;"
+                                            <button type="submit" style="background: linear-gradient(109.6deg, rgb(36, 45, 57) 11.2%, rgb(16, 37, 60) 51.2%, rgb(0, 0, 0) 98.6%); color:white;"
                                                     asp-route-chairId="@seat.Id" class="seat-code">
                                                 @seat.Name
                                             </button>
@@ -48,7 +48,7 @@
                                     else
                                     {
                                         <form method="post">
-                                            <button type="submit" style="background-color:springgreen;" asp-page-handler="PlaceVisitor" onclick="return confirm('Are you sure?')"
+                                            <button type="submit" style="background: linear-gradient(to top, #2193b0 0%, #6dd5ed 100%);" asp-page-handler="PlaceVisitor" onclick="return confirm('Are you sure?')"
                                                     asp-route-chairId="@seat.Id" class="seat-code">
                                                 @seat.Name
                                             </button>

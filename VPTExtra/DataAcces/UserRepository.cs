@@ -1,4 +1,4 @@
-﻿using Interfaces;
+﻿using Interfaces.Repositories;
 using Models;
 using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Crypto.Generators;

@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Interfaces;
+using Interfaces.Repositories;
 using Models;
 using MySql.Data.MySqlClient;
 

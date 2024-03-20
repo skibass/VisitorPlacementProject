@@ -1,6 +1,6 @@
-using Interfaces;
 using Logic.Services;
 using DataAcces;
+using Interfaces.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
