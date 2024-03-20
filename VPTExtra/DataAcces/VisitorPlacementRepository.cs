@@ -35,5 +35,18 @@ namespace DataAcces
             db.Close();
 
         }
+        public void RevertVisitorPlacement(int chairId, int visitorId)
+        {
+            db.Open();
+
+            MySqlCommand cmd = new MySqlCommand($"UPDATE chair SET user_id = NULL WHERE id = @ChairId;", db);
+            cmd.Parameters.Add(new MySqlParameter("@ChairId", MySqlDbType.VarChar));
+
+            cmd.Parameters["@ChairId"].Value = chairId;
+
+            cmd.ExecuteNonQuery();
+
+            db.Close();
+        }
     }
 }

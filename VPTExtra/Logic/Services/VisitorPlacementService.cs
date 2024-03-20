@@ -18,6 +18,9 @@ namespace Logic.Services
         {
             _visitorPlacementRepository.PlaceVisitor(chairId, visitorId);
         }
-
+        public void RevertVisitorPlacement(int chairId, int visitorId)
+        {
+            _visitorPlacementRepository.RevertVisitorPlacement(chairId, visitorId);
+        }
     }
 }

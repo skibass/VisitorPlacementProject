@@ -56,5 +56,16 @@ namespace VPTExtra.Pages
 
             return RedirectToPage(new { eventId = eventId });
         }
+
+        public IActionResult OnPostRevertPlacement(int chairId)
+        {
+            int visitorId = (int)HttpContext.Session.GetInt32("uId");
+
+            int eventId = Convert.ToInt32(TempData["eventId"]);
+
+            _visitorPlacementService.RevertVisitorPlacement(chairId, visitorId);
+
+            return RedirectToPage(new { eventId = eventId });
+        }
     }
 }

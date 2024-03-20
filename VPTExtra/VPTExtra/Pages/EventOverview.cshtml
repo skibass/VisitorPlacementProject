@@ -31,7 +31,7 @@
                                         @if (seat.User.Id == Model.currentUserId)
                                         {
                                             <form method="post">
-                                                <button type="submit" style="background: yellow;" asp-page-handler="RevertPlacement" onclick="return confirm('Are you sure?')"
+                                                <button type="submit" style="background: yellow;" asp-page-handler="RevertPlacement"
                                                         asp-route-chairId="@seat.Id" class="seat-code">
                                                     @seat.Name
                                                 </button>
@@ -48,7 +48,7 @@
                                     else
                                     {
                                         <form method="post">
-                                            <button type="submit" style="background: linear-gradient(to top, #2193b0 0%, #6dd5ed 100%);" asp-page-handler="PlaceVisitor" onclick="return confirm('Are you sure?')"
+                                            <button type="submit" style="background: linear-gradient(to top, #2193b0 0%, #6dd5ed 100%);" asp-page-handler="PlaceVisitor"
                                                     asp-route-chairId="@seat.Id" class="seat-code">
                                                 @seat.Name
                                             </button>
