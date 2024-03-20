@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Interfaces.Repositories;
 using Models;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Bcpg;
 using static Google.Protobuf.WellKnownTypes.Field.Types;
 
 namespace DataAcces
@@ -19,7 +21,7 @@ namespace DataAcces
             db = new MySqlConnection(connectionString);
         }
 
-        public void PlaceVisitor(int chairId, int visitorId)
+        public void PlaceVisitor(int chairId, int visitorId, int eventId)
         {
             db.Open();
 
@@ -34,8 +36,25 @@ namespace DataAcces
 
             db.Close();
 
+            PlaceVisitorInEvent(eventId, visitorId, chairId);
         }
-        public void RevertVisitorPlacement(int chairId, int visitorId)
+        private void PlaceVisitorInEvent(int eventId, int visitorId, int chairId)
+        {
+            db.Open();
+
+            MySqlCommand cmd = new MySqlCommand("INSERT INTO user_event (event_id, user_id, chair_id) VALUES (@EventId, @UserId, @ChairId)", db);
+
+            cmd.Parameters.AddWithValue("@EventId", eventId);
+            cmd.Parameters.AddWithValue("@UserId", visitorId);          
+            cmd.Parameters.AddWithValue("@ChairId", chairId);          
+
+            cmd.ExecuteNonQuery();
+
+            db.Close();
+
+        }
+
+        public void RevertVisitorPlacement(int chairId, int visitorId, int eventId)
         {
             db.Open();
 
@@ -47,6 +66,22 @@ namespace DataAcces
             cmd.ExecuteNonQuery();
 
             db.Close();
+
+            RevertVisitorPlacementEvent(chairId, visitorId, eventId);            
         }
+        private void RevertVisitorPlacementEvent(int chairId, int visitorId, int eventId)
+        {            
+            db.Open();
+
+            MySqlCommand cmd = new MySqlCommand($"DELETE from user_event where user_id = @UserId and event_id = @EventId and chair_id = @ChairId", db);
+
+            cmd.Parameters.AddWithValue("@UserId", visitorId);
+            cmd.Parameters.AddWithValue("@EventId", eventId);
+            cmd.Parameters.AddWithValue("@ChairId", chairId);
+
+            cmd.ExecuteNonQuery();
+
+            db.Close();
+        }        
     }
 }

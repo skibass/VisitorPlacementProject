@@ -8,7 +8,7 @@ namespace Interfaces.Repositories
 {
     public interface IVisitorPlacement
     {
-        public void PlaceVisitor(int chairId, int visitorId);
-        public void RevertVisitorPlacement(int chairId, int visitorId);
+        public void PlaceVisitor(int chairId, int visitorId, int eventId);
+        public void RevertVisitorPlacement(int chairId, int visitorId, int eventId);
     }
 }

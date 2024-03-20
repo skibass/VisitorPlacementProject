@@ -52,7 +52,7 @@ namespace VPTExtra.Pages
 
             int eventId = Convert.ToInt32(TempData["eventId"]);
 
-            _visitorPlacementService.PlaceVisitor(chairId, visitorId);
+            _visitorPlacementService.PlaceVisitor(chairId, visitorId, eventId);
 
             return RedirectToPage(new { eventId = eventId });
         }
@@ -63,7 +63,7 @@ namespace VPTExtra.Pages
 
             int eventId = Convert.ToInt32(TempData["eventId"]);
 
-            _visitorPlacementService.RevertVisitorPlacement(chairId, visitorId);
+            _visitorPlacementService.RevertVisitorPlacement(chairId, visitorId, eventId);
 
             return RedirectToPage(new { eventId = eventId });
         }

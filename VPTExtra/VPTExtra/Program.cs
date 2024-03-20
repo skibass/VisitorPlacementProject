@@ -11,6 +11,7 @@ builder.Services.AddTransient<EventGenerationService>();
 builder.Services.AddTransient<EventService>();
 builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<VisitorPlacementService>();
+builder.Services.AddTransient<UserProfileDataService>();
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
@@ -39,6 +40,11 @@ builder.Services.AddTransient<IVisitorPlacement>(sp =>
 builder.Services.AddTransient<IUserRepository>(sp =>
 {
     return new UserRepository(connectionString);
+});
+
+builder.Services.AddTransient<IUserProfileDataRepository>(sp =>
+{
+    return new UserProfileDataRepository(connectionString);
 });
 var app = builder.Build();
 

@@ -14,13 +14,13 @@ namespace Logic.Services
         {
             _visitorPlacementRepository = visitorPlacementRepository;
         }
-        public void PlaceVisitor(int chairId, int visitorId)
+        public void PlaceVisitor(int chairId, int visitorId, int eventId)
         {
-            _visitorPlacementRepository.PlaceVisitor(chairId, visitorId);
+            _visitorPlacementRepository.PlaceVisitor(chairId, visitorId, eventId);
         }
-        public void RevertVisitorPlacement(int chairId, int visitorId)
+        public void RevertVisitorPlacement(int chairId, int visitorId, int eventId)
         {
-            _visitorPlacementRepository.RevertVisitorPlacement(chairId, visitorId);
+            _visitorPlacementRepository.RevertVisitorPlacement(chairId, visitorId, eventId);
         }
     }
 }
