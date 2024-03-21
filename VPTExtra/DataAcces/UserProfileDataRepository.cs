@@ -73,10 +73,6 @@ namespace DataAcces
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                
-            }
             finally
             {
                 db.Close();

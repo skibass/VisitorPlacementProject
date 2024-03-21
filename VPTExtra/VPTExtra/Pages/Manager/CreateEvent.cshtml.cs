@@ -14,6 +14,7 @@ namespace VPTExtra.Pages.Manager
         public int AmountOfParts { get; set; }
         [BindProperty]
         public int AmountOfRows { get; set; }
+        public string ErrorMessage { get; set; }
 
         private readonly EventGenerationService _eventGenerationService;
         public CreateEventModel(EventGenerationService eventGenerationService) 
@@ -30,9 +31,17 @@ namespace VPTExtra.Pages.Manager
         }
         public IActionResult OnPostGenerateEvent() 
         {
-            _eventGenerationService.GenerateEvent(currentEvent, AmountOfParts, AmountOfRows);
+            try
+            {
+                _eventGenerationService.GenerateEvent(currentEvent, AmountOfParts, AmountOfRows);
+                return RedirectToPage();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+                return Page();
+            }
 
-            return RedirectToPage();
         }
     }
 }

@@ -10,10 +10,12 @@ namespace VPTExtra.Pages.Manager
     {
         private readonly EventService _eventService;
         public List<Event> events { get; set; }
+        public string ErrorMessage { get; set; }
 
         public EventsOverviewModel(EventService eventService)
         {
             _eventService = eventService;
+            events = new List<Event>();
         }
         public IActionResult OnGet()
         {
@@ -26,14 +28,29 @@ namespace VPTExtra.Pages.Manager
                 return RedirectToPage("/Index");
             }
 
-            events = _eventService.GetAllEvents();
-            return null;
+            try
+            {
+                events = _eventService.GetAllEvents();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+            }
+            return Page();
         }
 
         public IActionResult OnPostDelete(int id)
         {
-            _eventService.DeleteEvent(id);
-           return RedirectToPage();
+            try
+            {
+                _eventService.DeleteEvent(id);
+                return RedirectToPage();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+                return Page();
+            }
         }
     }
 }

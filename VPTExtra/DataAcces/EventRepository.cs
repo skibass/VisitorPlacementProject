@@ -158,10 +158,6 @@ namespace DataAcces
                     }
                 }
             }
-            catch (Exception)
-            {
-
-            }
             finally
             {
                 db.Close();
@@ -209,10 +205,6 @@ namespace DataAcces
                     PopulateEvent(currentEvent, readEvents);
                 }
             }
-            catch (Exception)
-            {
-
-            }
             finally
             {
                 db.Close();
@@ -228,10 +220,6 @@ namespace DataAcces
                 db.Open();
 
                 InsertEvent(newEvent);
-            }
-            catch (Exception)
-            {
-
             }
             finally 
             { 
@@ -328,10 +316,6 @@ namespace DataAcces
                 eventQ.Parameters.AddWithValue("@id", eventId);
 
                 eventQ.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-
             }
             finally
             {

@@ -6,7 +6,12 @@
 <head>
     <link href="@Url.Content("~/css/EventsOverview.css")" rel="stylesheet" type="text/css" />
 </head>
-
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @Model.ErrorMessage
+    </div>
+}
 <div class="overview">
     @foreach (var item in Model.events)
     {

@@ -38,10 +38,6 @@ namespace DataAcces
 
                 PlaceVisitorInEvent(eventId, visitorId, chairId);
             }
-            catch (Exception)
-            {
-
-            }
             finally
             {
                 db.Close();
@@ -72,9 +68,6 @@ namespace DataAcces
                 cmd.ExecuteNonQuery();
 
                 RevertVisitorPlacementEvent(chairId, visitorId, eventId);
-            }
-            catch (Exception)
-            {
             }
             finally
             {

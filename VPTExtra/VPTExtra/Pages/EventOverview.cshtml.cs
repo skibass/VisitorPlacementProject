@@ -15,6 +15,7 @@ namespace VPTExtra.Pages
         private Event tempEvent {  get; set; }
         [BindProperty]
         public int currentUserId {  get; set; }
+        public string ErrorMessage {  get; set; }
 
         public EventOverviewModel(EventService eventService, VisitorPlacementService visitorPlacementService)
         {
@@ -52,9 +53,16 @@ namespace VPTExtra.Pages
 
             int eventId = Convert.ToInt32(TempData["eventId"]);
 
-            _visitorPlacementService.PlaceVisitor(chairId, visitorId, eventId);
-
-            return RedirectToPage(new { eventId = eventId });
+            try
+            {
+                _visitorPlacementService.PlaceVisitor(chairId, visitorId, eventId);
+                return RedirectToPage(new { eventId = eventId });
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+                return Page();
+            }
         }
 
         public IActionResult OnPostRevertPlacement(int chairId)
@@ -63,9 +71,19 @@ namespace VPTExtra.Pages
 
             int eventId = Convert.ToInt32(TempData["eventId"]);
 
-            _visitorPlacementService.RevertVisitorPlacement(chairId, visitorId, eventId);
+            try
+            {
+                _visitorPlacementService.RevertVisitorPlacement(chairId, visitorId, eventId);
 
-            return RedirectToPage(new { eventId = eventId });
+                return RedirectToPage(new { eventId = eventId });
+
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage=ex.Message;
+
+                return Page();
+            }
         }
     }
 }

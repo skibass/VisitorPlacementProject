@@ -2,6 +2,12 @@
 @model VPTExtra.Pages.Account.ProfileModel
 @{
 }
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @Model.ErrorMessage
+    </div>
+}
 <section style="background-color: #eee;">
     <div class="row">
         <div class="col-lg-4">

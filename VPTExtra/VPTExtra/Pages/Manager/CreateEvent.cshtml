@@ -2,6 +2,13 @@
 @model VPTExtra.Pages.Manager.CreateEventModel
 @{
 }
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @Model.ErrorMessage
+    </div>
+}
+
 <h5>
     <ins>
         Only limit and dates are required, everything else is optional: if you only want to dictate how many visitors are allowed then the systems generates the

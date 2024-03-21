@@ -9,6 +9,7 @@ namespace VPTExtra.Pages.Account
     {
         public List<Event> visitorEvents { get; set; }       
         public User user { get; set; }       
+        public string ErrorMessage { get; set; }       
 
         private readonly UserProfileService _userProfileDataService;
         private readonly UserService _userService;
@@ -27,10 +28,17 @@ namespace VPTExtra.Pages.Account
  
             int visitorId = (int)HttpContext.Session.GetInt32("uId");
 
-            user = _userService.GetVisitorById(visitorId);
-            visitorEvents = _userProfileDataService.RetrieveUserEvents(visitorId);
+            try
+            {
+                user = _userService.GetVisitorById(visitorId);
+                visitorEvents = _userProfileDataService.RetrieveUserEvents(visitorId);
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+            }
 
-            return null;
+            return Page();
         }
     }
 }

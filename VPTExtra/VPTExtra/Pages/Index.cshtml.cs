@@ -10,6 +10,7 @@ namespace VPTExtra.Pages
     {
         private readonly EventService _eventService;
         public List<Event> events { get; set; }
+        public string ErrorMessage { get; set; }
         public IndexModel(EventService eventService)
         {
             _eventService = eventService;
@@ -18,7 +19,14 @@ namespace VPTExtra.Pages
         {
             if (HttpContext.Session.GetInt32("uId") != null)
             {
-                events = _eventService.GetAllEvents();
+                try
+                {
+                    events = _eventService.GetAllEvents();
+                }
+                catch (Exception ex)
+                {
+                   ErrorMessage = ex.Message;
+                }
                 return Page();
             }
             else

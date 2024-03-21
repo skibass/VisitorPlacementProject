@@ -15,11 +15,17 @@ namespace VPTExtra.Pages.Account
         {
             _userService = userService;
         }
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            if (HttpContext.Session.GetInt32("uId") != null)
+            {
+                return RedirectToPage("/Index");
+            }
+            return Page();
         }
         public IActionResult OnPostLogin()
         {
+        
             User userToBeLogged = _userService.LoginUser(userToLogin);
             if (userToBeLogged != null)
             {
