@@ -54,6 +54,9 @@ namespace Logic.Services
                     }
                 }
             }
+            int actualAmountOfPlacedSeats = newEvent.VisitorLimit - ChairsLeft;
+
+            newEvent.VisitorLimit = actualAmountOfPlacedSeats;
 
             _eventRepository.CreateEvent(newEvent);
             return newEvent;
