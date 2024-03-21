@@ -10,7 +10,7 @@
 }
 
 <h5>
-    <ins>
+    <ins style="color: white;">
         Only limit and dates are required, everything else is optional: if you only want to dictate how many visitors are allowed then the systems generates the
         rest automatically based on that.
     </ins>
@@ -18,29 +18,31 @@
 
 <form method="post">
     <div class="form-group">
-        <label>Total amount of seats</label>
+        <label style="color: white;">Total amount of seats</label>
         <input required type="number" id="VisitorLimit" name="currentEvent.VisitorLimit" asp-for="currentEvent.VisitorLimit" />
-        <small class="form-text text-muted">**</small>
+        <small style="color: gray;" class="form-text text-muted">**</small>
     </div>
     <div class="form-group">
-        <label>Amount of parts (total)</label>
+        <label style="color: white;">Amount of parts (total)</label>
         <input type="number" id="AmountOfParts" name="AmountOfParts" asp-for="AmountOfParts" />
-        <small class="form-text text-muted">Optional</small>
+        <small style="color: gray;" class="form-text text-muted">Optional</small>
     </div>
     <div class="form-group">
-        <label>Amount of rows (per part, if 0 it generates 6 per part)</label>
+        <label style="color: white;">
+            Amount of rows (per part, if 0 it generates 6 per part)
+        </label>
         <input type="number" id="AmountOfRows" name="AmountOfRows" asp-for="AmountOfRows" />
-        <small class="form-text text-muted">Optional</small>
+        <small style="color: gray;" class="form-text text-muted">Optional</small>
     </div>
     <div class="form-group">
-        <label>Start date</label>
+        <label style="color: white;">Start date</label>
         <input required type="date" id="StartDate" name="currentEvent.StartDate" asp-for="currentEvent.StartDate" />
-        <small class="form-text text-muted">Required</small>
+        <small style="color: gray;" class="form-text text-muted">Required</small>
     </div>
     <div class="form-group">
-        <label>End date</label>
+        <label style="color: white;">End date</label>
         <input required type="date" id="EndDate" name="currentEvent.EndDate" asp-for="currentEvent.EndDate" />
-        <small class="form-text text-muted">Required</small>
+        <small style="color: gray;" class="form-text text-muted">Required</small>
     </div>
     <button type="submit" asp-page-handler="GenerateEvent" onclick="return confirm('Are you sure?')" class="btn btn-primary">Create event</button>
 </form>
