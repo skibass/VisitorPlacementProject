@@ -56,6 +56,7 @@ namespace VPTExtra.Pages
             try
             {
                 _visitorPlacementService.PlaceVisitor(chairId, visitorId, eventId);
+
                 return RedirectToPage(new { eventId = eventId });
             }
             catch (Exception ex)
