@@ -7,22 +7,16 @@
     <link href="@Url.Content("~/css/EventsOverview.css")" rel="stylesheet" type="text/css" />
 </head>
 
-<section class="cards-wrapper">
+<div class="overview">
     @foreach (var item in Model.Events)
     {
-        <div class="card-grid-space">
-            <div class="num">@item.Id</div>
-            <a class="card" asp-page="/EventOverview" asp-route-eventId="@item.Id" style="--bg-img: url(https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&resize_w=1500&url=https://codetheweb.blog/assets/img/posts/html-syntax/cover.jpg)">
-                <div>
-                    <h1>@item.Location</h1>
-                    <p>Description to be added..</p>
-                    <div class="date">@item.StartDate</div>
-                    <div class="tags">
-                        <div class="tag">Seats: @item.VisitorLimit</div>
-                    </div>
-                </div>
-            </a>
-        </div>
-    } 
-</section>
-
+        <article class="profile">
+            <h2 class="profile-username">@item.Location</h2>
+            <small class="profile-user-handle">@item.StartDate</small>
+            <small class="profile-user-handle">@item.VisitorLimit seats in event</small>
+            <div class="profile-actions">
+                <a class="btn btn--primary" asp-page="/EventOverview" asp-route-eventId="@item.Id">Enter</a>
+            </div>
+        </article>
+    }
+</div>
