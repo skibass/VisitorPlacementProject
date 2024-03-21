@@ -107,10 +107,11 @@ namespace Logic.Services
                 {
                     row.Chairs.Add(GenerateChair(row.Name + "-" + chairNumber));
                     chairNumber++;
-                    --ChairsLeft;
                     chairsThisRow++;
                 }
             }
+            ChairsLeft = ChairsLeft - chairsThisRow;
+
             return row;
         }
         private Chair GenerateChair(string chairName)

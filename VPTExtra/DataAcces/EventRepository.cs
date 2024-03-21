@@ -232,7 +232,6 @@ namespace DataAcces
             catch (Exception)
             {
 
-                throw;
             }
             finally 
             { 

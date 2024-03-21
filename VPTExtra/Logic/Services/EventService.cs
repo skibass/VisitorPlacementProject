@@ -33,6 +33,5 @@ namespace Logic.Services
         {
             _eventRepository.DeleteEvent(eventId);
         }
-
     }
 }
