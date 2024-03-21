@@ -24,15 +24,15 @@
     </div>
     <div class="form-group">
         <label style="color: white;">Amount of parts (total)</label>
-        <input type="number" id="AmountOfParts" name="AmountOfParts" asp-for="AmountOfParts" />
+        <input type="number" min="0" id="AmountOfParts" name="AmountOfParts" asp-for="AmountOfParts" />
         <small style="color: gray;" class="form-text text-muted">Optional</small>
     </div>
     <div class="form-group">
         <label style="color: white;">
             Amount of rows (per part, if 0 it generates 6 per part)
         </label>
-        <input type="number" id="AmountOfRows" name="AmountOfRows" asp-for="AmountOfRows" />
-        <small style="color: gray;" class="form-text text-muted">Optional</small>
+        <input type="number" max="15" min="0" id="AmountOfRows" name="AmountOfRows" asp-for="AmountOfRows" />
+        <small style="color: gray;" class="form-text text-muted">Optional (MAX: 15)</small>
     </div>
     <div class="form-group">
         <label style="color: white;">Start date</label>
