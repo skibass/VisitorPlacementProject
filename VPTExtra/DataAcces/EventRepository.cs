@@ -110,13 +110,15 @@ namespace DataAcces
         {
             List<Event> events = new List<Event>();
 
-            db.Open();
-            #region Chatgpt help
-            //i want this query to also retrieve amount of chair_id per event_id from user_event table:
+            try
+            {
+                db.Open();
+                #region Chatgpt help
+                //i want this query to also retrieve amount of chair_id per event_id from user_event table:
 
-            //MySqlCommand eventQ = new MySqlCommand("SELECT id, location, startdate, enddate, visitorlimit from event", db);
-            #endregion
-            MySqlCommand eventQ = new MySqlCommand(@"
+                //MySqlCommand eventQ = new MySqlCommand("SELECT id, location, startdate, enddate, visitorlimit from event", db);
+                #endregion
+                MySqlCommand eventQ = new MySqlCommand(@"
     SELECT 
         e.id, 
         e.location, 
@@ -135,27 +137,35 @@ namespace DataAcces
         e.enddate, 
         e.visitorlimit", db);
 
-            MySqlDataReader readEvents = eventQ.ExecuteReader();
+                MySqlDataReader readEvents = eventQ.ExecuteReader();
 
-            while (readEvents.Read())
-            {
-                int eventId = (int)readEvents["id"];
-                var existingEvent = events.FirstOrDefault(e => e.Id == eventId);
-                if (existingEvent == null)
+                while (readEvents.Read())
                 {
-                    existingEvent = new Event
+                    int eventId = (int)readEvents["id"];
+                    var existingEvent = events.FirstOrDefault(e => e.Id == eventId);
+                    if (existingEvent == null)
                     {
-                        Id = eventId,
-                        Location = (string)readEvents["location"],
-                        StartDate = (DateTime)readEvents["startdate"],
-                        EndDate = (DateTime)readEvents["enddate"],
-                        VisitorLimit = Convert.ToInt32(readEvents["visitorlimit"]),
-                        ChairsReserved = Convert.ToInt32(readEvents["chairs_reserved"]), // Assign the count to ChairsReserved
-                    };
-                    events.Add(existingEvent);
+                        existingEvent = new Event
+                        {
+                            Id = eventId,
+                            Location = (string)readEvents["location"],
+                            StartDate = (DateTime)readEvents["startdate"],
+                            EndDate = (DateTime)readEvents["enddate"],
+                            VisitorLimit = Convert.ToInt32(readEvents["visitorlimit"]),
+                            ChairsReserved = Convert.ToInt32(readEvents["chairs_reserved"]), // Assign the count to ChairsReserved
+                        };
+                        events.Add(existingEvent);
+                    }
                 }
             }
-            db.Close();
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                db.Close();
+            }
 
             return events;
         }
@@ -164,51 +174,70 @@ namespace DataAcces
         {
             Event currentEvent = null;
 
-            db.Open();
-
-            MySqlCommand eventQ = new MySqlCommand("SELECT e.id AS event_id, e.location, e.startdate, e.enddate, e.visitorlimit, " +
-                                        "p.id AS part_id, p.name AS part_name, " +
-                                        "r.id AS row_id, r.name AS row_name, " +
-                                        "c.id AS chair_id, c.name AS chair_name, c.row_id AS chair_row_id, c.user_id " +
-                                        "FROM event e " +
-                                        "LEFT JOIN part p ON e.id = p.event_id " +
-                                        "LEFT JOIN row r ON p.id = r.part_id " +
-                                        "LEFT JOIN chair c ON r.id = c.row_id " +
-                                        "WHERE e.id = @eventId", db);
-            eventQ.Parameters.AddWithValue("@eventId", id);
-
-            MySqlDataReader readEvents = eventQ.ExecuteReader();
-
-            while (readEvents.Read())
+            try
             {
-                if (currentEvent == null)
+                db.Open();
+
+                MySqlCommand eventQ = new MySqlCommand("SELECT e.id AS event_id, e.location, e.startdate, e.enddate, e.visitorlimit, " +
+                                            "p.id AS part_id, p.name AS part_name, " +
+                                            "r.id AS row_id, r.name AS row_name, " +
+                                            "c.id AS chair_id, c.name AS chair_name, c.row_id AS chair_row_id, c.user_id " +
+                                            "FROM event e " +
+                                            "LEFT JOIN part p ON e.id = p.event_id " +
+                                            "LEFT JOIN row r ON p.id = r.part_id " +
+                                            "LEFT JOIN chair c ON r.id = c.row_id " +
+                                            "WHERE e.id = @eventId", db);
+                eventQ.Parameters.AddWithValue("@eventId", id);
+
+                MySqlDataReader readEvents = eventQ.ExecuteReader();
+
+                while (readEvents.Read())
                 {
-                    currentEvent = new Event
+                    if (currentEvent == null)
                     {
-                        Id = id,
-                        Location = (string)readEvents["location"],
-                        StartDate = (DateTime)readEvents["startdate"],
-                        EndDate = (DateTime)readEvents["enddate"],
-                        VisitorLimit = Convert.ToInt32(readEvents["visitorlimit"]),
-                        Parts = new List<Part>()
-                    };
+                        currentEvent = new Event
+                        {
+                            Id = id,
+                            Location = (string)readEvents["location"],
+                            StartDate = (DateTime)readEvents["startdate"],
+                            EndDate = (DateTime)readEvents["enddate"],
+                            VisitorLimit = Convert.ToInt32(readEvents["visitorlimit"]),
+                            Parts = new List<Part>()
+                        };
+                    }
+
+                    PopulateEvent(currentEvent, readEvents);
                 }
-
-                PopulateEvent(currentEvent, readEvents);
             }
+            catch (Exception)
+            {
 
-            db.Close();
+            }
+            finally
+            {
+                db.Close();
+            }
 
             return currentEvent;
         }
 
         public void CreateEvent(Event newEvent)
         {
-            db.Open();
+            try
+            {
+                db.Open();
 
-            InsertEvent(newEvent);
+                InsertEvent(newEvent);
+            }
+            catch (Exception)
+            {
 
-            db.Close();
+                throw;
+            }
+            finally 
+            { 
+                db.Close(); 
+            }
         }
 
         private void InsertEvent(Event newEvent)
@@ -291,15 +320,24 @@ namespace DataAcces
 
         public void DeleteEvent(int eventId)
         {
-            db.Open();
+            try
+            {
+                db.Open();
 
-            MySqlCommand eventQ = new MySqlCommand("delete FROM event WHERE id = @id", db);
+                MySqlCommand eventQ = new MySqlCommand("delete FROM event WHERE id = @id", db);
 
-            eventQ.Parameters.AddWithValue("@id", eventId);
+                eventQ.Parameters.AddWithValue("@id", eventId);
 
-            eventQ.ExecuteNonQuery();
+                eventQ.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
 
-            db.Close();
+            }
+            finally
+            {
+                db.Close();
+            }
         }
     }
 }
