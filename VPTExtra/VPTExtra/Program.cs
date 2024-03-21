@@ -11,7 +11,7 @@ builder.Services.AddTransient<EventGenerationService>();
 builder.Services.AddTransient<EventService>();
 builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<VisitorPlacementService>();
-builder.Services.AddTransient<UserProfileDataService>();
+builder.Services.AddTransient<UserProfileService>();
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 

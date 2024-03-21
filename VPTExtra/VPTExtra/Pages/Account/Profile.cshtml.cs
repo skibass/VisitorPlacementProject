@@ -10,9 +10,9 @@ namespace VPTExtra.Pages.Account
         public List<Event> _visitorEvents { get; set; }       
         public User user { get; set; }       
 
-        private readonly UserProfileDataService _userProfileDataService;
+        private readonly UserProfileService _userProfileDataService;
         private readonly UserService _userService;
-        public ProfileModel(UserProfileDataService userProfileDataService, UserService userService)
+        public ProfileModel(UserProfileService userProfileDataService, UserService userService)
         {
             _userProfileDataService = userProfileDataService;
             _userService = userService;

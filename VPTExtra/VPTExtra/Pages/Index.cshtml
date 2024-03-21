@@ -13,7 +13,7 @@
         <article class="profile">
             <h2 class="profile-username">@item.Location</h2>
             <small class="profile-user-handle">@item.StartDate</small>
-            <small class="profile-user-handle">@Html.Raw(item.VisitorLimit - item.ChairsReserved) seats left</small>
+            <small class="profile-user-handle">@Html.Raw(item.VisitorLimit - item.ChairsReserved) seat(s) left</small>
             <div class="profile-actions">
                 <a class="btn btn--primary" asp-page="/EventOverview" asp-route-eventId="@item.Id">Enter</a>
             </div>

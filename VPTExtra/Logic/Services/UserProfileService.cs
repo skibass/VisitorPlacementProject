@@ -8,10 +8,10 @@ using Models;
 
 namespace Logic.Services
 {
-    public class UserProfileDataService
+    public class UserProfileService
     {
         private readonly IUserProfileDataRepository _profileDataRepo;
-        public UserProfileDataService(IUserProfileDataRepository profileDataRepo)
+        public UserProfileService(IUserProfileDataRepository profileDataRepo)
         {
             _profileDataRepo = profileDataRepo;
         }
