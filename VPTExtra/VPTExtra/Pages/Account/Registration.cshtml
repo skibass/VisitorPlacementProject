@@ -2,38 +2,34 @@
 @model VPTExtra.Pages.Account.RegistrationModel
 @{
 }
+<br />
+<br />
+<br />
 <form method="post" asp-page-handler="Register">
     <div class="form-outline mb-4">
-        <input class="form-control form-control-lg" required asp-for="@Model.userToRegister.Name">
-        <label class="form-label" for="form3Example1cg">Your Name</label>
+        <input class="form-control" required asp-for="@Model.userToRegister.Name">
+        <label class="form-label" style="color:white;" for="form3Example1cg">Your Name</label>
     </div>
 
     <div class="form-outline mb-4">
-        <input class="form-control form-control-lg" required type="email" asp-for="@Model.userToRegister.Email">
-        <label class="form-label" for="form3Example3cg">Your Email</label>
+        <input class="form-control" required type="email" asp-for="@Model.userToRegister.Email">
+        <label class="form-label" style="color:white;" for="form3Example3cg">Your Email</label>
     </div>
 
     <div class="form-outline mb-4">
-        <input class="form-control form-control-lg" required type="password" asp-for="@Model.userToRegister.Password">
-        <label class="form-label">Password</label>
-    </div>
-
-    <div class="form-check d-flex justify-content-center mb-5">
-        <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3cg" />
-        <label class="form-check-label" for="form2Example3g">
-            I agree all statements in <a href="#!" class="text-body"><u>Terms of service</u></a>
-        </label>
+        <input class="form-control" required type="password" asp-for="@Model.userToRegister.Password">
+        <label class="form-label" style="color:white;">Password</label>
     </div>
 
     <div class="d-flex justify-content-center">
-        <button type="submit"
-                class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">
+        <button type="submit" 
+                class="btn btn-primary btn-block mb-4">
             Register
         </button>
     </div>
 
-    <p class="text-center text-muted mt-5 mb-0">
-        Have already an account? <a href="#!"
-                                    class="fw-bold text-body"><u>Login here</u></a>
+    <p style="color:white;" class="text-center mt-5 mb-0">
+        Have already an account? <a asp-page="Login"
+                                     style="color:lightblue;"><u>Login here</u></a>
     </p>
 </form>
