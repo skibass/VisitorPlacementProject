@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -110,8 +111,29 @@ namespace DataAcces
             List<Event> events = new List<Event>();
 
             db.Open();
+            #region Chatgpt help
+            //i want this query to also retrieve amount of chair_id per event_id from user_event table:
 
-            MySqlCommand eventQ = new MySqlCommand("SELECT id, location, startdate, enddate, visitorlimit from event", db);
+            //MySqlCommand eventQ = new MySqlCommand("SELECT id, location, startdate, enddate, visitorlimit from event", db);
+            #endregion
+            MySqlCommand eventQ = new MySqlCommand(@"
+    SELECT 
+        e.id, 
+        e.location, 
+        e.startdate, 
+        e.enddate, 
+        e.visitorlimit, 
+        COUNT(ue.chair_id) AS chairs_reserved
+    FROM 
+        event e
+    LEFT JOIN 
+        user_event ue ON e.id = ue.event_id
+    GROUP BY 
+        e.id, 
+        e.location, 
+        e.startdate, 
+        e.enddate, 
+        e.visitorlimit", db);
 
             MySqlDataReader readEvents = eventQ.ExecuteReader();
 
@@ -128,7 +150,7 @@ namespace DataAcces
                         StartDate = (DateTime)readEvents["startdate"],
                         EndDate = (DateTime)readEvents["enddate"],
                         VisitorLimit = Convert.ToInt32(readEvents["visitorlimit"]),
-                        Parts = new List<Part>()
+                        ChairsReserved = Convert.ToInt32(readEvents["chairs_reserved"]), // Assign the count to ChairsReserved
                     };
                     events.Add(existingEvent);
                 }

@@ -10,7 +10,6 @@ namespace VPTExtra.Pages
     {
         private readonly EventService _eventService;
         public List<Event> Events { get; set; }
-
         public IndexModel(EventService eventService)
         {
             _eventService = eventService;
