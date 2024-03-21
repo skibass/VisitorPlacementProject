@@ -9,7 +9,7 @@ namespace VPTExtra.Pages.Manager
     public class EventsOverviewModel : PageModel
     {
         private readonly EventService _eventService;
-        public List<Event> Events { get; set; }
+        public List<Event> events { get; set; }
 
         public EventsOverviewModel(EventService eventService)
         {
@@ -26,7 +26,7 @@ namespace VPTExtra.Pages.Manager
                 return RedirectToPage("/Index");
             }
 
-            Events = _eventService.GetAllEvents();
+            events = _eventService.GetAllEvents();
             return null;
         }
 

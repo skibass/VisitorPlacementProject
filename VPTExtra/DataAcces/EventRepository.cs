@@ -22,11 +22,11 @@ namespace DataAcces
             _userRepository = userRepository;
         }
 
-        private void PopulateEvent(Event _event, MySqlDataReader readEvents)
+        private void PopulateEvent(Event currentEvent, MySqlDataReader readEvents)
         {
-            if (_event == null)
+            if (currentEvent == null)
             {
-                _event = new Event
+                currentEvent = new Event
                 {
                     Id = (int)readEvents["event_id"],
                     Location = (string)readEvents["location"],
@@ -37,14 +37,14 @@ namespace DataAcces
                 };
             }
 
-            if (_event.Parts == null)
+            if (currentEvent.Parts == null)
             {
-                _event.Parts = new List<Part>();
+                currentEvent.Parts = new List<Part>();
             }
             if (readEvents["part_id"] != DBNull.Value)
             {
                 int partId = (int)readEvents["part_id"];
-                var existingPart = _event.Parts.FirstOrDefault(p => p.Id == partId);
+                var existingPart = currentEvent.Parts.FirstOrDefault(p => p.Id == partId);
                 if (existingPart == null)
                 {
                     existingPart = new Part
@@ -53,7 +53,7 @@ namespace DataAcces
                         Name = (string)readEvents["part_name"],
                         Rows = new List<Row>()
                     };
-                    _event.Parts.Add(existingPart);
+                    currentEvent.Parts.Add(existingPart);
                 }
 
                 PopulateRow(existingPart, readEvents);
@@ -162,7 +162,7 @@ namespace DataAcces
 
         public Event GetEventById(int id)
         {
-            Event _event = null;
+            Event currentEvent = null;
 
             db.Open();
 
@@ -181,9 +181,9 @@ namespace DataAcces
 
             while (readEvents.Read())
             {
-                if (_event == null)
+                if (currentEvent == null)
                 {
-                    _event = new Event
+                    currentEvent = new Event
                     {
                         Id = id,
                         Location = (string)readEvents["location"],
@@ -194,12 +194,12 @@ namespace DataAcces
                     };
                 }
 
-                PopulateEvent(_event, readEvents);
+                PopulateEvent(currentEvent, readEvents);
             }
 
             db.Close();
 
-            return _event;
+            return currentEvent;
         }
 
         public void CreateEvent(Event newEvent)

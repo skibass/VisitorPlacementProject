@@ -19,27 +19,27 @@ namespace Logic.Services
         {
             _eventRepository = eventManagement;
         }
-        public Event GenerateEvent(Event _eventData, int amountParts, int amountRows)
+        public Event GenerateEvent(Event currentEvent, int amountParts, int amountRows)
         {
             char partName = 'A';          
 
             Random rand = new();
 
-            Event _event = new();
+            Event newEvent = new();
 
-            _event.Location = "Locatie " + rand.Next(0, 10000);
-            _event.StartDate = _eventData.StartDate;
-            _event.EndDate = _eventData.EndDate;
-            _event.Parts = new List<Part>();
+            newEvent.Location = "Locatie " + rand.Next(0, 10000);
+            newEvent.StartDate = currentEvent.StartDate;
+            newEvent.EndDate = currentEvent.EndDate;
+            newEvent.Parts = new List<Part>();
 
-            _event.VisitorLimit = _eventData.VisitorLimit;
-            ChairsLeft = _eventData.VisitorLimit;
+            newEvent.VisitorLimit = currentEvent.VisitorLimit;
+            ChairsLeft = currentEvent.VisitorLimit;
 
             if (amountParts == 0)
             {
                 while (ChairsLeft > 0)
                 {
-                    _event.Parts.Add(GeneratePart(amountRows, partName.ToString()));
+                    newEvent.Parts.Add(GeneratePart(amountRows, partName.ToString()));
                     partName++;
                 }
             }
@@ -49,14 +49,14 @@ namespace Logic.Services
                 {
                     if (ChairsLeft != 0)
                     {
-                        _event.Parts.Add(GeneratePart(amountRows, partName.ToString()));
+                        newEvent.Parts.Add(GeneratePart(amountRows, partName.ToString()));
                         partName++;
                     }
                 }
             }
 
-            _eventRepository.CreateEvent(_event);
-            return _event;
+            _eventRepository.CreateEvent(newEvent);
+            return newEvent;
         }
         private Part GeneratePart(int amountRowsPerPart, string partName)
         {

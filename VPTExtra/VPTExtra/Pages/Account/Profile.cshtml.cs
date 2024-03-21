@@ -7,7 +7,7 @@ namespace VPTExtra.Pages.Account
 {
     public class ProfileModel : PageModel
     {
-        public List<Event> _visitorEvents { get; set; }       
+        public List<Event> visitorEvents { get; set; }       
         public User user { get; set; }       
 
         private readonly UserProfileService _userProfileDataService;
@@ -28,7 +28,7 @@ namespace VPTExtra.Pages.Account
             int visitorId = (int)HttpContext.Session.GetInt32("uId");
 
             user = _userService.GetVisitorById(visitorId);
-            _visitorEvents = _userProfileDataService.RetrieveUserEvents(visitorId);
+            visitorEvents = _userProfileDataService.RetrieveUserEvents(visitorId);
 
             return null;
         }

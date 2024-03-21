@@ -27,7 +27,7 @@ string connectionString = "Server=127.0.0.1;Database=vpt;Uid=root;Pwd=;";
 IUserRepository userRepository = new UserRepository(connectionString);
 IEventRepository eventRepository = new EventRepository(connectionString, userRepository);
 
-builder.Services.AddTransient<IEventRepository>(sp =>
+builder.Services.AddTransient<IEventRepository>(_ =>
 {
     return new EventRepository(connectionString, userRepository);
 });

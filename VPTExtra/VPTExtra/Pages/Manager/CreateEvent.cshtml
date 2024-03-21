@@ -12,7 +12,7 @@
 <form method="post">
     <div class="form-group">
         <label>Total amount of seats</label>
-        <input required type="number" id="VisitorLimit" name="_event.VisitorLimit" asp-for="_event.VisitorLimit" />
+        <input required type="number" id="VisitorLimit" name="_event.VisitorLimit" asp-for="currentEvent.VisitorLimit" />
         <small class="form-text text-muted">**</small>
     </div>
     <div class="form-group">
@@ -27,12 +27,12 @@
     </div>
     <div class="form-group">
         <label>Start date</label>
-        <input required type="date" id="StartDate" name="_event.StartDate" asp-for="_event.StartDate" />
+        <input required type="date" id="StartDate" name="_event.StartDate" asp-for="currentEvent.StartDate" />
         <small class="form-text text-muted">Required</small>
     </div>
     <div class="form-group">
         <label>End date</label>
-        <input required type="date" id="EndDate" name="_event.EndDate" asp-for="_event.EndDate" />
+        <input required type="date" id="EndDate" name="_event.EndDate" asp-for="currentEvent.EndDate" />
         <small class="form-text text-muted">Required</small>
     </div>
     <button type="submit" asp-page-handler="GenerateEvent" onclick="return confirm('Are you sure?')" class="btn btn-primary">Create event</button>

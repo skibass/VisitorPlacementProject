@@ -11,7 +11,7 @@ namespace VPTExtra.Pages
     {
         private readonly EventService _eventService;
         private readonly VisitorPlacementService _visitorPlacementService;
-        public Event Event { get; set; }
+        public Event currentEvent { get; set; }
         private Event tempEvent {  get; set; }
         [BindProperty]
         public int currentUserId {  get; set; }
@@ -31,7 +31,7 @@ namespace VPTExtra.Pages
 
                 if (tempEvent != null)
                 {
-                    Event = tempEvent;
+                    currentEvent = tempEvent;
                     TempData["eventId"] = eventId;
                 }
                 else

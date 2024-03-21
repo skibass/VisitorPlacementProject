@@ -9,7 +9,7 @@ namespace VPTExtra.Pages
     public class IndexModel : PageModel
     {
         private readonly EventService _eventService;
-        public List<Event> Events { get; set; }
+        public List<Event> events { get; set; }
         public IndexModel(EventService eventService)
         {
             _eventService = eventService;
@@ -18,7 +18,7 @@ namespace VPTExtra.Pages
         {
             if (HttpContext.Session.GetInt32("uId") != null)
             {
-                Events = _eventService.GetAllEvents();
+                events = _eventService.GetAllEvents();
                 return Page();
             }
             else

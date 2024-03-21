@@ -9,12 +9,12 @@
 <br />
 <button style="background: linear-gradient(to top, #2193b0 0%, #6dd5ed 100%); height: 20px;"></button> : available seats
 <h1 style="color:red;">Choose your seat.</h1>
-<h4>Event: @Model.Event.Location</h4>
-<h4>Start date: @Model.Event.StartDate</h4>
-<h4>End date: @Model.Event.EndDate</h4>
+<h4>Event: @Model.currentEvent.Location</h4>
+<h4>Start date: @Model.currentEvent.StartDate</h4>
+<h4>End date: @Model.currentEvent.EndDate</h4>
 <br />
 <div class="sectors">
-    @foreach (var sector in Model.Event.Parts)
+    @foreach (var sector in Model.currentEvent.Parts)
     {
         <div class="sector">
             <h3>Sector @sector.Name</h3>

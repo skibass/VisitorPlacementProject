@@ -9,7 +9,7 @@ namespace VPTExtra.Pages.Manager
     public class CreateEventModel : PageModel
     {
         [BindProperty]
-        public Event _event {  get; set; }
+        public Event currentEvent {  get; set; }
         [BindProperty]
         public int AmountOfParts { get; set; }
         [BindProperty]
@@ -30,7 +30,7 @@ namespace VPTExtra.Pages.Manager
         }
         public IActionResult OnPostGenerateEvent() 
         {
-            _eventGenerationService.GenerateEvent(_event, AmountOfParts, AmountOfRows);
+            _eventGenerationService.GenerateEvent(currentEvent, AmountOfParts, AmountOfRows);
 
             return RedirectToPage();
         }
