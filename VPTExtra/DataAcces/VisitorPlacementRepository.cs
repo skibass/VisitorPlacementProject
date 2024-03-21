@@ -49,10 +49,6 @@ namespace DataAcces
         }
         private void PlaceVisitorInEvent(int eventId, int visitorId, int chairId)
         {
-            try
-            {
-                db.Open();
-
                 MySqlCommand cmd = new MySqlCommand("INSERT INTO user_event (event_id, user_id, chair_id) VALUES (@EventId, @UserId, @ChairId)", db);
 
                 cmd.Parameters.AddWithValue("@EventId", eventId);
@@ -60,14 +56,6 @@ namespace DataAcces
                 cmd.Parameters.AddWithValue("@ChairId", chairId);
 
                 cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-            }
-            finally
-            {
-                db.Close();
-            }
         }
 
         public void RevertVisitorPlacement(int chairId, int visitorId, int eventId)
@@ -95,10 +83,6 @@ namespace DataAcces
         }
         private void RevertVisitorPlacementEvent(int chairId, int visitorId, int eventId)
         {
-            try
-            {
-                db.Open();
-
                 MySqlCommand cmd = new MySqlCommand($"DELETE from user_event where user_id = @UserId and event_id = @EventId and chair_id = @ChairId", db);
 
                 cmd.Parameters.AddWithValue("@UserId", visitorId);
@@ -106,16 +90,6 @@ namespace DataAcces
                 cmd.Parameters.AddWithValue("@ChairId", chairId);
 
                 cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            finally
-            {
-                db.Close();
-            }
         }        
     }
 }
