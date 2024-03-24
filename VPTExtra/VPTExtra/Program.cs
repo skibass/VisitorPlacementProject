@@ -1,20 +1,15 @@
-using Logic.Services;
 using DataAcces;
 using Interfaces.Repositories;
+using Logic.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-
-builder.Services.AddTransient<EventGenerationService>();
-builder.Services.AddTransient<EventService>();
-builder.Services.AddTransient<UserService>();
-builder.Services.AddTransient<VisitorPlacementService>();
-builder.Services.AddTransient<UserProfileService>();
-
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
-
 builder.Services.AddSession(options =>
 {
     options.Cookie.Name = ".AdventureWorks.Session";
@@ -24,46 +19,35 @@ builder.Services.AddSession(options =>
 
 string connectionString = "Server=127.0.0.1;Database=vpt;Uid=root;Pwd=;";
 
-IUserRepository userRepository = new UserRepository(connectionString);
-IEventRepository eventRepository = new EventRepository(connectionString, userRepository);
+builder.Services.AddTransient<EventGenerationService>();
+builder.Services.AddTransient<EventService>();
+builder.Services.AddTransient<UserService>();
+builder.Services.AddTransient<VisitorPlacementService>();
+builder.Services.AddTransient<UserProfileService>();
 
-builder.Services.AddTransient<IEventRepository>(_ =>
+builder.Services.AddTransient<IUserRepository>(_ => new UserRepository(connectionString));
+builder.Services.AddTransient<IEventRepository>(sp =>
 {
+    var userRepository = sp.GetRequiredService<IUserRepository>();
     return new EventRepository(connectionString, userRepository);
-});
+}); 
+builder.Services.AddTransient<IUserProfileDataRepository>(_ => new UserProfileDataRepository(connectionString));
+builder.Services.AddTransient<IVisitorPlacement>(_ => new VisitorPlacementRepository(connectionString));
 
-builder.Services.AddTransient<IVisitorPlacement>(sp =>
-{
-    return new VisitorPlacementRepository(connectionString);
-});
 
-builder.Services.AddTransient<IUserRepository>(sp =>
-{
-    return new UserRepository(connectionString);
-});
-
-builder.Services.AddTransient<IUserProfileDataRepository>(sp =>
-{
-    return new UserProfileDataRepository(connectionString);
-});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseSession();
-
 app.UseRouting();
-
 app.UseAuthorization();
-
 app.MapRazorPages();
-
 app.Run();
