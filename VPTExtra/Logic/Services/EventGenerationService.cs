@@ -1,5 +1,6 @@
 ﻿using Interfaces;
 using Interfaces.Repositories;
+using Interfaces.Service;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Logic.Services
 {
-    public class EventGenerationService
+    public class EventGenerationService : IEventGenerationService
     {
         private int ChairsLeft;
         private readonly IEventRepository _eventRepository;

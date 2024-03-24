@@ -1,4 +1,5 @@
 using Interfaces;
+using Interfaces.Service;
 using Logic.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -16,8 +17,8 @@ namespace VPTExtra.Pages.Manager
         public int AmountOfRows { get; set; }
         public string ErrorMessage { get; set; }
 
-        private readonly EventGenerationService _eventGenerationService;
-        public CreateEventModel(EventGenerationService eventGenerationService) 
+        private readonly IEventGenerationService _eventGenerationService;
+        public CreateEventModel(IEventGenerationService eventGenerationService) 
         { 
             _eventGenerationService = eventGenerationService;
         }

@@ -1,3 +1,4 @@
+using Interfaces.Service;
 using Logic.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,9 +12,9 @@ namespace VPTExtra.Pages.Account
         public User user { get; set; }       
         public string ErrorMessage { get; set; }       
 
-        private readonly UserProfileService _userProfileDataService;
-        private readonly UserService _userService;
-        public ProfileModel(UserProfileService userProfileDataService, UserService userService)
+        private readonly IUserProfileService _userProfileDataService;
+        private readonly IUserService _userService;
+        public ProfileModel(IUserProfileService userProfileDataService, IUserService userService)
         {
             _userProfileDataService = userProfileDataService;
             _userService = userService;

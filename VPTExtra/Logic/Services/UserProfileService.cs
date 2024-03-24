@@ -1,4 +1,5 @@
 ﻿using Interfaces.Repositories;
+using Interfaces.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using Models;
 
 namespace Logic.Services
 {
-    public class UserProfileService
+    public class UserProfileService : IUserProfileService
     {
         private readonly IUserProfileDataRepository _profileDataRepo;
         public UserProfileService(IUserProfileDataRepository profileDataRepo)
