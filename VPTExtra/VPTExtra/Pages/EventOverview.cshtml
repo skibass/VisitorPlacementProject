@@ -1,4 +1,4 @@
-﻿@page "/event/overview/{eventId}"
+﻿@page "/events/event/{eventId}"
 @model VPTExtra.Pages.EventOverviewModel
 @{
 }
@@ -29,11 +29,11 @@
    
     <div class="card card--inverted">
         <h2>Colors</h2>
-        <button style="background-color:yellow;height: 20px;">Your seats</button>
+        <button style="background-color: #d7d7d7;background-image: linear-gradient(147deg, #d7d7d7 0%, #353535 74%);height: 20px;">Your seats</button>
         <br />
         <button style="background: linear-gradient(109.6deg, rgb(36, 45, 57) 11.2%, rgb(16, 37, 60) 51.2%, rgb(0, 0, 0) 98.6%); height: 20px;">Taken</button>
         <br />
-        <button style="background: linear-gradient(to top, #2193b0 0%, #6dd5ed 100%); height: 20px;">Available</button>
+        <button style="background-color: #4d4855; background-image: linear-gradient(147deg, #4d4855 0%, #000000 74%); height: 20px;">Available</button>
     </div>
 </article>
 
@@ -58,26 +58,26 @@
                             @if (seat.User.Id == Model.currentUserId)
                             {
                                 <form method="post">
-                                    <button type="submit" style="background: yellow;" asp-page-handler="RevertPlacement"
+                                        <button type="submit" id="userChosenChair" style="background-color: #d7d7d7;background-image: linear-gradient(147deg, #d7d7d7 0%, #353535 74%);" asp-page-handler="RevertPlacement"
                                             asp-route-chairId="@seat.Id" class="seat">
-                                        @seat.Name
+                                        
                                     </button>
                                 </form>
                             }
                             else
                             {
-                                <button type="submit" style="background: linear-gradient(109.6deg, rgb(36, 45, 57) 11.2%, rgb(16, 37, 60) 51.2%, rgb(0, 0, 0) 98.6%); color:white;"
+                                <button type="submit" id="reservedChair" style="background: linear-gradient(109.6deg, rgb(36, 45, 57) 11.2%, rgb(16, 37, 60) 51.2%, rgb(0, 0, 0) 98.6%); color:white;"
                                         asp-route-chairId="@seat.Id" class="seat">
-                                    @seat.Name
+                                    
                                 </button>
                             }
                         }
                         else
                         {
                             <form method="post">
-                                <button type="submit" style="background: linear-gradient(to top, #2193b0 0%, #6dd5ed 100%);" asp-page-handler="PlaceVisitor"
+                                    <button type="submit" id="availableChair" style="background-color: #4d4855; background-image: linear-gradient(147deg, #4d4855 0%, #000000 74%);" asp-page-handler="PlaceVisitor"
                                         asp-route-chairId="@seat.Id" class="seat">
-                                    @seat.Name
+                                    
                                 </button>
                             </form>
                         }

@@ -9,13 +9,13 @@
     </div>
 }
 
-<h5>
-    <ins style="color: white;">
-        Only limit and dates are required, everything else is optional: if you only want to dictate how many visitors are allowed then the systems generates the
-        rest automatically based on that.
-    </ins>
-</h5>
-
+<div class="outer-box-frame">
+    <h5>
+        <ins style="color: white;">
+            Only limit and dates are required, everything else is optional: if you only want to dictate how many visitors are allowed then the systems generates the
+            rest automatically based on that.
+        </ins>
+    </h5>
 <form method="post">
     <div class="form-group">
         <label style="color: white;">Total amount of seats</label>
@@ -46,3 +46,4 @@
     </div>
     <button type="submit" asp-page-handler="GenerateEvent" onclick="return confirm('Are you sure?')" class="btn btn-primary">Create event</button>
 </form>
+</div>

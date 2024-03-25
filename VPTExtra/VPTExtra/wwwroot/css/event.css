@@ -1,21 +1,4 @@
-﻿@media screen and (min-width: 50rem) {
-    .outer-box-frame {
-        border: 1rem solid;
-        margin: 5rem auto; /*the auto for the left/right keeps the page centered*/
-        padding: 5rem;
-        max-width: 100%;
-    }
-
-    body {
-        background: linear-gradient(112.1deg, rgb(32, 38, 57) 11.4%, rgb(63, 76, 119) 70.2%);       
-    }
-}
-
-.outer-box-frame {
-    background-color: #2d3436;
-    background-image: linear-gradient(315deg, #2d3436 0%, #000000 74%);
-}
-
+﻿
 .theatre {
     display: flex;
     flex-wrap: wrap;
@@ -75,7 +58,6 @@
     --color-light: white;
     --color-dark: #212121;
     --color-signal: black;
-    --color-background: var(--color-light);
     --color-text: var(--color-dark);
     --color-accent: var(--color-signal);
     --size-bezel: 0.5rem;
@@ -86,7 +68,6 @@
     color: var(--color-text);
     background: var(--color-background);
     font-weight: 300;
-    padding: 0 calc(var(--size-bezel) * 3);
 }
 
 h1,
