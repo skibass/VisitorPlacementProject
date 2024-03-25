@@ -22,7 +22,7 @@ namespace Tests.DataAcces
     public class EventRepositoryTests
     {
         [TestMethod]
-        public void GetAllEvents_ReturnsListOfEvents()
+        public void GetAllEvents()
         {
             // Arrange
             using (var mock = AutoMock.GetLoose())
@@ -62,7 +62,8 @@ namespace Tests.DataAcces
                 eventService.DeleteEvent(currentEvent.Id);
 
                 // Assert
-                mock.Mock<IEventRepository>().Verify(r => r.DeleteEvent(currentEvent.Id), Times.Once);
+                mock.Mock<IEventRepository>()
+                    .Verify(r => r.DeleteEvent(currentEvent.Id), Times.Once);
             }              
         }
 
