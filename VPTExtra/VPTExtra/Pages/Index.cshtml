@@ -6,6 +6,7 @@
 <head>
     <link href="@Url.Content("~/css/EventsOverview.css")" rel="stylesheet" type="text/css" />
 </head>
+<div class="scroll">
 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
 {
     <div class="alert alert-danger">
@@ -26,5 +27,6 @@
             </div>
         </article>
     }
+</div>
 </div>
 </div>

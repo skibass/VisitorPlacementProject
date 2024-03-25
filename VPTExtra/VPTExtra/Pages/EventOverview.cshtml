@@ -3,17 +3,13 @@
 @{
 }
 <link href="@Url.Content("~/css/event.css")" rel="stylesheet" type="text/css" />
+<div class="scroll">
 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
 {
     <div class="alert alert-danger">
         @Model.ErrorMessage
     </div>
 }
-@*
-<h1 style="color:red;">Choose your seat.</h1>
-<h4>Event: @Model.currentEvent.Location</h4>
-<h4>Start date: @Model.currentEvent.StartDate</h4>
-<h4>End date: @Model.currentEvent.EndDate</h4> *@
 
 <article class="l-design-widht">
     <div class="card card--inverted">
@@ -86,6 +82,7 @@
             }
         </div>
     }
+</div>
 </div>
 </div>
 <script>

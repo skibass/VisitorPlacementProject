@@ -2,6 +2,7 @@
 @model VPTExtra.Pages.Manager.CreateEventModel
 @{
 }
+<div class="scroll">
 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
 {
     <div class="alert alert-danger">
@@ -46,4 +47,5 @@
     </div>
     <button type="submit" asp-page-handler="GenerateEvent" onclick="return confirm('Are you sure?')" class="btn btn-primary">Create event</button>
 </form>
+</div>
 </div>

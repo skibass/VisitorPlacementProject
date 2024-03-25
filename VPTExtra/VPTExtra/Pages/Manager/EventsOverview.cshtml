@@ -2,8 +2,12 @@
 @model VPTExtra.Pages.Manager.EventsOverviewModel
 @{
 }
-
+<head>
+    <link href="@Url.Content("~/css/ManageEvents.css")" rel="stylesheet" type="text/css" />
+</head>
 <body>
+    <div class="scroll">
+
     @if (!string.IsNullOrEmpty(Model.ErrorMessage))
     {
         <div class="alert alert-danger">
@@ -12,39 +16,79 @@
     }
     <div class="outer-box-frame">
 
-    <table class="table table-dark">
+        @*     <table class="table table-dark">
         <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">ID</th>
-                <th scope="col">Location</th>
-                <th scope="col">Start Date</th>
-                <th scope="col">End Date</th>
-                <th scope="col">Visitor Limit</th>
-            </tr>
+        <tr>
+        <th scope="col">#</th>
+        <th scope="col">ID</th>
+        <th scope="col">Location</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">End Date</th>
+        <th scope="col">Visitor Limit</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.events)
-            {
-                <tr>
-                    <td></td>
-                    <td><a asp-page="../EventOverview" asp-route-eventId="@item.Id">@item.Id</a></td>
-                    <td>@item.Location</td>
-                    <td>@item.StartDate</td>
-                    <td>@item.EndDate</td>
-                    <td>@item.VisitorLimit</td>
-                    <td>
-                        <form method="post">
-                            <button type="submit" asp-page-handler="delete" onclick="return confirm('Are you sure?')"
-                                    asp-route-id="@item.Id">
-                                delete
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            }
+        @foreach (var item in Model.events)
+        {
+        <tr>
+        <td></td>
+        <td><a asp-page="../EventOverview" asp-route-eventId="@item.Id">@item.Id</a></td>
+        <td>@item.Location</td>
+        <td>@item.StartDate</td>
+        <td>@item.EndDate</td>
+        <td>@item.VisitorLimit</td>
+        <td>
+        <form method="post">
+        <div class="profile-actions">
+        <button type="submit" class="btn btn--primary" asp-page-handler="delete" onclick="return confirm('Are you sure?')"
+        asp-route-id="@item.Id">
+        delete
+        </button>
+        </div>
+
+        </form>
+        </td>
+        </tr>
+        }
         </tbody>
-    </table>
+        </table> *@
+
+        <div class="container">
+            <ul class="responsive-table">
+                <li class="table-header">
+                    <div class="col col-1">Id</div>
+                    <div class="col col-2">Name</div>
+                    <div class="col col-3">Start Date</div>
+                    <div class="col col-4">End Date</div>
+                    <div class="col col-5">Visitor Limit</div>
+                    <div class="col col-6">Chairs reserved</div>
+                    <div class="col col-7"></div>
+                </li>
+                @foreach (var item in Model.events)
+                {
+                    <li class="table-row">
+                        <div class="col col-1"><a class="btn btn-primary" style="background:blue; width: 60px;" asp-page="../EventOverview" asp-route-eventId="@item.Id">View</a></div>
+                        <div class="col col-2">@item.Location</div>
+                        <div class="col col-3">@item.StartDate</div>
+                        <div class="col col-4">@item.EndDate</div>
+                        <div class="col col-5">@item.VisitorLimit</div>
+                        <div class="col col-6">@item.ChairsReserved</div>
+                        <div class="col col-7">
+                            <form method="post">
+                                <div class="profile-actions">
+                                    <button type="submit" class="btn btn--primary" asp-page-handler="delete" onclick="return confirm('Are you sure?')"
+                                            asp-route-id="@item.Id">
+                                        delete
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
     </div>
 </body>
 
