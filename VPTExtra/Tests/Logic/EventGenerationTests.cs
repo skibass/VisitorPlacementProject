@@ -1,5 +1,5 @@
 ﻿using Interfaces.Repositories;
-using Logic.Services;
+using Logic.Services.EventGeneration;
 using Models;
 using Moq;
 using System;
@@ -13,15 +13,29 @@ namespace Tests.Logic
     [TestClass]
     public class EventGenerationTests
     {
+        private ChairGenerationService? chairGenerationService;
+        private RowGenerationService? rowGenerationService;
+        private PartGenerationService? partGenerationService;
+        private EventGenerationService? eventGenerationService;
+        private Mock<IEventRepository>? mockEventRepository;
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            mockEventRepository = new Mock<IEventRepository>();
+
+            chairGenerationService = new ChairGenerationService();
+            rowGenerationService = new RowGenerationService(chairGenerationService);
+            partGenerationService = new PartGenerationService(rowGenerationService);
+            eventGenerationService = new EventGenerationService(mockEventRepository.Object, partGenerationService);
+        }
+
         [TestMethod]
-        public void GenerateEvent_DefaultParameters_CreatesEventWithExpectedStructure()
+        public void GenerateEventAccordingToParameters()
         {
             // Arrange
             Event @event = new Event();
-            @event.VisitorLimit = 30;
-
-            var mockEventRepository = new Mock<IEventRepository>();
-            var eventGenerationService = new EventGenerationService(mockEventRepository.Object);
+            @event.VisitorLimit = 30;           
 
             // Act
             var generatedEvent = eventGenerationService.GenerateEvent(@event, amountParts: 2, amountRows: 3);
@@ -44,13 +58,10 @@ namespace Tests.Logic
         }
 
         [TestMethod]
-        public void GenerateEvent_LowVisitorLimit()
+        public void GenerateEventWithLowVisitorLimit()
         {
             Event @event = new Event();
             @event.VisitorLimit = 0;
-
-            var mockEventRepository = new Mock<IEventRepository>();
-            var eventGenerationService = new EventGenerationService(mockEventRepository.Object);
 
             // Act
             var generatedEvent = eventGenerationService.GenerateEvent(@event, amountParts: 2, amountRows: 3);

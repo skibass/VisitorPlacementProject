@@ -1,6 +1,7 @@
 using DataAcces;
 using Interfaces.Repositories;
 using Logic.Services;
+using Logic.Services.EventGeneration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -20,6 +21,10 @@ builder.Services.AddSession(options =>
 string connectionString = "Server=127.0.0.1;Database=vpt;Uid=root;Pwd=;";
 
 builder.Services.AddTransient<EventGenerationService>();
+builder.Services.AddTransient<PartGenerationService>();
+builder.Services.AddTransient<RowGenerationService>();
+builder.Services.AddTransient<ChairGenerationService>();
+
 builder.Services.AddTransient<EventService>();
 builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<VisitorPlacementService>();

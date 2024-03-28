@@ -1,5 +1,5 @@
 using Interfaces;
-using Logic.Services;
+using Logic.Services.EventGeneration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models;
