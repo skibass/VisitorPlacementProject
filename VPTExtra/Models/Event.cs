@@ -16,5 +16,19 @@ namespace Models
         public int ChairsReserved { get; set; }
         public List<Part> Parts { get; set; }
 
+        public Event(DateTime? startDate, DateTime? endDate, List<Part> parts, int visitorLimit) 
+        {
+            Random rand = new();
+
+            Location = "Locatie " + rand.Next(0, 10000);
+            StartDate = startDate;
+            EndDate = endDate;
+            Parts = parts;
+            VisitorLimit = visitorLimit;
+        }
+        public Event ()
+        {
+
+        }
     }
 }

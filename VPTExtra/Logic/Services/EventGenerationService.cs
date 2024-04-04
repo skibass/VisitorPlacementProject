@@ -4,6 +4,7 @@ using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,23 +24,18 @@ namespace Logic.Services
         {
             char partName = 'A';          
 
-            Random rand = new();
+            DateTime? startDate = currentEvent.StartDate;
+            DateTime? endDate = currentEvent.EndDate;
+            List<Part> parts = new List<Part>();
 
-            Event newEvent = new();
-
-            newEvent.Location = "Locatie " + rand.Next(0, 10000);
-            newEvent.StartDate = currentEvent.StartDate;
-            newEvent.EndDate = currentEvent.EndDate;
-            newEvent.Parts = new List<Part>();
-
-            newEvent.VisitorLimit = currentEvent.VisitorLimit;
+            int visitorLimit = currentEvent.VisitorLimit;
             ChairsLeft = currentEvent.VisitorLimit;
 
             if (amountParts == 0)
             {
                 while (ChairsLeft > 0)
                 {
-                    newEvent.Parts.Add(GeneratePart(amountRows, partName.ToString()));
+                    parts.Add(GeneratePart(amountRows, partName.ToString()));
                     partName++;
                 }
             }
@@ -49,14 +45,16 @@ namespace Logic.Services
                 {
                     if (ChairsLeft != 0)
                     {
-                        newEvent.Parts.Add(GeneratePart(amountRows, partName.ToString()));
+                        parts.Add(GeneratePart(amountRows, partName.ToString()));
                         partName++;
                     }
                 }
             }
-            int actualAmountOfPlacedSeats = newEvent.VisitorLimit - ChairsLeft;
+            int actualAmountOfPlacedSeats = visitorLimit - ChairsLeft;
 
-            newEvent.VisitorLimit = actualAmountOfPlacedSeats;
+            visitorLimit = actualAmountOfPlacedSeats;
+
+            Event newEvent = new(startDate, endDate, parts, visitorLimit);
 
             _eventRepository.CreateEvent(newEvent);
             return newEvent;
@@ -66,9 +64,7 @@ namespace Logic.Services
             int rowNumber = 1;
             int defaultAmountOfRows = 6;
 
-            Part part = new();
-            part.Name = partName;
-            part.Rows = new List<Row>();
+            List<Row> rows = new List<Row>();
 
             if (amountRowsPerPart == 0)
             {
@@ -76,7 +72,7 @@ namespace Logic.Services
                 {
                     if (ChairsLeft > 0)
                     {
-                        part.Rows.Add(GenerateRow(partName + rowNumber));
+                        rows.Add(GenerateRow(partName + rowNumber));
                         rowNumber++;
                     }
                 }
@@ -87,11 +83,12 @@ namespace Logic.Services
                 {
                     if (ChairsLeft > 0)
                     {
-                        part.Rows.Add(GenerateRow(partName + rowNumber));
+                        rows.Add(GenerateRow(partName + rowNumber));
                         rowNumber++;
                     }
                 }
             }
+            Part part = new(partName, rows);
 
             return part;
         }
@@ -100,27 +97,25 @@ namespace Logic.Services
             int chairNumber = 1;
             int chairsThisRow = 0;
 
-            Row row = new();
-            row.Name = rowName;
-            row.Chairs = new List<Chair>();
+            List<Chair> chairs = new List<Chair>();
 
             for (int i = 0; i < ChairsLeft; i++)
             {
                 if (chairsThisRow < 5)
                 {
-                    row.Chairs.Add(GenerateChair(row.Name + "-" + chairNumber));
+                    chairs.Add(GenerateChair(rowName + "-" + chairNumber));
                     chairNumber++;
                     chairsThisRow++;
                 }
             }
             ChairsLeft = ChairsLeft - chairsThisRow;
+            Row row = new(rowName, chairs);
 
             return row;
         }
         private Chair GenerateChair(string chairName)
         {
-            Chair chair = new();
-            chair.Name = chairName;
+            Chair chair = new(chairName);
 
             return chair;
         }

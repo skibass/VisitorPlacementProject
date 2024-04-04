@@ -11,5 +11,12 @@ namespace Models
         public int Id { get; set; }
         public string Name { get; set; }
         public List<Chair> Chairs { get; set; }
+
+        public Row(string name, List<Chair> chairs) 
+        { 
+            Name = name;
+            Chairs = chairs;
+        }
+        public Row() { }
     }
 }
