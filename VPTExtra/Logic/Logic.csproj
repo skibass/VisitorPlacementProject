@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
+    <ProjectReference Include="..\Interfaces\Interfaces.DataAcces.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
   </ItemGroup>
 
