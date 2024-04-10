@@ -13,7 +13,7 @@ using static Google.Protobuf.WellKnownTypes.Field.Types;
 
 namespace DataAcces
 {
-    public class VisitorPlacementRepository : IVisitorPlacement
+    public class VisitorPlacementRepository : IVisitorPlacementRepository
     {
         private readonly MySqlConnection db;
         public VisitorPlacementRepository(string connectionString)

@@ -25,7 +25,7 @@ namespace Tests.DataAcces
 
             using (var mock = AutoMock.GetLoose())
             {
-                mock.Mock<IVisitorPlacement>()
+                mock.Mock<IVisitorPlacementRepository>()
                 .Setup(r => r.PlaceVisitor(chairId, visitorId, eventId));
 
                 var eventService = mock.Create<VisitorPlacementService>();
@@ -34,7 +34,7 @@ namespace Tests.DataAcces
                 eventService.PlaceVisitor(chairId, visitorId, eventId);
 
                 // Assert
-                mock.Mock<IVisitorPlacement>()
+                mock.Mock<IVisitorPlacementRepository>()
                     .Verify(r => r.PlaceVisitor(chairId, visitorId, eventId), Times.Exactly(1));
             }
         }

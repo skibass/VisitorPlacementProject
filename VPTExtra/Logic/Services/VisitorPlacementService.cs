@@ -9,8 +9,8 @@ namespace Logic.Services
 {
     public class VisitorPlacementService
     {
-        private readonly IVisitorPlacement _visitorPlacementRepository;
-        public VisitorPlacementService(IVisitorPlacement visitorPlacementRepository) 
+        private readonly IVisitorPlacementRepository _visitorPlacementRepository;
+        public VisitorPlacementService(IVisitorPlacementRepository visitorPlacementRepository) 
         {
             _visitorPlacementRepository = visitorPlacementRepository;
         }

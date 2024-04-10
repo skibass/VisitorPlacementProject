@@ -32,7 +32,7 @@ builder.Services.AddTransient<IEventRepository>(sp =>
     return new EventRepository(connectionString, userRepository);
 }); 
 builder.Services.AddTransient<IUserProfileDataRepository>(_ => new UserProfileDataRepository(connectionString));
-builder.Services.AddTransient<IVisitorPlacement>(_ => new VisitorPlacementRepository(connectionString));
+builder.Services.AddTransient<IVisitorPlacementRepository>(_ => new VisitorPlacementRepository(connectionString));
 
 
 var app = builder.Build();

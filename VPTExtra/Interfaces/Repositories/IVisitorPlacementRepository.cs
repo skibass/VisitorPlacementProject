@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Interfaces.Repositories
 {
-    public interface IVisitorPlacement
+    public interface IVisitorPlacementRepository
     {
         public void PlaceVisitor(int chairId, int visitorId, int eventId);
         public void RevertVisitorPlacement(int chairId, int visitorId, int eventId);
