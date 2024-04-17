@@ -26,20 +26,30 @@ namespace Logic.Services
         {
             try
             {
-                return _eventRepository.GetAllEvents();
+                var events = _eventRepository.GetAllEvents();
+                _logger.LogInformation("Retrieved all events successfully.");
+                return events;
             }
             catch (DbException ex)
             {
-                _logger.LogError("Error retrieving all events.", ex.GetType().FullName);
-
+                _logger.LogError("Error retrieving all events. {ErrorMessage}", ex.Message);
                 throw;
             }
         }
 
         public Event GetEventById(int id)
         {
-            _logger.LogInformation("Retrieving event by id: {id}.", id);
-            return _eventRepository.GetEventById(id);
+            try
+            {
+                var specificEvent = _eventRepository.GetEventById(id);
+                _logger.LogInformation("Retrieved event with id {id} successfully.", id);
+                return specificEvent;
+            }
+            catch (DbException ex)
+            {
+                _logger.LogError("Error retrieving event with id: {id} : {ErrorMessage}", id, ex.Message);
+                throw;
+            }
         }
 
         public void DeleteEvent(int eventId)
