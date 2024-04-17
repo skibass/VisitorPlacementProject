@@ -1,4 +1,5 @@
 using Interfaces;
+using Interfaces.Logic;
 using Logic.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -9,15 +10,15 @@ namespace VPTExtra.Pages
 {
     public class EventOverviewModel : PageModel
     {
-        private readonly EventService _eventService;
-        private readonly VisitorPlacementService _visitorPlacementService;
+        private readonly IEventService _eventService;
+        private readonly IVisitorPlacementService _visitorPlacementService;
         public Event currentEvent { get; set; }
         private Event tempEvent {  get; set; }
         [BindProperty]
         public int currentUserId {  get; set; }
         public string ErrorMessage {  get; set; }
 
-        public EventOverviewModel(EventService eventService, VisitorPlacementService visitorPlacementService)
+        public EventOverviewModel(IEventService eventService, IVisitorPlacementService visitorPlacementService)
         {
             _eventService = eventService;
             _visitorPlacementService = visitorPlacementService;

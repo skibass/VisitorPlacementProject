@@ -3,15 +3,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Logic.Services;
 using Models;
 using Interfaces;
+using Interfaces.Logic;
 
 namespace VPTExtra.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly EventService _eventService;
+        private readonly IEventService _eventService;
         public List<Event> events { get; set; }
         public string ErrorMessage { get; set; }
-        public IndexModel(EventService eventService)
+        public IndexModel(IEventService eventService)
         {
             _eventService = eventService;
         }

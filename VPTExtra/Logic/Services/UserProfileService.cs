@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Models;
+using Interfaces.Logic;
 
 namespace Logic.Services
 {
-    public class UserProfileService
+    public class UserProfileService : IUserProfileService
     {
         private readonly IUserProfileDataRepository _profileDataRepo;
         public UserProfileService(IUserProfileDataRepository profileDataRepo)

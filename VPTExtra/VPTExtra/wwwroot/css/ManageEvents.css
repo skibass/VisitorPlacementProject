@@ -80,7 +80,7 @@ h2 small {
   flex-basis: 10%;
 }
 .responsive-table .col-2 {
-  flex-basis: 25%;
+  flex-basis: 0%;
 }
 .responsive-table .col-3 {
   flex-basis: 10%;

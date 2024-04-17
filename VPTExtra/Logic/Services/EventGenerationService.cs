@@ -1,8 +1,10 @@
 ﻿using Interfaces;
+using Interfaces.Logic;
 using Interfaces.Repositories;
 using Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
@@ -11,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Logic.Services
 {
-    public class EventGenerationService
+    public class EventGenerationService : IEventGenerationService
     {
         private int ChairsLeft;
         private readonly IEventRepository _eventRepository;
@@ -56,7 +58,15 @@ namespace Logic.Services
 
             Event newEvent = new(startDate, endDate, parts, visitorLimit);
 
-            _eventRepository.CreateEvent(newEvent);
+            try
+            {
+                _eventRepository.CreateEvent(newEvent);
+            }
+            catch (DbException ex)
+            {
+                
+                throw;
+            }
             return newEvent;
         }
         private Part GeneratePart(int amountRowsPerPart, string partName)

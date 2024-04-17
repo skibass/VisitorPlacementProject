@@ -1,4 +1,5 @@
 using Interfaces;
+using Interfaces.Logic;
 using Logic.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,10 +9,10 @@ namespace VPTExtra.Pages.Account
 {
     public class LoginModel : PageModel
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
         [BindProperty]
         public User userToLogin { get; set; }
-        public LoginModel(UserService userService)
+        public LoginModel(IUserService userService)
         {
             _userService = userService;
         }

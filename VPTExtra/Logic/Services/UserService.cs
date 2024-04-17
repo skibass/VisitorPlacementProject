@@ -1,4 +1,5 @@
-﻿using Interfaces.Repositories;
+﻿using Interfaces.Logic;
+using Interfaces.Repositories;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Logic.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
         public UserService(IUserRepository userRepository) 

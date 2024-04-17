@@ -1,4 +1,5 @@
-﻿using Interfaces.Repositories;
+﻿using Interfaces.Logic;
+using Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Logic.Services
 {
-    public class VisitorPlacementService
+    public class VisitorPlacementService : IVisitorPlacementService
     {
         private readonly IVisitorPlacementRepository _visitorPlacementRepository;
         public VisitorPlacementService(IVisitorPlacementRepository visitorPlacementRepository) 
