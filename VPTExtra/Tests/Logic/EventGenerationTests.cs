@@ -1,5 +1,7 @@
-﻿using Interfaces.Repositories;
+﻿using Castle.Core.Logging;
+using Interfaces.Repositories;
 using Logic.Services;
+using Microsoft.Extensions.Logging;
 using Models;
 using Moq;
 using System;

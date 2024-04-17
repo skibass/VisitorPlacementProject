@@ -6,14 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Models;
 using Interfaces.Logic;
+using Microsoft.Extensions.Logging;
 
 namespace Logic.Services
 {
     public class UserProfileService : IUserProfileService
     {
+        private readonly ILogger<UserProfileService> _logger;
         private readonly IUserProfileDataRepository _profileDataRepo;
-        public UserProfileService(IUserProfileDataRepository profileDataRepo)
+        public UserProfileService(IUserProfileDataRepository profileDataRepo, ILogger<UserProfileService> logger)
         {
+            _logger = logger;
             _profileDataRepo = profileDataRepo;
         }
         public List<Event> RetrieveUserEvents(int userId)

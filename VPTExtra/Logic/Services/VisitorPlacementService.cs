@@ -1,5 +1,6 @@
 ﻿using Interfaces.Logic;
 using Interfaces.Repositories;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,11 @@ namespace Logic.Services
 {
     public class VisitorPlacementService : IVisitorPlacementService
     {
+        private readonly ILogger<VisitorPlacementService> _logger;
         private readonly IVisitorPlacementRepository _visitorPlacementRepository;
-        public VisitorPlacementService(IVisitorPlacementRepository visitorPlacementRepository) 
+        public VisitorPlacementService(IVisitorPlacementRepository visitorPlacementRepository, ILogger<VisitorPlacementService> logger) 
         {
+            _logger = logger;
             _visitorPlacementRepository = visitorPlacementRepository;
         }
         public void PlaceVisitor(int chairId, int visitorId, int eventId)

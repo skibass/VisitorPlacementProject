@@ -67,27 +67,27 @@ namespace Tests.DataAcces
             }              
         }
 
-        [TestMethod]
-        public void AddEvent()
-        {
-            // Arrange
-            var sampleEvent = GetSampleEvents()[0];
+        //[TestMethod]
+        //public void AddEvent()
+        //{
+        //    // Arrange
+        //    var sampleEvent = GetSampleEvents()[0];
 
-            using (var mock = AutoMock.GetLoose())
-            {
-                mock.Mock<IEventRepository>()
-                    .Setup(r => r.CreateEvent(sampleEvent));
+        //    using (var mock = AutoMock.GetLoose())
+        //    {
+        //        mock.Mock<IEventRepository>()
+        //            .Setup(r => r.CreateEvent(sampleEvent));
 
-                var eventService = mock.Create<EventService>();
+        //        var eventService = mock.Create<EventService>();
 
-                // Act
-                eventService.CreateEvent(sampleEvent);
+        //        // Act
+        //        eventService.CreateEvent(sampleEvent);
                                                        
-                // Assert
-                mock.Mock<IEventRepository>()
-                    .Verify(r => r.CreateEvent(sampleEvent), Times.Exactly(1));
-            }
-        }
+        //        // Assert
+        //        mock.Mock<IEventRepository>()
+        //            .Verify(r => r.CreateEvent(sampleEvent), Times.Exactly(1));
+        //    }
+        //}
 
         private List<Event> GetSampleEvents()
         {

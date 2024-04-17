@@ -22,45 +22,50 @@ builder.Services.AddSession(options =>
 
 string connectionString = "Server=127.0.0.1;Database=vpt;Uid=root;Pwd=;";
 
-builder.Services.AddTransient<IEventGenerationService>(sp =>
+builder.Services.AddScoped<IEventGenerationService>(sp =>
 {
     var eventRepository = sp.GetRequiredService<IEventRepository>();
-    return new EventGenerationService(eventRepository);
+    var logger = sp.GetRequiredService<ILogger<EventGenerationService>>();
+    return new EventGenerationService(eventRepository, logger);
 }); 
 
-builder.Services.AddTransient<IEventService>(sp =>
+builder.Services.AddScoped<IEventService>(sp =>
 {
     var eventRepository = sp.GetRequiredService<IEventRepository>();
-    return new EventService(eventRepository);
+    var logger = sp.GetRequiredService<ILogger<EventService>>();
+    return new EventService(eventRepository, logger);
 }); 
 
-builder.Services.AddTransient<IUserService>(sp =>
+builder.Services.AddScoped<IUserService>(sp =>
 {
     var userRepository = sp.GetRequiredService<IUserRepository>();
-    return new UserService(userRepository);
+    var logger = sp.GetRequiredService<ILogger<UserService>>();
+    return new UserService(userRepository, logger);
 }); 
 
-builder.Services.AddTransient<IVisitorPlacementService>(sp =>
+builder.Services.AddScoped<IVisitorPlacementService>(sp =>
 {
     var visPlacementRepository = sp.GetRequiredService<IVisitorPlacementRepository>();
-    return new VisitorPlacementService(visPlacementRepository);
+    var logger = sp.GetRequiredService<ILogger<VisitorPlacementService>>();
+    return new VisitorPlacementService(visPlacementRepository, logger);
 }); 
 
-builder.Services.AddTransient<IUserProfileService>(sp =>
+builder.Services.AddScoped<IUserProfileService>(sp =>
 {
     var userProfileDataRepository = sp.GetRequiredService<IUserProfileDataRepository>();
-    return new UserProfileService(userProfileDataRepository);
+    var logger = sp.GetRequiredService<ILogger<UserProfileService>>();
+    return new UserProfileService(userProfileDataRepository, logger);
 });
 
 
-builder.Services.AddTransient<IUserRepository>(_ => new UserRepository(connectionString));
-builder.Services.AddTransient<IEventRepository>(sp =>
+builder.Services.AddScoped<IUserRepository>(_ => new UserRepository(connectionString));
+builder.Services.AddScoped<IEventRepository>(sp =>
 {
     var userRepository = sp.GetRequiredService<IUserRepository>();
     return new EventRepository(connectionString, userRepository);
 }); 
-builder.Services.AddTransient<IUserProfileDataRepository>(_ => new UserProfileDataRepository(connectionString));
-builder.Services.AddTransient<IVisitorPlacementRepository>(_ => new VisitorPlacementRepository(connectionString));
+builder.Services.AddScoped<IUserProfileDataRepository>(_ => new UserProfileDataRepository(connectionString));
+builder.Services.AddScoped<IVisitorPlacementRepository>(_ => new VisitorPlacementRepository(connectionString));
 
 
 var app = builder.Build();
