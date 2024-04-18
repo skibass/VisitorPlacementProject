@@ -54,8 +54,16 @@ namespace Logic.Services
 
         public void DeleteEvent(int eventId)
         {
-            _logger.LogInformation("Deleted event: {EventId}", eventId);
-            _eventRepository.DeleteEvent(eventId);
+            try
+            {
+                _logger.LogInformation("Deleted event: {EventId}", eventId);
+                _eventRepository.DeleteEvent(eventId);
+            }
+            catch (DbException ex)
+            {
+                _logger.LogError("Error deleting event with id: {id} : {ErrorMessage}", eventId, ex.Message);
+                throw;
+            }
         }
     }
 }

@@ -18,9 +18,9 @@ namespace Logic.Services
     {
         private int ChairsLeft;
         private readonly IEventRepository _eventRepository;
-        private readonly ILogger<EventGenerationService> _logger;
+        private readonly ILogger<EventGenerationService>? _logger;
 
-        public EventGenerationService(IEventRepository eventManagement, ILogger<EventGenerationService> logger = null)
+        public EventGenerationService(IEventRepository eventManagement, ILogger<EventGenerationService>? logger = null)
         {
             _logger = logger;
             _eventRepository = eventManagement;

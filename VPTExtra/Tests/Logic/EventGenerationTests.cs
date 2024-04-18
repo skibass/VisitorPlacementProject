@@ -1,5 +1,4 @@
-﻿using Castle.Core.Logging;
-using Interfaces.Repositories;
+﻿using Interfaces.Repositories;
 using Logic.Services;
 using Microsoft.Extensions.Logging;
 using Models;
@@ -15,15 +14,19 @@ namespace Tests.Logic
     [TestClass]
     public class EventGenerationTests
     {
+        private Mock<ILogger<EventGenerationService>> _loggerMock;
+       
         [TestMethod]
         public void GenerateEvent_DefaultParameters_CreatesEventWithExpectedStructure()
         {
             // Arrange
             Event @event = new Event();
             @event.VisitorLimit = 30;
+            _loggerMock = new Mock<ILogger<EventGenerationService>>();
+
 
             var mockEventRepository = new Mock<IEventRepository>();
-            var eventGenerationService = new EventGenerationService(mockEventRepository.Object);
+            var eventGenerationService = new EventGenerationService(mockEventRepository.Object, _loggerMock.Object);
 
             // Act
             var generatedEvent = eventGenerationService.GenerateEvent(@event, amountParts: 2, amountRows: 3);
@@ -52,7 +55,9 @@ namespace Tests.Logic
             @event.VisitorLimit = 0;
 
             var mockEventRepository = new Mock<IEventRepository>();
-            var eventGenerationService = new EventGenerationService(mockEventRepository.Object);
+            _loggerMock = new Mock<ILogger<EventGenerationService>>();
+
+            var eventGenerationService = new EventGenerationService(mockEventRepository.Object, _loggerMock.Object);
 
             // Act
             var generatedEvent = eventGenerationService.GenerateEvent(@event, amountParts: 2, amountRows: 3);

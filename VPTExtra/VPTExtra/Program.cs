@@ -22,46 +22,46 @@ builder.Services.AddSession(options =>
 
 string connectionString = "Server=127.0.0.1;Database=vpt;Uid=root;Pwd=;";
 
-builder.Services.AddScoped<IEventGenerationService>(sp =>
+builder.Services.AddScoped<IEventGenerationService>(_ =>
 {
-    var eventRepository = sp.GetRequiredService<IEventRepository>();
-    var logger = sp.GetRequiredService<ILogger<EventGenerationService>>();
+    var eventRepository = _.GetRequiredService<IEventRepository>();
+    var logger = _.GetRequiredService<ILogger<EventGenerationService>>();
     return new EventGenerationService(eventRepository, logger);
 }); 
 
-builder.Services.AddScoped<IEventService>(sp =>
+builder.Services.AddScoped<IEventService>(_ =>
 {
-    var eventRepository = sp.GetRequiredService<IEventRepository>();
-    var logger = sp.GetRequiredService<ILogger<EventService>>();
+    var eventRepository = _.GetRequiredService<IEventRepository>();
+    var logger = _.GetRequiredService<ILogger<EventService>>();
     return new EventService(eventRepository, logger);
 }); 
 
-builder.Services.AddScoped<IUserService>(sp =>
+builder.Services.AddScoped<IUserService>(_ =>
 {
-    var userRepository = sp.GetRequiredService<IUserRepository>();
-    var logger = sp.GetRequiredService<ILogger<UserService>>();
+    var userRepository = _.GetRequiredService<IUserRepository>();
+    var logger = _.GetRequiredService<ILogger<UserService>>();
     return new UserService(userRepository, logger);
 }); 
 
-builder.Services.AddScoped<IVisitorPlacementService>(sp =>
+builder.Services.AddScoped<IVisitorPlacementService>(_ =>
 {
-    var visPlacementRepository = sp.GetRequiredService<IVisitorPlacementRepository>();
-    var logger = sp.GetRequiredService<ILogger<VisitorPlacementService>>();
+    var visPlacementRepository = _.GetRequiredService<IVisitorPlacementRepository>();
+    var logger = _.GetRequiredService<ILogger<VisitorPlacementService>>();
     return new VisitorPlacementService(visPlacementRepository, logger);
 }); 
 
-builder.Services.AddScoped<IUserProfileService>(sp =>
+builder.Services.AddScoped<IUserProfileService>(_ =>
 {
-    var userProfileDataRepository = sp.GetRequiredService<IUserProfileDataRepository>();
-    var logger = sp.GetRequiredService<ILogger<UserProfileService>>();
+    var userProfileDataRepository = _.GetRequiredService<IUserProfileDataRepository>();
+    var logger = _.GetRequiredService<ILogger<UserProfileService>>();
     return new UserProfileService(userProfileDataRepository, logger);
 });
 
 
 builder.Services.AddScoped<IUserRepository>(_ => new UserRepository(connectionString));
-builder.Services.AddScoped<IEventRepository>(sp =>
+builder.Services.AddScoped<IEventRepository>(_ =>
 {
-    var userRepository = sp.GetRequiredService<IUserRepository>();
+    var userRepository = _.GetRequiredService<IUserRepository>();
     return new EventRepository(connectionString, userRepository);
 }); 
 builder.Services.AddScoped<IUserProfileDataRepository>(_ => new UserProfileDataRepository(connectionString));
