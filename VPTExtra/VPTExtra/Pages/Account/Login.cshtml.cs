@@ -12,6 +12,8 @@ namespace VPTExtra.Pages.Account
         private readonly IUserService _userService;
         [BindProperty]
         public User userToLogin { get; set; }
+        public string ErrorMessage { get; set; }
+
         public LoginModel(IUserService userService)
         {
             _userService = userService;
@@ -26,16 +28,24 @@ namespace VPTExtra.Pages.Account
         }
         public IActionResult OnPostLogin()
         {
-        
-            User userToBeLogged = _userService.LoginUser(userToLogin);
-            if (userToBeLogged != null)
+            try
             {
-                HttpContext.Session.SetInt32("uId", userToBeLogged.Id);
-                HttpContext.Session.SetString("uName", userToBeLogged.Name);
-                HttpContext.Session.SetInt32("uRoleId", userToBeLogged.RoleId);
+                User userToBeLogged = _userService.LoginUser(userToLogin);
+                if (userToBeLogged != null)
+                {
+                    HttpContext.Session.SetInt32("uId", userToBeLogged.Id);
+                    HttpContext.Session.SetString("uName", userToBeLogged.Name);
+                    HttpContext.Session.SetInt32("uRoleId", userToBeLogged.RoleId);
 
-                return RedirectToPage("/Index");
+                    return RedirectToPage("/Index");
+                }
             }
+            catch (Exception ex)
+            {
+                ErrorMessage = "Error logging in";
+                Page();
+            }
+            
             return null;
         }
     }

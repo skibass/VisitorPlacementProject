@@ -52,12 +52,13 @@ namespace Logic.Services
             }
         }
 
-        public void DeleteEvent(int eventId)
+        public bool DeleteEvent(int eventId)
         {
             try
             {
+                var deleted = _eventRepository.DeleteEvent(eventId);
                 _logger.LogInformation("Deleted event: {EventId}", eventId);
-                _eventRepository.DeleteEvent(eventId);
+                return deleted;
             }
             catch (DbException ex)
             {

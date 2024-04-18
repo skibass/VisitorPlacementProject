@@ -18,6 +18,8 @@ namespace VPTExtra.Pages.Account
         {
             _userProfileDataService = userProfileDataService;
             _userService = userService;
+            user = new User();
+            visitorEvents = new List<Event>();
         }
 
         public IActionResult OnGet()
@@ -36,9 +38,8 @@ namespace VPTExtra.Pages.Account
             }
             catch (Exception ex)
             {
-                ErrorMessage = ex.Message;
+                ErrorMessage = "Error retrieving profile data.";
             }
-
             return Page();
         }
     }

@@ -13,6 +13,6 @@ namespace Interfaces.Repositories
         public Event GetEventById(int id);
         public void CreateEvent(Event newEvent);
         public void UpdateEvent(Event updatedEvent);
-        public void DeleteEvent(int eventId);
+        public bool DeleteEvent(int eventId);
     }
 }

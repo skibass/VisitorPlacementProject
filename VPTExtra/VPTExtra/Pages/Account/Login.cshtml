@@ -5,6 +5,12 @@
 <br />
 <br />
 <br />
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @Model.ErrorMessage
+    </div>
+}
 <form method="post" asp-page-handler="Login">
     <div class="form-outline mb-4">
         <input class="form-control" required asp-for="@Model.userToLogin.Name">

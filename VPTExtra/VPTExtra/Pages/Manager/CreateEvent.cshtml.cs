@@ -38,7 +38,7 @@ namespace VPTExtra.Pages.Manager
             }
             catch (Exception ex)
             {
-                ErrorMessage = ex.Message;
+                ErrorMessage = "Error creating event.";
                 return Page();
             }
 

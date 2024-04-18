@@ -305,7 +305,7 @@ namespace DataAcces
             //}
         }
 
-        public void DeleteEvent(int eventId)
+        public bool DeleteEvent(int eventId)
         {
             try
             {
@@ -316,6 +316,8 @@ namespace DataAcces
                 eventQ.Parameters.AddWithValue("@id", eventId);
 
                 eventQ.ExecuteNonQuery();
+
+                return true;
             }
             finally
             {

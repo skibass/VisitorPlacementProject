@@ -11,6 +11,6 @@ namespace Interfaces.Logic
     {
         public List<Event> GetAllEvents();
         public Event GetEventById(int id);
-        public void DeleteEvent(int eventId);
+        public bool DeleteEvent(int eventId);
     }
 }

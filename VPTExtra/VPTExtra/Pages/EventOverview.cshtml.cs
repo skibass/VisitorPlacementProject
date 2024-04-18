@@ -27,25 +27,34 @@ namespace VPTExtra.Pages
         {
             currentUserId = (int)HttpContext.Session.GetInt32("uId");
 
-            if (currentUserId != null)
+            try
             {
-                tempEvent = _eventService.GetEventById(eventId);
-
-                if (tempEvent != null)
+                if (currentUserId != null)
                 {
-                    currentEvent = tempEvent;
-                    TempData["eventId"] = eventId;
+                    tempEvent = _eventService.GetEventById(eventId);
+
+                    if (tempEvent != null)
+                    {
+                        currentEvent = tempEvent;
+                        TempData["eventId"] = eventId;
+                    }
+                    else
+                    {
+                        return RedirectToPage("/Index");
+                    }
+                    return Page();
                 }
                 else
                 {
-                    return RedirectToPage("/Index");
+                    return RedirectToPage("/Account/Login");
                 }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = "Error retrieving event.";
                 return Page();
             }
-            else
-            {
-                return RedirectToPage("/Account/Login");
-            }
+            
         }
 
         public IActionResult OnPostPlaceVisitor(int chairId)
@@ -62,7 +71,7 @@ namespace VPTExtra.Pages
             }
             catch (Exception ex)
             {
-                ErrorMessage = ex.Message;
+                ErrorMessage = "Error placing visitor.";
                 return Page();
             }
         }
@@ -78,11 +87,10 @@ namespace VPTExtra.Pages
                 _visitorPlacementService.RevertVisitorPlacement(chairId, visitorId, eventId);
 
                 return RedirectToPage(new { eventId = eventId });
-
             }
             catch (Exception ex)
             {
-                ErrorMessage=ex.Message;
+                ErrorMessage = "Error undoing placement.";
 
                 return Page();
             }

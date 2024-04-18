@@ -15,25 +15,24 @@ namespace VPTExtra.Pages
         public IndexModel(IEventService eventService)
         {
             _eventService = eventService;
+            events = new List<Event>();
         }
         public IActionResult OnGet()
         {
-            if (HttpContext.Session.GetInt32("uId") != null)
-            {
-                try
-                {
-                    events = _eventService.GetAllEvents();
-                }
-                catch (Exception ex)
-                {
-                   ErrorMessage = ex.Message;
-                }
-                return Page();
-            }
-            else
+            if (HttpContext.Session.GetInt32("uId") == null)
             {
                 return RedirectToPage("/Account/Login");
             }
+
+            try
+            {
+                events = _eventService.GetAllEvents();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = "Error retrieving events.";
+            }
+            return Page();
         }
     }
 }

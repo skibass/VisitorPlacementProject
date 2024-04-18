@@ -11,6 +11,7 @@ namespace VPTExtra.Pages.Account
         private readonly IUserService _userService;
         [BindProperty]       
         public User userToRegister { get; set; }
+        public string ErrorMessage { get; set; }
         public RegistrationModel(IUserService userService)
         {
             _userService = userService;
@@ -21,9 +22,17 @@ namespace VPTExtra.Pages.Account
         }
         public IActionResult OnPostRegister() 
         {
-            if (_userService.RegisterUser(userToRegister) != null)
+            try
             {
-                return RedirectToPage("/Account/Login");
+                if (_userService.RegisterUser(userToRegister) != null)
+                {
+                    return RedirectToPage("/Account/Login");
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = "Error registering user.";
+                return Page();
             }
             return null;
         }

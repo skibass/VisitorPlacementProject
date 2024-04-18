@@ -35,7 +35,7 @@ namespace VPTExtra.Pages.Manager
             }
             catch (Exception ex)
             {
-                ErrorMessage = ex.Message;
+                ErrorMessage = "Error retrieving events.";
             }
             return Page();
         }
@@ -49,7 +49,7 @@ namespace VPTExtra.Pages.Manager
             }
             catch (Exception ex)
             {
-                ErrorMessage = ex.Message;
+                ErrorMessage = "Error deleting event.";
                 return Page();
             }
         }
