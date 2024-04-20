@@ -31,7 +31,7 @@ namespace VPTExtra.Pages.Account
             }
             catch (Exception ex)
             {
-                ErrorMessage = "Error registering user.";
+                ErrorMessage = ex.Message;
                 return Page();
             }
             return null;

@@ -21,7 +21,19 @@ namespace Logic.Services
         }
         public List<Event> RetrieveUserEvents(int userId)
         {
-            return _profileDataRepo.RetrieveUserEvents(userId);
+            try
+            {
+                var userEvents = _profileDataRepo.RetrieveUserEvents(userId);
+
+                _logger.LogInformation("Retrieved all user events successfully.");
+                return userEvents;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error retrieving user events : {Message}", ex.Message);
+
+                throw;
+            }
         }
     }
 }

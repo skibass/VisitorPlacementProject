@@ -11,7 +11,7 @@ namespace Interfaces.Repositories
     {
         public List<Event> GetAllEvents();
         public Event GetEventById(int id);
-        public void CreateEvent(Event newEvent);
+        public bool CreateEvent(Event newEvent);
         public void UpdateEvent(Event updatedEvent);
         public bool DeleteEvent(int eventId);
     }

@@ -4,6 +4,7 @@ using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Crypto.Generators;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,30 +20,58 @@ namespace DataAcces
         }
         public User RegisterUser(User user)
         {
-            db.Open();
+            try
+            {
+                db.Open();
 
-            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+                // Check if user with the same email already exists
+                User existingUser = GetVisitorByEmail(user.Email);
+                if (existingUser != null)
+                {
+                    // User with the same email already exists
+                    throw new Exception("User with this email already exists");
+                }
 
-            MySqlCommand cmd = new MySqlCommand("INSERT INTO user (name, email, password) VALUES (@UserName, @Email, @Password)", db);
+                // Hash the user's password
+                user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
-            cmd.Parameters.AddWithValue("@UserName", user.Name);
-            cmd.Parameters.AddWithValue("@Email", user.Email);
-            cmd.Parameters.AddWithValue("@Password", user.Password);
+                // Insert the new user into the database
+                MySqlCommand cmd = new MySqlCommand("INSERT INTO user (name, email, password) VALUES (@UserName, @Email, @Password)", db);
+                cmd.Parameters.AddWithValue("@UserName", user.Name);
+                cmd.Parameters.AddWithValue("@Email", user.Email);
+                cmd.Parameters.AddWithValue("@Password", user.Password);
 
-            cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
 
-            db.Close();
-
-            return user;
+                return user;
+            }
+            finally
+            {
+                db.Close();
+            }
         }
         public User LoginUser(User user)
         {
-            User retrievedUser = GetVisitorByEmail(user.Email);
-            if (retrievedUser != null && BCrypt.Net.BCrypt.Verify(user.Password, retrievedUser.Password))
+            try
             {
-                return retrievedUser;
+                db.Open();
+
+                User retrievedUser = GetVisitorByEmail(user.Email);
+                if (retrievedUser != null && BCrypt.Net.BCrypt.Verify(user.Password, retrievedUser.Password))
+                {
+                    return retrievedUser;
+                }
+                else
+                {
+                    throw new Exception("Email or password is wrong");
+                }
             }
-            return null;
+            catch (DbException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally { db.Close(); }
+           
         }
 
         public User GetVisitorById(int id)
@@ -71,6 +100,10 @@ namespace DataAcces
                     }
                 }
             }
+            catch (DbException ex)
+            {
+                throw new Exception(ex.Message);
+            }
             finally
             {
                 db.Close();
@@ -83,31 +116,22 @@ namespace DataAcces
         {
             User user = null;
 
-            try
+            MySqlCommand visitorQ = new MySqlCommand("SELECT * FROM user WHERE email = @Email", db);
+            visitorQ.Parameters.AddWithValue("@Email", email);
+
+            using (MySqlDataReader readUsers = visitorQ.ExecuteReader())
             {
-                db.Open();
-
-                MySqlCommand visitorQ = new MySqlCommand("SELECT * FROM user WHERE email = @Email", db);
-                visitorQ.Parameters.AddWithValue("@Email", email);
-
-                using (MySqlDataReader readUsers = visitorQ.ExecuteReader())
+                if (readUsers.Read())
                 {
-                    if (readUsers.Read())
+                    user = new User
                     {
-                        user = new User
-                        {
-                            Id = (int)readUsers["id"],
-                            Name = readUsers["name"].ToString(),
-                            Email = readUsers["email"].ToString(),
-                            Password = readUsers["password"].ToString(),
-                            RoleId = (int)readUsers["roleid"],
-                        };
-                    }
+                        Id = (int)readUsers["id"],
+                        Name = readUsers["name"].ToString(),
+                        Email = readUsers["email"].ToString(),
+                        Password = readUsers["password"].ToString(),
+                        RoleId = (int)readUsers["roleid"],
+                    };
                 }
-            }
-            finally
-            {
-                db.Close();
             }
 
             return user;

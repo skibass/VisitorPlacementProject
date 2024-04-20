@@ -42,7 +42,7 @@ namespace VPTExtra.Pages.Account
             }
             catch (Exception ex)
             {
-                ErrorMessage = "Error logging in";
+                ErrorMessage = ex.Message;
                 Page();
             }
             

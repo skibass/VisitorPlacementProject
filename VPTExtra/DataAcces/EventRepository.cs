@@ -213,13 +213,15 @@ namespace DataAcces
             return currentEvent;
         }
 
-        public void CreateEvent(Event newEvent)
+        public bool CreateEvent(Event newEvent)
         {
             try
             {
                 db.Open();
 
                 InsertEvent(newEvent);
+
+                return true;
             }
             finally 
             { 

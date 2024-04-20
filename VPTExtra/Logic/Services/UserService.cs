@@ -21,15 +21,51 @@ namespace Logic.Services
         }
         public User RegisterUser(User userToRegister)
         {
-            return _userRepository.RegisterUser(userToRegister);
+            try
+            {
+                var registeredUser = _userRepository.RegisterUser(userToRegister);
+                _logger.LogInformation("Succesfully  registered user with email: {Email}", userToRegister.Email);
+                return registeredUser;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error registering user with email: {Email} : {ErrorMessage}", userToRegister.Email, ex.Message);
+                throw;
+            }
         }
-        public User LoginUser(User userToRegister)
+        public User LoginUser(User userToLogin)
         {
-            return _userRepository.LoginUser(userToRegister);
+            try
+            {
+                var toLoginUser = _userRepository.LoginUser(userToLogin);
+
+                _logger.LogInformation("Succesfully logged in user with email: {Email}", userToLogin.Email);
+
+                return toLoginUser;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error logging in user with email: {Email} : {ErrorMessage}", userToLogin.Email, ex.Message);
+
+                throw;
+            }
         }
         public User GetVisitorById(int id)
         {
-            return _userRepository.GetVisitorById(id);
+            try
+            {
+                var userToRetrieve = _userRepository.GetVisitorById(id);
+
+                _logger.LogInformation("Succesfully retrieved user with id: {Id}", id);
+
+                return userToRetrieve;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error retrieving user with Id: {Id} : {ErrorMessage}", id, ex.Message);
+
+                throw;
+            }
         }
     }
 }

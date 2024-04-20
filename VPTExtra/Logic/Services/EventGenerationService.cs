@@ -3,6 +3,7 @@ using Interfaces.Logic;
 using Interfaces.Repositories;
 using Microsoft.Extensions.Logging;
 using Models;
+using System.Data.Common;
 
 namespace Logic.Services
 {
@@ -10,9 +11,9 @@ namespace Logic.Services
     {
         private int ChairsLeft;
         private readonly IEventRepository _eventRepository;
-        private readonly ILogger<EventGenerationService>? _logger;
+        private readonly ILogger<EventGenerationService> _logger;
 
-        public EventGenerationService(IEventRepository eventManagement, ILogger<EventGenerationService>? logger = null)
+        public EventGenerationService(IEventRepository eventManagement, ILogger<EventGenerationService> logger)
         {
             _logger = logger;
             _eventRepository = eventManagement;
@@ -53,8 +54,16 @@ namespace Logic.Services
 
             Event newEvent = new(startDate, endDate, parts, visitorLimit);
 
-            _eventRepository.CreateEvent(newEvent);
-            _logger.LogInformation("Creating a new event with visitor limit: {VisitorLimit}", newEvent.VisitorLimit);
+            try
+            {
+                _eventRepository.CreateEvent(newEvent);
+                _logger.LogInformation("Creating a new event with visitor limit: {VisitorLimit}", newEvent.VisitorLimit);
+            }
+            catch (DbException ex)
+            {
+                _logger.LogError("Error creating event with visitor limit: {VisitorLimit} : Amount of parts: {Parts} : Amount of rows: {Rows} : {ErrorMessage}", newEvent.VisitorLimit, amountParts, amountRows, ex.Message);
+                throw;
+            }
 
             return newEvent;
         }
