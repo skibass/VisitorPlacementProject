@@ -3,14 +3,6 @@ using Interfaces.Logic;
 using Interfaces.Repositories;
 using Microsoft.Extensions.Logging;
 using Models;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Logic.Services
 {

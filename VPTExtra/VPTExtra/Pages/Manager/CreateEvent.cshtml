@@ -2,50 +2,86 @@
 @model VPTExtra.Pages.Manager.CreateEventModel
 @{
 }
-<div class="scroll">
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-    <div class="alert alert-danger">
-        @Model.ErrorMessage
-    </div>
-}
+<head>
+    <link href="@Url.Content("~/css/ManageEvents.css")" rel="stylesheet" type="text/css" />
+</head>
 
-<div class="outer-box-frame">
-    <h5>
-        <ins style="color: white;">
-            Only limit and dates are required, everything else is optional: if you only want to dictate how many visitors are allowed then the systems generates the
-            rest automatically based on that.
-        </ins>
-    </h5>
-<form method="post">
-    <div class="form-group">
-        <label style="color: white;">Total amount of seats</label>
-        <input required type="number" id="VisitorLimit" name="currentEvent.VisitorLimit" asp-for="currentEvent.VisitorLimit" />
-        <small style="color: gray;" class="form-text text-muted">**</small>
+<body>
+    <div class="scroll">
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger">
+                @Model.ErrorMessage
+            </div>
+        }
+        <div id="popup-container" style="display:none; text-align:center;" class="popup-container">
+            <button style="width:20%; margin-left:15px;" class="btn btn--primary" onclick="closePopup()">Event created.</button>
+        </div>
+        <div class="outer-box-frame">
+            <h5>
+                <ins style="color: white;">
+                    Only limit and dates are required, everything else is optional: if you only want to dictate how many visitors are allowed then the systems generates the
+                    rest automatically based on that.
+                </ins>
+            </h5>
+            <form method="post">
+                <div class="form-group">
+                    <label style="color: white;">Total amount of seats</label>
+                    <input required type="number" id="VisitorLimit" name="currentEvent.VisitorLimit" asp-for="currentEvent.VisitorLimit" />
+                    <small style="color: gray;" class="form-text text-muted">**</small>
+                </div>
+                <div class="form-group">
+                    <label style="color: white;">Amount of parts (total)</label>
+                    <input type="number" min="0" id="AmountOfParts" name="AmountOfParts" asp-for="AmountOfParts" />
+                    <small style="color: gray;" class="form-text text-muted">Optional</small>
+                </div>
+                <div class="form-group">
+                    <label style="color: white;">
+                        Amount of rows (per part, if 0 it generates 6 per part)
+                    </label>
+                    <input type="number" max="15" min="0" id="AmountOfRows" name="AmountOfRows" asp-for="AmountOfRows" />
+                    <small style="color: gray;" class="form-text text-muted">Optional (MAX: 15)</small>
+                </div>
+                <div class="form-group">
+                    <label style="color: white;">Start date</label>
+                    <input required type="date" id="StartDate" name="currentEvent.StartDate" asp-for="currentEvent.StartDate" />
+                    <small style="color: gray;" class="form-text text-muted">Required</small>
+                </div>
+                <div class="form-group">
+                    <label style="color: white;">End date</label>
+                    <input required type="date" id="EndDate" name="currentEvent.EndDate" asp-for="currentEvent.EndDate" />
+                    <small style="color: gray;" class="form-text text-muted">Required</small>
+                </div>
+                <button type="submit" asp-page-handler="GenerateEvent" onclick="confirmDeletion()" class="btn btn-primary">Create event</button>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label style="color: white;">Amount of parts (total)</label>
-        <input type="number" min="0" id="AmountOfParts" name="AmountOfParts" asp-for="AmountOfParts" />
-        <small style="color: gray;" class="form-text text-muted">Optional</small>
-    </div>
-    <div class="form-group">
-        <label style="color: white;">
-            Amount of rows (per part, if 0 it generates 6 per part)
-        </label>
-        <input type="number" max="15" min="0" id="AmountOfRows" name="AmountOfRows" asp-for="AmountOfRows" />
-        <small style="color: gray;" class="form-text text-muted">Optional (MAX: 15)</small>
-    </div>
-    <div class="form-group">
-        <label style="color: white;">Start date</label>
-        <input required type="date" id="StartDate" name="currentEvent.StartDate" asp-for="currentEvent.StartDate" />
-        <small style="color: gray;" class="form-text text-muted">Required</small>
-    </div>
-    <div class="form-group">
-        <label style="color: white;">End date</label>
-        <input required type="date" id="EndDate" name="currentEvent.EndDate" asp-for="currentEvent.EndDate" />
-        <small style="color: gray;" class="form-text text-muted">Required</small>
-    </div>
-    <button type="submit" asp-page-handler="GenerateEvent" onclick="return confirm('Are you sure?')" class="btn btn-primary">Create event</button>
-</form>
-</div>
-</div>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const popupDisplayed = sessionStorage.getItem('popupCreateEventDisplayed');
+        if (popupDisplayed === 'true') {
+            showPopup();
+        }
+    });
+
+    function confirmDeletion() {
+        let text;
+        if (confirm("Delete event?") == true) {
+            showPopup();
+        }
+    }
+
+    function showPopup() {
+        document.getElementById('popup-container').style.display = 'flex';
+        // Store popup state in sessionStorage
+        sessionStorage.setItem('popupCreateEventDisplayed', 'true');
+    }
+
+    function closePopup() {
+        document.getElementById('popup-container').style.display = 'none';
+        // Remove popup state from sessionStorage
+        sessionStorage.removeItem('popupCreateEventDisplayed');
+    }
+
+</script>
