@@ -57,7 +57,7 @@ namespace Logic.Services
             try
             {
                 _eventRepository.CreateEvent(newEvent);
-                _logger.LogInformation("Creating a new event with visitor limit: {VisitorLimit}", newEvent.VisitorLimit);
+                _logger.LogInformation("Created a new event with visitor limit: {VisitorLimit}", newEvent.VisitorLimit);
             }
             catch (DbException ex)
             {
