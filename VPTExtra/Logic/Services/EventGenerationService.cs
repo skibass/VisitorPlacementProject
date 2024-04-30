@@ -80,7 +80,7 @@ namespace Logic.Services
                 {
                     if (ChairsLeft > 0)
                     {
-                        rows.Add(GenerateRow(partName + rowNumber));
+                        rows.Add(GenerateRow(partName + rowNumber, rowNumber));
                         rowNumber++;
                     }
                 }
@@ -91,7 +91,7 @@ namespace Logic.Services
                 {
                     if (ChairsLeft > 0)
                     {
-                        rows.Add(GenerateRow(partName + rowNumber));
+                        rows.Add(GenerateRow(partName + rowNumber, rowNumber));
                         rowNumber++;
                     }
                 }
@@ -100,7 +100,7 @@ namespace Logic.Services
 
             return part;
         }
-        private Row GenerateRow(string rowName)
+        private Row GenerateRow(string rowName, int rowNumber)
         {
             int chairNumber = 1;
             int chairsThisRow = 0;
@@ -111,19 +111,19 @@ namespace Logic.Services
             {
                 if (chairsThisRow < 5)
                 {
-                    chairs.Add(GenerateChair(rowName + "-" + chairNumber));
+                    chairs.Add(GenerateChair(rowName + "-" + chairNumber, chairNumber));
                     chairNumber++;
                     chairsThisRow++;
                 }
             }
             ChairsLeft = ChairsLeft - chairsThisRow;
-            Row row = new(rowName, chairs);
+            Row row = new(rowName, chairs, rowNumber);
 
             return row;
         }
-        private Chair GenerateChair(string chairName)
+        private Chair GenerateChair(string chairName, int chairNumber)
         {
-            Chair chair = new(chairName);
+            Chair chair = new(chairName, chairNumber);
 
             return chair;
         }

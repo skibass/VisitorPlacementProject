@@ -5,6 +5,7 @@ using Logic.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using Interfaces.DataAcces.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +28,14 @@ builder.Services.AddScoped<IEventGenerationService>(_ =>
     var eventRepository = _.GetRequiredService<IEventRepository>();
     var logger = _.GetRequiredService<ILogger<EventGenerationService>>();
     return new EventGenerationService(eventRepository, logger);
-}); 
+});
+
+builder.Services.AddScoped<IEventEditService>(_ =>
+{
+    var editEventRepository = _.GetRequiredService<IEventEditRepository>();
+    var logger = _.GetRequiredService<ILogger<EventEditService>>();
+    return new EventEditService(editEventRepository, logger);
+});
 
 builder.Services.AddScoped<IEventService>(_ =>
 {
@@ -58,7 +66,9 @@ builder.Services.AddScoped<IUserProfileService>(_ =>
 });
 
 
+
 builder.Services.AddScoped<IUserRepository>(_ => new UserRepository(connectionString));
+builder.Services.AddScoped<IEventEditRepository>(_ => new EventEditRepository(connectionString));
 builder.Services.AddScoped<IEventRepository>(_ =>
 {
     var userRepository = _.GetRequiredService<IUserRepository>();

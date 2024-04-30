@@ -13,7 +13,7 @@ namespace VPTExtra.Pages
         private readonly IEventService _eventService;
         private readonly IVisitorPlacementService _visitorPlacementService;
         public Event currentEvent { get; set; }
-        private Event tempEvent {  get; set; }
+        private Event tempEvent { get; set; }
         [BindProperty]
         public int currentUserId {  get; set; }
         public string ErrorMessage {  get; set; }
@@ -94,6 +94,24 @@ namespace VPTExtra.Pages
 
                 return Page();
             }
+        }
+
+        
+        public IActionResult OnPostAddPart()
+        {
+            int eventId = Convert.ToInt32(TempData["eventId"]);
+
+            return RedirectToPage(new { eventId = eventId });
+        }
+        public IActionResult OnPostAddRow(int partId)
+        {
+
+            return Page();
+        }
+        public IActionResult OnPostAddChair(int rowId)
+        {
+
+            return Page();
         }
     }
 }
