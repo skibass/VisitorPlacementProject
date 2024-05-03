@@ -12,16 +12,18 @@ namespace VPTExtra.Pages
     {
         private readonly IEventService _eventService;
         private readonly IVisitorPlacementService _visitorPlacementService;
+        private readonly IEventEditService _eventEditService;
         public Event currentEvent { get; set; }
         private Event tempEvent { get; set; }
         [BindProperty]
         public int currentUserId {  get; set; }
         public string ErrorMessage {  get; set; }
 
-        public EventOverviewModel(IEventService eventService, IVisitorPlacementService visitorPlacementService)
+        public EventOverviewModel(IEventService eventService, IVisitorPlacementService visitorPlacementService, IEventEditService eventEditService)
         {
             _eventService = eventService;
             _visitorPlacementService = visitorPlacementService;
+            _eventEditService = eventEditService;
         }
         public IActionResult OnGet(int eventId)
         {
@@ -97,21 +99,27 @@ namespace VPTExtra.Pages
         }
 
         
-        public IActionResult OnPostAddPart()
+        public IActionResult OnPostAddPart(int eventId)
         {
-            int eventId = Convert.ToInt32(TempData["eventId"]);
+            _eventEditService.AddPart(eventId);
 
             return RedirectToPage(new { eventId = eventId });
         }
         public IActionResult OnPostAddRow(int partId)
         {
+            int eventId = Convert.ToInt32(TempData["eventId"]);
 
-            return Page();
+            _eventEditService.AddRow(partId);
+
+            return RedirectToPage(new { eventId = eventId });
         }
         public IActionResult OnPostAddChair(int rowId)
         {
+            int eventId = Convert.ToInt32(TempData["eventId"]);
 
-            return Page();
+            _eventEditService.AddChair(rowId, eventId);
+
+            return RedirectToPage(new { eventId = eventId });
         }
     }
 }

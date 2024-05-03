@@ -78,24 +78,26 @@
                             }
                             <form method="post">
                                 <button type="submit" style="color:white;" asp-page-handler="AddChair"
-                                        asp-route-partId="@row.Id">
-                                    +
+                                        asp-route-rowId="@row.Id">
+                                    C +
                                 </button>
                             </form>
                         </div>
                     }
-                    <form method="post">
-                        <button type="submit" style="color:white;" asp-page-handler="AddRow"
-                                asp-route-partId="@sector.Id">
-                            +
-                        </button>
-                    </form>
-
                 </div>
+
+                <form method="post" style="margin-top: -50px;">
+                    <button type="submit" style="color:white;" asp-page-handler="AddRow"
+                            asp-route-partId="@sector.Id">
+                        R +
+                    </button>
+                </form>
+
             }
-            <form method="post">
-                <button type="submit" style="color:white;" asp-page-handler="AddPart">
-                    +
+            <form method="post" style="margin-top: -50px;">
+                <button type="submit" style="color:white;" asp-page-handler="AddPart"
+                        asp-route-eventId="@Model.currentEvent.Id">
+                    P +
                 </button>
             </form>
         </div>
