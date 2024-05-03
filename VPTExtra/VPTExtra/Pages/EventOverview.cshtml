@@ -76,30 +76,37 @@
                                 }
 
                             }
-                            <form method="post">
-                                <button type="submit" style="color:white;" asp-page-handler="AddChair"
-                                        asp-route-rowId="@row.Id">
-                                    C +
-                                </button>
-                            </form>
+                            @if (HttpContext.Session.GetInt32("uRoleId") == 2)
+                            {
+                                <form method="post">
+                                    <button type="submit" style="color:white;" asp-page-handler="AddChair"
+                                            asp-route-rowId="@row.Id">
+                                        C +
+                                    </button>
+                                </form>
+                            }
                         </div>
                     }
                 </div>
-
+                @if (HttpContext.Session.GetInt32("uRoleId") == 2)
+                {
+                    <form method="post" style="margin-top: -50px;">
+                        <button type="submit" style="color:white;" asp-page-handler="AddRow"
+                                asp-route-partId="@sector.Id">
+                            R +
+                        </button>
+                    </form>
+                }
+            }
+            @if (HttpContext.Session.GetInt32("uRoleId") == 2)
+            {
                 <form method="post" style="margin-top: -50px;">
-                    <button type="submit" style="color:white;" asp-page-handler="AddRow"
-                            asp-route-partId="@sector.Id">
-                        R +
+                    <button type="submit" style="color:white;" asp-page-handler="AddPart"
+                            asp-route-eventId="@Model.currentEvent.Id">
+                        P +
                     </button>
                 </form>
-
             }
-            <form method="post" style="margin-top: -50px;">
-                <button type="submit" style="color:white;" asp-page-handler="AddPart"
-                        asp-route-eventId="@Model.currentEvent.Id">
-                    P +
-                </button>
-            </form>
         </div>
     </div>
 </div>
