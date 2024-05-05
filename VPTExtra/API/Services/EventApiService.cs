@@ -5,11 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Models;
 using System.Net.Http.Json;
 
-namespace Logic.Services.API
+namespace API.Services
 {
     public class EventApiService
     {

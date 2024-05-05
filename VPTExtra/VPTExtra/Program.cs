@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Interfaces.DataAcces.Repositories;
-using Logic.Services.API;
+using API.Services;
 using System.Net.Http;
 
 var builder = WebApplication.CreateBuilder(args);
