@@ -25,7 +25,5 @@ namespace Logic.Services.API
             var response = await _httpClient.GetFromJsonAsync<List<TestWeatherForeCast>>("api/WeatherForecast");
             return response;
         }
-
-        // Add other methods for POST, PUT, DELETE operations as needed
     }
 }
