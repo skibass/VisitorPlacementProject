@@ -3,10 +3,10 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using VPT_user_api.Repos;
-using VPT_user_api.Models;
+using VPTEventApi.Repos;
+using VPTEventApi.Models;
 
-namespace VPT_user_api.Controllers
+namespace VPTEventApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

@@ -1,5 +1,5 @@
-using VPT_user_api.Controllers;
-using VPT_user_api.Repos;
+using VPTEventApi.Controllers;
+using VPTEventApi.Repos;
 
 var builder = WebApplication.CreateBuilder(args);
 

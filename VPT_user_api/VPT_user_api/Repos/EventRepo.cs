@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
-using VPT_user_api.Models;
+using VPTEventApi.Models;
 
-namespace VPT_user_api.Repos
+namespace VPTEventApi.Repos
 {
     public class EventRepo
     {

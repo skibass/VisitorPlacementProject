@@ -1,4 +1,4 @@
-﻿namespace VPT_user_api.Models
+﻿namespace VPTEventApi.Models
 {
     public class Event
     {
