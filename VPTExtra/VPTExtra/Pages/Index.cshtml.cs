@@ -4,21 +4,26 @@ using Logic.Services;
 using Models;
 using Interfaces;
 using Interfaces.Logic;
+using Logic.Services.API;
 
 namespace VPTExtra.Pages
 {
     public class IndexModel : PageModel
     {
         private readonly IEventService _eventService;
+        private readonly TestApiService _apiService;
         public List<Event> events { get; set; }
+        public List<TestWeatherForeCast> WeatherForecasts { get; set; }
         public string ErrorMessage { get; set; }
-        public IndexModel(IEventService eventService)
+        public IndexModel(IEventService eventService, TestApiService apiService)
         {
             _eventService = eventService;
             events = new List<Event>();
+            _apiService = apiService;
         }
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGet()
         {
+            WeatherForecasts = await _apiService.GetWeatherForecastsAsync();
             if (HttpContext.Session.GetInt32("uId") == null)
             {
                 return RedirectToPage("/Account/Login");

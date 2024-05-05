@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Interfaces.DataAcces.Repositories;
+using Logic.Services.API;
+using System.Net.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,17 @@ builder.Services.AddSession(options =>
     options.Cookie.Name = ".AdventureWorks.Session";
     options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.IsEssential = true;
+});
+builder.Services.AddHttpClient("ApiClient", client =>
+{
+    client.BaseAddress = new Uri("https://192.168.2.114:5147/");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+}).ConfigurePrimaryHttpMessageHandler(() =>
+{
+    return new HttpClientHandler
+    {
+        ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+    };
 });
 
 string connectionString = "Server=127.0.0.1;Database=vpt;Uid=root;Pwd=;";
@@ -65,6 +78,9 @@ builder.Services.AddScoped<IUserProfileService>(_ =>
     return new UserProfileService(userProfileDataRepository, logger);
 });
 
+
+
+builder.Services.AddScoped<TestApiService>();
 
 
 builder.Services.AddScoped<IUserRepository>(_ => new UserRepository(connectionString));
