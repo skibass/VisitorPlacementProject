@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\API\API.csproj" />
     <ProjectReference Include="..\DataAcces\DataAcces.csproj" />
     <ProjectReference Include="..\Interfaces.Logic\Interfaces.Logic.csproj" />
     <ProjectReference Include="..\Logic\Logic.csproj" />

@@ -4,20 +4,24 @@ using Logic.Services;
 using Models;
 using Interfaces;
 using Interfaces.Logic;
+using API.Services;
 
 namespace VPTExtra.Pages
 {
     public class IndexModel : PageModel
     {
         private readonly IEventService _eventService;
+        private readonly EventApiService _apiService;
+        //public List<Event> events { get; set; }
         public List<Event> events { get; set; }
         public string ErrorMessage { get; set; }
-        public IndexModel(IEventService eventService)
+        public IndexModel(IEventService eventService, EventApiService apiService)
         {
             _eventService = eventService;
             events = new List<Event>();
+            _apiService = apiService;
         }
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGet()
         {
             if (HttpContext.Session.GetInt32("uId") == null)
             {
@@ -26,7 +30,9 @@ namespace VPTExtra.Pages
 
             try
             {
-                events = _eventService.GetAllEvents();
+                events = await _apiService.GetEvents();
+
+                //events = _eventService.GetAllEvents();
             }
             catch (Exception ex)
             {
