@@ -80,7 +80,7 @@ builder.Services.AddScoped<IUserProfileService>(_ =>
 
 
 
-builder.Services.AddScoped<TestApiService>();
+builder.Services.AddScoped<EventApiService>();
 
 
 builder.Services.AddScoped<IUserRepository>(_ => new UserRepository(connectionString));

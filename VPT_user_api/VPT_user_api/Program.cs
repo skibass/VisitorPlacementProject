@@ -1,4 +1,5 @@
 using VPT_user_api.Controllers;
+using VPT_user_api.Repos;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,8 +8,10 @@ builder.Services.AddMvc(options =>
 {
     options.SuppressAsyncSuffixInActionNames = false;
 });
+string connectionString = "Server=127.0.0.1;Database=vpt;Uid=root;Pwd=;";
 
-builder.Services.AddSingleton<List<WeatherForecast>>();
+builder.Services.AddScoped(_ => new EventRepo(connectionString));
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

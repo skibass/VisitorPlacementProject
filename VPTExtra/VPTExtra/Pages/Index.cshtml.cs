@@ -11,11 +11,11 @@ namespace VPTExtra.Pages
     public class IndexModel : PageModel
     {
         private readonly IEventService _eventService;
-        private readonly TestApiService _apiService;
+        private readonly EventApiService _apiService;
+        //public List<Event> events { get; set; }
         public List<Event> events { get; set; }
-        public List<TestWeatherForeCast> WeatherForecasts { get; set; }
         public string ErrorMessage { get; set; }
-        public IndexModel(IEventService eventService, TestApiService apiService)
+        public IndexModel(IEventService eventService, EventApiService apiService)
         {
             _eventService = eventService;
             events = new List<Event>();
@@ -23,7 +23,6 @@ namespace VPTExtra.Pages
         }
         public async Task<IActionResult> OnGet()
         {
-            WeatherForecasts = await _apiService.GetWeatherForecastsAsync();
             if (HttpContext.Session.GetInt32("uId") == null)
             {
                 return RedirectToPage("/Account/Login");
@@ -31,7 +30,9 @@ namespace VPTExtra.Pages
 
             try
             {
-                events = _eventService.GetAllEvents();
+                events = await _apiService.GetEvents();
+
+                //events = _eventService.GetAllEvents();
             }
             catch (Exception ex)
             {

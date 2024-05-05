@@ -11,18 +11,18 @@ using System.Net.Http.Json;
 
 namespace Logic.Services.API
 {
-    public class TestApiService
+    public class EventApiService
     {
         private readonly HttpClient _httpClient;
 
-        public TestApiService(IHttpClientFactory httpClientFactory)
+        public EventApiService(IHttpClientFactory httpClientFactory)
         {
             _httpClient = httpClientFactory.CreateClient("ApiClient");
         }
 
-        public async Task<List<TestWeatherForeCast>> GetWeatherForecastsAsync()
+        public async Task<List<Event>> GetEvents()
         {
-            var response = await _httpClient.GetFromJsonAsync<List<TestWeatherForeCast>>("api/WeatherForecast");
+            var response = await _httpClient.GetFromJsonAsync<List<Event>>("api/Event");
             return response;
         }
     }

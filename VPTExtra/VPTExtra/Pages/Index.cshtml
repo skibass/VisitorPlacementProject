@@ -7,53 +7,34 @@
     <link href="@Url.Content("~/css/EventsOverview.css")" rel="stylesheet" type="text/css" />
 </head>
 <div class="scroll">
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-    <div class="alert alert-danger">
-        @Model.ErrorMessage
-    </div>
-}
-<div class="outer-box-frame">
-
-<div class="overview">
-    @foreach (var item in Model.events)
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
     {
-        <article class="profile">
-            <h2 class="profile-username">@item.Location</h2>
-            <small class="profile-user-handle">@item.StartDate</small>
-            <small class="profile-user-handle">@Html.Raw(item.VisitorLimit - item.ChairsReserved) seat(s) left</small>
-            <div class="profile-actions">
-                <a class="btn btn--primary" asp-page="/EventOverview" asp-route-eventId="@item.Id">Enter</a>
-            </div>
-        </article>
+        <div class="alert alert-danger">
+            @Model.ErrorMessage
+        </div>
     }
-</div>
-</div>
+    <div class="outer-box-frame">
+
+        @if (Model.events != null && Model.events.Any())
+        {
+            <div class="overview">
+                @foreach (var item in Model.events)
+                {
+                    <article class="profile">
+                        <h2 class="profile-username">@item.Location</h2>
+                        <small class="profile-user-handle">@item.StartDate</small>
+                        <small class="profile-user-handle">@Html.Raw(item.VisitorLimit - item.ChairsReserved) seat(s) left</small>
+                        <div class="profile-actions">
+                            <a class="btn btn--primary" asp-page="/EventOverview" asp-route-eventId="@item.Id">Enter</a>
+                        </div>
+                    </article>
+                }
+            </div>
+        }
+        else
+        {
+            <p>No weather forecasts available.</p>
+        }
+    </div>
 </div>
 
-@if (Model.WeatherForecasts != null && Model.WeatherForecasts.Any())
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Temperature (Celsius)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in Model.WeatherForecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>No weather forecasts available.</p>
-}
