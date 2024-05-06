@@ -49,9 +49,9 @@
                             <p style="font-weight:bold; color:white;">Row @row.Name</p>
                             @foreach (var seat in row.Chairs)
                             {
-                                @if (seat.User != null)
+                                @if (seat.Uid != 0)
                                 {
-                                    @if (seat.User.Id == Model.currentUserId)
+                                    @if (seat.Uid == Model.currentUserId)
                                     {
                                         <form method="post">
                                             <button type="submit" id="userChosenChair" style="background-color: #d7d7d7;background-image: linear-gradient(147deg, #d7d7d7 0%, #353535 74%);" asp-page-handler="RevertPlacement"

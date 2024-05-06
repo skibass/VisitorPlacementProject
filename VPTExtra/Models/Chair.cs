@@ -11,7 +11,9 @@ namespace Models
         public int Id { get; set; }
         public string Name { get; set; }
         public int Number { get; set; }
-        public User User { get; set; }
+        //public User User { get; set; }
+        public int Uid { get; set; }
+
 
         public Chair(string name, int chairNumber) 
         {

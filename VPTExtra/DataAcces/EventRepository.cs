@@ -92,7 +92,7 @@ namespace DataAcces
                     {
                         Id = (int)readEvents["chair_id"],
                         Name = (string)readEvents["chair_name"],
-                        User = _userRepository.GetVisitorById((int)readEvents["user_id"])
+                        Uid = (int)readEvents["user_id"]
                     });
                 }
                 else

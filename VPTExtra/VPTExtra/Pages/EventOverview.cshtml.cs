@@ -1,3 +1,4 @@
+using API.Services;
 using Interfaces;
 using Interfaces.Logic;
 using Logic.Services;
@@ -13,19 +14,23 @@ namespace VPTExtra.Pages
         private readonly IEventService _eventService;
         private readonly IVisitorPlacementService _visitorPlacementService;
         private readonly IEventEditService _eventEditService;
+
+        private readonly EventApiService _apiService;
+
         public Event currentEvent { get; set; }
         private Event tempEvent { get; set; }
         [BindProperty]
         public int currentUserId {  get; set; }
         public string ErrorMessage {  get; set; }
 
-        public EventOverviewModel(IEventService eventService, IVisitorPlacementService visitorPlacementService, IEventEditService eventEditService)
+        public EventOverviewModel(IEventService eventService, IVisitorPlacementService visitorPlacementService, IEventEditService eventEditService, EventApiService apiService)
         {
             _eventService = eventService;
             _visitorPlacementService = visitorPlacementService;
             _eventEditService = eventEditService;
+            _apiService = apiService;
         }
-        public IActionResult OnGet(int eventId)
+        public async Task<IActionResult> OnGet(int eventId)
         {
             currentUserId = (int)HttpContext.Session.GetInt32("uId");
 
@@ -33,7 +38,8 @@ namespace VPTExtra.Pages
             {
                 if (currentUserId != null)
                 {
-                    tempEvent = _eventService.GetEventById(eventId);
+                    //tempEvent = _eventService.GetEventById(eventId);
+                    tempEvent = await _apiService.GetEventById(eventId);
 
                     if (tempEvent != null)
                     {

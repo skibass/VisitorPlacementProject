@@ -24,5 +24,15 @@ namespace API.Services
             var response = await _httpClient.GetFromJsonAsync<List<Event>>("api/Event");
             return response;
         }
+
+        public async Task<Event> GetEventById(int id)
+        {
+            string endpointUrl = $"api/Event/{id}";
+
+            // Send a GET request to the API endpoint using HttpClient
+            var response = await _httpClient.GetFromJsonAsync<Event>(endpointUrl);
+
+            return response;
+        }
     }
 }

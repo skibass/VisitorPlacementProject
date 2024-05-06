@@ -8,5 +8,7 @@
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public int ChairsReserved { get; set; }
+        public List<Part> Parts { get; set; }
+
     }
 }

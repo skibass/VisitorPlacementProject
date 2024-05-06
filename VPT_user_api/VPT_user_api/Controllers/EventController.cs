@@ -24,11 +24,17 @@ namespace VPTEventApi.Controllers
         }
 
         [HttpGet(Name = "GetEvents")]
-        public IEnumerable<Event> Get()
+        public IEnumerable<Event> GetEvents()
         {
             _events = _eventRepo.GetAllEvents();
 
             return _events;
+        }
+
+        [HttpGet("{id}")]
+        public Event GetEventById(int id)
+        {
+            return _eventRepo.GetEventById(id);
         }
     }
 }
