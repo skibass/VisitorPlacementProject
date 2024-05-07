@@ -24,18 +24,14 @@ namespace DataAcces
             {
                 db.Open();
 
-                // Check if user with the same email already exists
                 User existingUser = GetVisitorByEmail(user.Email);
                 if (existingUser != null)
                 {
-                    // User with the same email already exists
                     throw new Exception("User with this email already exists");
                 }
 
-                // Hash the user's password
                 user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
-                // Insert the new user into the database
                 MySqlCommand cmd = new MySqlCommand("INSERT INTO user (name, email, password) VALUES (@UserName, @Email, @Password)", db);
                 cmd.Parameters.AddWithValue("@UserName", user.Name);
                 cmd.Parameters.AddWithValue("@Email", user.Email);

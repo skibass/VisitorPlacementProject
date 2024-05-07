@@ -29,7 +29,6 @@ namespace API.Services
         {
             string endpointUrl = $"api/Event/{id}";
 
-            // Send a GET request to the API endpoint using HttpClient
             var response = await _httpClient.GetFromJsonAsync<Event>(endpointUrl);
 
             return response;

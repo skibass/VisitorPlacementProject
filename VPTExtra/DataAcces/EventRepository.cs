@@ -152,7 +152,7 @@ namespace DataAcces
                             StartDate = (DateTime)readEvents["startdate"],
                             EndDate = (DateTime)readEvents["enddate"],
                             VisitorLimit = Convert.ToInt32(readEvents["visitorlimit"]),
-                            ChairsReserved = Convert.ToInt32(readEvents["chairs_reserved"]), // Assign the count to ChairsReserved
+                            ChairsReserved = Convert.ToInt32(readEvents["chairs_reserved"]),
                         };
                         events.Add(existingEvent);
                     }
