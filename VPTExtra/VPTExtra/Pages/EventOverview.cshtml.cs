@@ -1,6 +1,6 @@
-using API.Services;
 using Interfaces;
 using Interfaces.Logic;
+using Interfaces.DataAcces.API;
 using Logic.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -15,7 +15,7 @@ namespace VPTExtra.Pages
         private readonly IVisitorPlacementService _visitorPlacementService;
         private readonly IEventEditService _eventEditService;
 
-        private readonly EventApiService _apiService;
+        private readonly IEventApiService _apiService;
 
         public Event currentEvent { get; set; }
         private Event tempEvent { get; set; }
@@ -23,7 +23,7 @@ namespace VPTExtra.Pages
         public int currentUserId {  get; set; }
         public string ErrorMessage {  get; set; }
 
-        public EventOverviewModel(IEventService eventService, IVisitorPlacementService visitorPlacementService, IEventEditService eventEditService, EventApiService apiService)
+        public EventOverviewModel(IEventService eventService, IVisitorPlacementService visitorPlacementService, IEventEditService eventEditService, IEventApiService apiService)
         {
             _eventService = eventService;
             _visitorPlacementService = visitorPlacementService;

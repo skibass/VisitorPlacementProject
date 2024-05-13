@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Interfaces.DataAcces.Repositories;
-using API.Services;
+using DataAcces.Services;
 using System.Net.Http;
+using Interfaces.DataAcces.API;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +25,7 @@ builder.Services.AddSession(options =>
 });
 builder.Services.AddHttpClient("ApiClient", client =>
 {
-    client.BaseAddress = new Uri("https://192.168.2.114:5147/");
+    client.BaseAddress = new Uri("http://192.168.0.34:5016/");
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 }).ConfigurePrimaryHttpMessageHandler(() =>
 {
@@ -78,10 +79,12 @@ builder.Services.AddScoped<IUserProfileService>(_ =>
     return new UserProfileService(userProfileDataRepository, logger);
 });
 
+builder.Services.AddScoped<IEventApiService>(_ =>
+{
+    var httpClientFactory = _.GetRequiredService<IHttpClientFactory>();
 
-
-builder.Services.AddScoped<EventApiService>();
-
+    return new EventApiService(httpClientFactory);
+});
 
 builder.Services.AddScoped<IUserRepository>(_ => new UserRepository(connectionString));
 builder.Services.AddScoped<IEventEditRepository>(_ => new EventEditRepository(connectionString));

@@ -4,18 +4,18 @@ using Logic.Services;
 using Models;
 using Interfaces;
 using Interfaces.Logic;
-using API.Services;
+using Interfaces.DataAcces.API;
 
 namespace VPTExtra.Pages
 {
     public class IndexModel : PageModel
     {
         private readonly IEventService _eventService;
-        private readonly EventApiService _apiService;
+        private readonly IEventApiService _apiService;
         //public List<Event> events { get; set; }
         public List<Event> events { get; set; }
         public string ErrorMessage { get; set; }
-        public IndexModel(IEventService eventService, EventApiService apiService)
+        public IndexModel(IEventService eventService, IEventApiService apiService)
         {
             _eventService = eventService;
             events = new List<Event>();
