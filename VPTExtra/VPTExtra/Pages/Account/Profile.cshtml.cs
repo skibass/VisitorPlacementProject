@@ -3,14 +3,27 @@ using Logic.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models;
+using QRCoder;
+using System.Drawing.Imaging;
+using System.Drawing;
+using Microsoft.Extensions.Logging;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using PdfSharp.UniversalAccessibility.Drawing;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using Logic.QRRelated;
+using Newtonsoft.Json.Serialization;
 
 namespace VPTExtra.Pages.Account
 {
     public class ProfileModel : PageModel
     {
-        public List<Event> visitorEvents { get; set; }       
-        public User user { get; set; }       
-        public string ErrorMessage { get; set; }       
+        public List<Event> visitorEvents { get; set; }
+        public User user { get; set; }
+        public string ErrorMessage { get; set; }
+        public string QrCodeImageBase64 { get; set; }
 
         private readonly IUserProfileService _userProfileDataService;
         private readonly IUserService _userService;
@@ -28,19 +41,43 @@ namespace VPTExtra.Pages.Account
             {
                 return RedirectToPage("/Account/Login");
             }
- 
-            int visitorId = (int)HttpContext.Session.GetInt32("uId");
+
+            int userId = (int)HttpContext.Session.GetInt32("uId");
 
             try
             {
-                user = _userService.GetVisitorById(visitorId);
-                visitorEvents = _userProfileDataService.RetrieveUserEvents(visitorId);
+                user = _userService.GetVisitorById(userId);
+                visitorEvents = _userProfileDataService.RetrieveUserEvents(userId);
+
+                // Generate QR code only if the user is authenticated and profile data is successfully retrieved
+                string url = Url.Page("/QRCode/TicketDownloadPage", "Scan", new { userId = userId }, Request.Scheme);
+                GenerateQRCode(url);
             }
             catch (Exception ex)
             {
                 ErrorMessage = "Error retrieving profile data.";
             }
             return Page();
+        }
+
+        
+
+        private void GenerateQRCode(string url)
+        {
+            using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
+            {
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(url, QRCodeGenerator.ECCLevel.Q);
+                using (QRCoder.QRCode qrCode = new QRCoder.QRCode(qrCodeData))
+                using (Bitmap qrCodeImage = qrCode.GetGraphic(20))
+                {
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        qrCodeImage.Save(ms, ImageFormat.Png);
+                        byte[] byteImage = ms.ToArray();
+                        QrCodeImageBase64 = Convert.ToBase64String(byteImage);
+                    }
+                }
+            }
         }
     }
 }

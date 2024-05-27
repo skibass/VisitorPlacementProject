@@ -42,6 +42,11 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-3">
+                            @if (Model.QrCodeImageBase64 != null)
+                            {
+                                <h3>Scan this QR Code to place visitor:</h3>
+                                <img src="data:image/png;base64,@Model.QrCodeImageBase64" alt="QR Code" />
+                            }
                             <p class="mb-0">Full Name</p>
                         </div>
                         <div class="col-sm-9">

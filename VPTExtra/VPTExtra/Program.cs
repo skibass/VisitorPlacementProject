@@ -25,7 +25,7 @@ builder.Services.AddSession(options =>
 });
 builder.Services.AddHttpClient("ApiClient", client =>
 {
-    client.BaseAddress = new Uri("http://192.168.0.34:5016/");
+    client.BaseAddress = new Uri("http://192.168.2.114:5016/");
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 }).ConfigurePrimaryHttpMessageHandler(() =>
 {
