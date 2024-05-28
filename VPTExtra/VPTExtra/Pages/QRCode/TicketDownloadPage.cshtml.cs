@@ -1,20 +1,27 @@
+using Interfaces.Logic;
+using Interfaces.Logic.QRRelated;
 using Logic.QRRelated;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Logic.QRRelated;
+
 namespace VPTExtra.Pages.QRCode
 {
     public class TicketDownloadPageModel : PageModel
     {
-        public void OnGet()
-        {
-        }
-        public IActionResult OnGetScan(int userId)
-        {
-            CreatePdf pdf = new CreatePdf();
-            var pdfBytes = pdf.CreateTicketPdf(userId);
+        private readonly ICreatePdf _createPdfService;
 
-            // Return the PDF document as a file result
+        public TicketDownloadPageModel(ICreatePdf createPdf) 
+        {
+            _createPdfService = createPdf;
+        }
+        public IActionResult OnGet()
+        {
+            return Page();
+        }
+        public IActionResult OnGetScan(int userId, int eventId)
+        {           
+            var pdfBytes = _createPdfService.CreateTicketPdf(userId, eventId);
+
             return File(pdfBytes, "application/pdf", "Ticket.pdf");
         }
     }

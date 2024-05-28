@@ -14,6 +14,8 @@ namespace Models
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public int ChairsReserved { get; set; }
+        public string ChairNames { get; set; }
+        public string EventQr { get; set; }
         public List<Part> Parts { get; set; }
 
         public Event(DateTime? startDate, DateTime? endDate, List<Part> parts, int visitorLimit) 

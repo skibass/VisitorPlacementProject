@@ -1,4 +1,7 @@
-﻿using PdfSharp.Drawing;
+﻿using Interfaces.Logic.QRRelated;
+using Interfaces.Repositories;
+using Logic.Services;
+using PdfSharp.Drawing;
 using PdfSharp.Fonts;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
@@ -7,29 +10,34 @@ using System.IO;
 
 namespace Logic.QRRelated
 {
-    public class CreatePdf
+    public class CreatePdf : ICreatePdf
     {
-        public byte[] CreateTicketPdf(int userId)
+        IUserProfileDataRepository userDataRepo;
+        public CreatePdf(IUserProfileDataRepository userDataRepo)
         {
-            // Set the font resolver
-            GlobalFontSettings.FontResolver = new FontResolver();
+            this.userDataRepo = userDataRepo;
+        }
 
-            // Create a new PDF document
+        static CreatePdf()
+        {
+            GlobalFontSettings.FontResolver = new FontResolver();
+        }
+
+        public byte[] CreateTicketPdf(int userId, int eventId)
+        {
+            string seats = userDataRepo.RetrieveUserEventChairNames(userId, eventId).ChairNames;
+            string location = userDataRepo.RetrieveUserEventChairNames(userId, eventId).Location;
+
             var pdfDoc = new PdfDocument();
 
-            // Add a page
             PdfPage page = pdfDoc.AddPage();
 
-            // Get an XGraphics object for drawing
             XGraphics gfx = XGraphics.FromPdfPage(page);
 
-            // Create a font
             XFont font = new XFont("Verdana", 20, XFontStyleEx.Bold);
 
-            // Draw the text
-            gfx.DrawString("Hello World! " + userId, font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
+            gfx.DrawString($"Event location: {location} \n Seats: {seats}", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
 
-            // Save the document into a MemoryStream
             using (var stream = new MemoryStream())
             {
                 pdfDoc.Save(stream);
@@ -38,15 +46,13 @@ namespace Logic.QRRelated
         }
     }
 
-    // Custom font resolver
     public class FontResolver : IFontResolver
     {
         public byte[] GetFont(string faceName)
         {
             if (faceName.Equals("Verdana", StringComparison.OrdinalIgnoreCase))
             {
-                // Load and return the Verdana font file
-                string fontPath = "Verdana.ttf"; // Path to your Verdana font file
+                string fontPath = "Verdana.ttf";
                 return File.ReadAllBytes(fontPath);
             }
             return null;
@@ -56,7 +62,6 @@ namespace Logic.QRRelated
         {
             if (familyName.Equals("Verdana", StringComparison.OrdinalIgnoreCase))
             {
-                // Return font information for Verdana
                 return new FontResolverInfo("Verdana");
             }
             return null;

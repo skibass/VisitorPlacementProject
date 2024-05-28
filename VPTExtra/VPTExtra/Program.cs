@@ -2,6 +2,7 @@ using DataAcces;
 using Interfaces.Repositories;
 using Interfaces.Logic;
 using Logic.Services;
+using Logic.QRRelated;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -9,6 +10,8 @@ using Interfaces.DataAcces.Repositories;
 using DataAcces.Services;
 using System.Net.Http;
 using Interfaces.DataAcces.API;
+using Logic.QRRelated;
+using Interfaces.Logic.QRRelated;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -95,6 +98,12 @@ builder.Services.AddScoped<IEventRepository>(_ =>
 }); 
 builder.Services.AddScoped<IUserProfileDataRepository>(_ => new UserProfileDataRepository(connectionString));
 builder.Services.AddScoped<IVisitorPlacementRepository>(_ => new VisitorPlacementRepository(connectionString));
+
+builder.Services.AddScoped<ICreatePdf>(_ =>
+{
+    var userDataRepository = _.GetRequiredService<IUserProfileDataRepository>();
+    return new CreatePdf(userDataRepository);
+});
 
 
 var app = builder.Build();

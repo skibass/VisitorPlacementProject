@@ -41,12 +41,7 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-3">
-                            @if (Model.QrCodeImageBase64 != null)
-                            {
-                                <h3>Scan this QR Code to place visitor:</h3>
-                                <img src="data:image/png;base64,@Model.QrCodeImageBase64" alt="QR Code" />
-                            }
+                        <div class="col-sm-3">                           
                             <p class="mb-0">Full Name</p>
                         </div>
                         <div class="col-sm-9">
@@ -103,7 +98,12 @@
                                         <a asp-page="/EventOverview" asp-route-eventId="@item.Id">@item.Location</a>
                                     </span>
                                 </p>
-                                <p class="mt-4 mb-1" style="font-size: .77rem;">Your seats: @item.ChairsReserved</p>
+                                <p class="mt-4 mb-1" style="font-size: .77rem;">Your seats: @item.ChairsReserved
+                                    @if (!string.IsNullOrEmpty(item.EventQr))
+                                    {
+                                        <img src="data:image/png;base64,@item.EventQr" style="height: 70px; width: 70px;" alt="QR Code" />
+                                    }
+                                </p>
                                 <div class="progress rounded" style="height: 5px;">
                                     <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72"
                                          aria-valuemin="0" aria-valuemax="100"></div>

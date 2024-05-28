@@ -27,31 +27,14 @@ namespace DataAcces
                 db.Open();
 
                 MySqlCommand eventQ = new MySqlCommand(
-                #region Chatgpt help
-                    // Chat gpt: i want to combine these 2 queries
-
-                    // MySqlCommand eventQ = new MySqlCommand("SELECT COUNT(*) " +
-                    //                  "FROM user_event " +
-                    //                  "WHERE user_id = @UserId AND event_id = @EventId", db);
-
-                    // MySqlCommand eventQ = new MySqlCommand("SELECT e.id, e.location, e.startdate, e.enddate, e.visitorlimit " +
-                    //                           "FROM event e " +
-                    //                           "INNER JOIN (SELECT MIN(ue.id) AS user_event_id, ue.event_id " +
-                    //                                       "FROM user_event ue " +
-                    //                                       "WHERE ue.user_id = @UserId " +
-                    //                                       "GROUP BY ue.event_id) AS t ON e.id = t.event_id " +
-                    //                           "INNER JOIN user_event ue ON t.user_event_id = ue.id", db);
-
-                    // Result:
-                #endregion
-                    "SELECT e.id, e.location, e.startdate, e.enddate, e.visitorlimit, " +
-                    "(SELECT COUNT(*) FROM user_event WHERE user_id = @UserId AND event_id = e.id) AS chairs_reserved " +
-                    "FROM event e " +
-                    "INNER JOIN (SELECT MIN(ue.id) AS user_event_id, ue.event_id " +
-                                "FROM user_event ue " +
-                                "WHERE ue.user_id = @UserId " +
-                                "GROUP BY ue.event_id) AS t ON e.id = t.event_id " +
-                    "INNER JOIN user_event ue ON t.user_event_id = ue.id", db);
+    @"SELECT e.id, e.location, e.startdate, e.enddate, e.visitorlimit, 
+  (SELECT COUNT(*) FROM user_event WHERE user_id = @UserId AND event_id = e.id) AS chairs_reserved,
+  GROUP_CONCAT(c.name SEPARATOR ', ') AS chair_names
+FROM event e 
+INNER JOIN user_event ue ON e.id = ue.event_id
+INNER JOIN chair c ON ue.chair_id = c.id
+WHERE ue.user_id = @UserId
+GROUP BY e.id", db);
 
                 eventQ.Parameters.AddWithValue("@UserId", userId);
 
@@ -66,7 +49,8 @@ namespace DataAcces
                             StartDate = reader.GetDateTime("startdate"),
                             EndDate = reader.GetDateTime("enddate"),
                             VisitorLimit = reader.GetInt32("visitorlimit"),
-                            ChairsReserved = reader.GetInt32("chairs_reserved")
+                            ChairsReserved = reader.GetInt32("chairs_reserved"),
+                            ChairNames = reader.GetString("chair_names")
                         };
 
                         events.Add(newEvent);
@@ -79,6 +63,51 @@ namespace DataAcces
             }
 
             return events;
-        }       
+        }
+
+        public Event RetrieveUserEventChairNames(int userId, int eventId)
+        {
+            Event _event = new Event();
+
+            try
+            {
+                db.Open();
+
+                string query = @"
+        SELECT e.id, e.location,
+               GROUP_CONCAT(c.name SEPARATOR ', ') AS chair_names
+        FROM event e 
+        INNER JOIN user_event ue ON e.id = ue.event_id
+        INNER JOIN chair c ON ue.chair_id = c.id
+        WHERE ue.user_id = @UserId AND e.id = @EventId
+        GROUP BY e.id, e.location";
+
+                MySqlCommand eventQ = new MySqlCommand(query, db);
+
+                eventQ.Parameters.AddWithValue("@UserId", userId);
+                eventQ.Parameters.AddWithValue("@EventId", eventId);
+
+                using (MySqlDataReader reader = eventQ.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Event newEvent = new Event
+                        {
+                            Id = reader.GetInt32("id"),
+                            Location = reader.GetString("location"),
+                            ChairNames = reader.GetString("chair_names")
+                        };
+
+                        _event = newEvent;
+                    }
+                }
+            }
+            finally
+            {
+                db.Close();
+            }
+
+            return _event;
+        }
     }
 }

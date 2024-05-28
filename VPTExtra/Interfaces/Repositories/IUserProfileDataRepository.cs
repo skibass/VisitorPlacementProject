@@ -10,5 +10,6 @@ namespace Interfaces.Repositories
     public interface IUserProfileDataRepository
     {
         public List<Event> RetrieveUserEvents(int userId);
+        public Event RetrieveUserEventChairNames(int userId, int eventId);
     }
 }

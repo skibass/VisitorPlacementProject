@@ -47,11 +47,16 @@ namespace VPTExtra.Pages.Account
             try
             {
                 user = _userService.GetVisitorById(userId);
+
                 visitorEvents = _userProfileDataService.RetrieveUserEvents(userId);
 
-                // Generate QR code only if the user is authenticated and profile data is successfully retrieved
-                string url = Url.Page("/QRCode/TicketDownloadPage", "Scan", new { userId = userId }, Request.Scheme);
-                GenerateQRCode(url);
+                foreach (var item in visitorEvents)
+                {
+                    int eventId = item.Id;
+                    string url = Url.Page("/QRCode/TicketDownloadPage", "Scan", new { userId = userId, eventId = eventId }, Request.Scheme);
+
+                    item.EventQr = GenerateQRCode(url);
+                }
             }
             catch (Exception ex)
             {
@@ -60,9 +65,7 @@ namespace VPTExtra.Pages.Account
             return Page();
         }
 
-        
-
-        private void GenerateQRCode(string url)
+        private string GenerateQRCode(string url)
         {
             using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
             {
@@ -74,7 +77,7 @@ namespace VPTExtra.Pages.Account
                     {
                         qrCodeImage.Save(ms, ImageFormat.Png);
                         byte[] byteImage = ms.ToArray();
-                        QrCodeImageBase64 = Convert.ToBase64String(byteImage);
+                        return Convert.ToBase64String(byteImage);
                     }
                 }
             }
