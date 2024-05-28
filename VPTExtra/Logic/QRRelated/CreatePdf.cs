@@ -2,6 +2,7 @@
 using Interfaces.Repositories;
 using Logic.Services;
 using PdfSharp.Drawing;
+using PdfSharp.Drawing.Layout;
 using PdfSharp.Fonts;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
@@ -28,19 +29,29 @@ namespace Logic.QRRelated
             string seats = userDataRepo.RetrieveUserEventChairNames(userId, eventId).ChairNames;
             string location = userDataRepo.RetrieveUserEventChairNames(userId, eventId).Location;
 
-            var pdfDoc = new PdfDocument();
+            PdfDocument pdf = new PdfDocument();
+            PdfPage pdfPage = pdf.AddPage();
+            XGraphics graph = XGraphics.FromPdfPage(pdfPage);
 
-            PdfPage page = pdfDoc.AddPage();
+            var tf = new XTextFormatter(graph);
+            var rect = new XRect(50, 150, 500, 500);
 
-            XGraphics gfx = XGraphics.FromPdfPage(page);
+            XPen xpen = new XPen(XColors.Navy, 0.4);
 
-            XFont font = new XFont("Verdana", 20, XFontStyleEx.Bold);
+            graph.DrawRectangle(xpen, rect);
+            XStringFormat format = new XStringFormat();
+            format.LineAlignment = XLineAlignment.Near;
+            format.Alignment = XStringAlignment.Near;
 
-            gfx.DrawString($"Event location: {location} \n Seats: {seats}", font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.Center);
+            XBrush brush = XBrushes.Purple;
+            tf.DrawString($"Event: {location} \n\nSeats: {seats}",
+                          new XFont("Verdana", 25),
+                          brush,
+                          new XRect(rect.X + 5, rect.Y, rect.Width - 5, 500), format);
 
             using (var stream = new MemoryStream())
             {
-                pdfDoc.Save(stream);
+                pdf.Save(stream);
                 return stream.ToArray();
             }
         }
